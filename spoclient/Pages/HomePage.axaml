@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"             
+             xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+			 xmlns:vm="using:spoclient.ViewModels"
+			 xmlns:pages="using:spoclient.Pages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="spoclient.Pages.HomePage"
+			 x:DataType="vm:HomePageViewModel">
+
+	<Design.DataContext>
+		<vm:HomePageViewModel />
+	</Design.DataContext>
+	
+	<Grid>
+		
+		<Expander Header="初期設定" IsVisible="False">
+			<ScrollViewer>
+				<WrapPanel>
+					<Button Content="ユーザー作成" />
+					<Button Content="パスワード変更" />
+					<Button Content="ブランケットペーストモードOFF" />
+					<Button Content="デーモン再起動自動化" />
+					<Button Content="SSHペア鍵の作成" />
+					<Button Content="SSHポートの変更" />
+					<Button Content="システム自動更新有効化" />
+					<Button Content="rootアカウント無効化" />
+					<Button Content="rootアカウント有効化" />
+					<Button Content="共有メモリの保護設定" />
+					<Button Content="Fail2banのインストール" />
+					<Button Content="Fail2banによるSSHログインの監視設定" />
+					<Button Content="chronyのインストール" />
+					<Button Content="chronyの設定" />
+				</WrapPanel>
+			</ScrollViewer>
+		</Expander>
+		
+		<pages:ServersPage />
+		
+	</Grid>
+
+</UserControl>

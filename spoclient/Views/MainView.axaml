@@ -1,0 +1,134 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"             
+             xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+			 xmlns:pages="using:spoclient.Pages"
+			 xmlns:models="using:spoclient.Models"
+			 xmlns:vm="using:spoclient.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="spoclient.Views.MainView"
+			 x:DataType="vm:MainViewViewModel">
+
+	<Design.DataContext>
+		<vm:MainViewViewModel />
+	</Design.DataContext>
+	
+	<Grid RowDefinitions="Auto,*">
+
+		<Grid Name="TitleBarHost"
+			  ColumnDefinitions="Auto,Auto,*,Auto"
+			  Background="Transparent">
+
+			<Image Margin="12 4"
+				   IsHitTestVisible="False"
+				   Source="/Assets/avalonia-logo.ico"
+				   Width="18" Height="18"
+				   DockPanel.Dock="Left"
+				   Name="WindowIcon"
+				   RenderOptions.BitmapInterpolationMode="HighQuality">
+				<Image.IsVisible>
+					<OnPlatform Default="False">
+						<On Options="Windows" Content="True" />
+					</OnPlatform>
+				</Image.IsVisible>
+			</Image>
+
+			<TextBlock Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+					   FontSize="12"
+					   IsHitTestVisible="False"
+					   VerticalAlignment="Center"
+					   Grid.Column="1">
+				<TextBlock.IsVisible>
+					<OnPlatform Default="False">
+						<On Options="Windows" Content="True" />
+					</OnPlatform>
+				</TextBlock.IsVisible>
+			</TextBlock>
+
+			<Border Grid.Column="2" Padding="6">
+				<AutoCompleteBox Name="SearchBox"
+								 MaxWidth="500"
+								 Watermark="検索"
+								 Classes="SampleApp">
+					
+				</AutoCompleteBox>
+			</Border>
+			
+		</Grid>
+
+		<ui:NavigationView AlwaysShowHeader="False"
+						   PaneDisplayMode="Left"
+						   Grid.RowSpan="2"
+						   Name="NavView"
+						   IsSettingsVisible="True">
+
+			<ui:NavigationView.MenuItems>
+				<ui:NavigationViewItem Content="新規接続" Tag="NewConnection" IconSource="CloudFilled" />
+				<ui:NavigationViewItem Content="接続切断" Tag="Disconnect" IconSource="CloudOffline" />
+
+				<ui:NavigationViewItem Content="初期設定" Tag="Setup" IconSource="New" SelectsOnInvoked="False">
+					<ui:NavigationViewItem.MenuItems>
+						<ui:NavigationViewItem Content="パスワード変更" Tag="Passwd" IconSource="Password" />
+					</ui:NavigationViewItem.MenuItems>
+				</ui:NavigationViewItem>
+				
+			</ui:NavigationView.MenuItems>
+
+			<!--
+			<ui:NavigationView.PaneCustomContent>
+				<StackPanel>
+					<TreeView BorderThickness="1" BorderBrush="Black">
+						<TreeView.Items>
+							<TreeViewItem Header="ルート">
+								<TreeViewItem Header="子">
+									<TreeViewItem Header="孫" />
+								</TreeViewItem>
+							</TreeViewItem>
+						</TreeView.Items>
+					</TreeView>
+				</StackPanel>
+			</ui:NavigationView.PaneCustomContent>
+			-->
+
+			<Grid RowDefinitions="Auto,*">
+
+				<ui:CommandBar DefaultLabelPosition="Right">
+					<ui:CommandBar.PrimaryCommands>
+						<ui:CommandBarButton IconSource="CloudFilled" Label="接続" Command="{Binding ConnectCommand}" />
+						<ui:CommandBarButton IconSource="CloudOffline" Label="切断" />
+						<ui:CommandBarSeparator />
+					</ui:CommandBar.PrimaryCommands>
+				</ui:CommandBar>
+
+				<ui:TabView Grid.Row="1"
+							Name="TerminalTabView"
+							TabWidthMode="Equal"
+							CloseButtonOverlayMode="Always"
+							CanReorderTabs="True"
+							TabItems="{Binding Connections}">
+
+					<ui:TabView.TabItemTemplate>
+						<DataTemplate x:DataType="models:ConnectionInfo">
+							<ui:TabViewItem Header="{Binding Header}"
+											IconSource="CloudSyncCompleteFilled"
+											Content="{Binding Content}">
+							</ui:TabViewItem>
+						</DataTemplate>
+					</ui:TabView.TabItemTemplate>
+
+				</ui:TabView>
+				
+			</Grid>
+			
+		</ui:NavigationView>
+
+		<Panel Name="OverlayHost"
+			   Grid.Row="1">
+
+		</Panel>
+
+	</Grid>
+	
+</UserControl>
