@@ -15,7 +15,6 @@
 	</Application.Resources>
 
 	<Application.DataTemplates>
-        <local:ViewLocator/>
     </Application.DataTemplates>
   
     <Application.Styles>

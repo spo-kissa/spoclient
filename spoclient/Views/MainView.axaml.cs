@@ -15,9 +15,6 @@ public partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
-
-        var vm = new MainViewViewModel();
-        DataContext = vm;
     }
 
 

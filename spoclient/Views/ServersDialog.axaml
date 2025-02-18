@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:prism="http://prismlibrary.com/"
+			 xmlns:vm="using:spoclient.ViewModels"
+			 prism:ViewModelLocator.AutoWireViewModel="True"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="spoclient.Views.ServersDialog"
+			 x:DataType="vm:ServersDialogViewModel">
+
+	<Grid ColumnDefinitions="*,Auto" Margin="6" MinHeight="300">
+
+		<DataGrid x:Name="dataGridServers"
+				  Grid.Column="0"
+				  HeadersVisibility="All"
+				  ItemsSource="{Binding Servers}"
+				  BorderThickness="1"
+				  BorderBrush="Gray">
+
+			<Interaction.Behaviors>
+				<EventTriggerBehavior EventName="SelectionChanged">
+					<InvokeCommandAction Command="{Binding SelectionChangedCommand}" PassEventArgsToCommand="True" />
+				</EventTriggerBehavior>
+			</Interaction.Behaviors>
+
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Entry" Binding="{Binding Entry}" />
+				<DataGridTextColumn Header="Server" Binding="{Binding Server}" />
+				<DataGridTextColumn Header="User" Binding="{Binding User}" />
+				<DataGridTextColumn Header="Port" Binding="{Binding Port}" />
+			</DataGrid.Columns>
+
+		</DataGrid>
+
+		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="6 0 0 0">
+			<Button MinWidth="100" Command="{Binding ConnectCommand}">接続</Button>
+			<Button MinWidth="100" Command="{Binding CancelCommand}">キャンセル</Button>
+		</StackPanel>
+
+		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="6 0 0 0" VerticalAlignment="Bottom">
+			<Button MinWidth="100">新規</Button>
+			<Button MinWidth="100">編集</Button>
+			<Button MinWidth="100">削除</Button>
+		</StackPanel>
+
+	</Grid>
+
+</UserControl>

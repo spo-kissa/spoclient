@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spoclient", "spoclient\spoclient.csproj", "{3EA3E7AC-E32F-428D-A35C-8362101BD058}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ssh", "ssh\ssh.csproj", "{646564D8-609B-418F-AF09-837160B003A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpoDashboad", "SpoDashboad\SpoDashboad.csproj", "{9308FCCD-9543-454A-8689-ABDE6450BE13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +17,15 @@ Global
 		{3EA3E7AC-E32F-428D-A35C-8362101BD058}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EA3E7AC-E32F-428D-A35C-8362101BD058}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EA3E7AC-E32F-428D-A35C-8362101BD058}.Release|Any CPU.Build.0 = Release|Any CPU
-		{646564D8-609B-418F-AF09-837160B003A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{646564D8-609B-418F-AF09-837160B003A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{646564D8-609B-418F-AF09-837160B003A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{646564D8-609B-418F-AF09-837160B003A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9308FCCD-9543-454A-8689-ABDE6450BE13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9308FCCD-9543-454A-8689-ABDE6450BE13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9308FCCD-9543-454A-8689-ABDE6450BE13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9308FCCD-9543-454A-8689-ABDE6450BE13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21EF71A8-907D-4013-BD8E-57013046BABA}
 	EndGlobalSection
 EndGlobal
