@@ -16,7 +16,7 @@
 	
 	<Grid>
 		
-		<Expander Header="初期設定" IsVisible="False">
+		<Expander Header="初期設定" IsVisible="True">
 			<ScrollViewer>
 				<WrapPanel>
 					<Button Content="ユーザー作成" />
@@ -36,8 +36,6 @@
 				</WrapPanel>
 			</ScrollViewer>
 		</Expander>
-		
-		<pages:ServersPage />
 		
 	</Grid>
 

@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="using:FluentAvalonia.UI.Controls"             
              xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
 			 xmlns:pages="using:spoclient.Pages"
@@ -10,10 +11,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="spoclient.Views.MainView"
 			 x:DataType="vm:MainViewViewModel">
-
-	<Design.DataContext>
-		<vm:MainViewViewModel />
-	</Design.DataContext>
 	
 	<Grid RowDefinitions="Auto,*">
 
@@ -110,10 +107,11 @@
 							TabItems="{Binding Connections}">
 
 					<ui:TabView.TabItemTemplate>
-						<DataTemplate x:DataType="models:ConnectionInfo">
+						<DataTemplate x:DataType="vm:MainTabViewModel">
 							<ui:TabViewItem Header="{Binding Header}"
 											IconSource="CloudSyncCompleteFilled"
 											Content="{Binding Content}">
+								
 							</ui:TabViewItem>
 						</DataTemplate>
 					</ui:TabView.TabItemTemplate>

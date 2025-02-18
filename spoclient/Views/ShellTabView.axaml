@@ -1,0 +1,140 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             x:Class="spoclient.ShellTabView">
+
+	<Grid>
+
+		<ScrollViewer>
+
+			<StackPanel>
+			
+				<Expander Header="Ubuntu 初期設定" IsVisible="True">
+					<WrapPanel>
+						<Button Content="ユーザー作成" />
+						<Button Content="パスワード変更" />
+						<Button Content="ブランケットペーストモードOFF" />
+						<Button Content="デーモン再起動自動化" />
+						<Button Content="SSHペア鍵の作成" />
+						<Button Content="SSHポートの変更" />
+						<Button Content="システム自動更新有効化" />
+						<Button Content="rootアカウント無効化" />
+						<Button Content="rootアカウント有効化" />
+						<Button Content="共有メモリの保護設定" />
+						<Button Content="Fail2banのインストール" />
+						<Button Content="Fail2banによるSSHログインの監視設定" />
+						<Button Content="chronyのインストール" />
+						<Button Content="chronyの設定" />
+					</WrapPanel>
+				</Expander>
+
+				<Expander Header="ノードインストール" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="依存関係のインストール" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="トポロジーの設定" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="BPキーの作成" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="アドレスの作成" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="ステークアドレスの登録" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="ステークプールの登録" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="プールの最終調整" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="監視ツール(Grafanaの設定)" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="ブロックログの設定" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="プールオペレーション" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+							<Button Content="KESの更新" />
+							<Button Content="プール情報更新" />
+							<Button Content="資金引き出し" />
+							<Button Content="プール廃止" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="Mithril(ミスリル)" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+				<Expander Header="Midnight(ミッドナイト)" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="前提条件のチェック" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
+
+			</StackPanel>
+
+
+		</ScrollViewer>
+	</Grid>
+
+</UserControl>
