@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spoclient", "spoclient\spoclient.csproj", "{3EA3E7AC-E32F-428D-A35C-8362101BD058}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsTest", "WinFormsTest\WinFormsTest.csproj", "{6141C67E-EAAC-4853-B8AB-1E624A0918FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3EA3E7AC-E32F-428D-A35C-8362101BD058}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EA3E7AC-E32F-428D-A35C-8362101BD058}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EA3E7AC-E32F-428D-A35C-8362101BD058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6141C67E-EAAC-4853-B8AB-1E624A0918FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6141C67E-EAAC-4853-B8AB-1E624A0918FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6141C67E-EAAC-4853-B8AB-1E624A0918FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6141C67E-EAAC-4853-B8AB-1E624A0918FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
