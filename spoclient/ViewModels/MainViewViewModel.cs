@@ -55,6 +55,7 @@ namespace spoclient.ViewModels
                     if (tuple is not null)
                     {
                         Connections.Add(tuple!.Value.ViewModel);
+                        tuple!.Value.ViewModel.Connect(serverInfo);
                     }
                 }
             });

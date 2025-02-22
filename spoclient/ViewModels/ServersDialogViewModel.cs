@@ -80,7 +80,7 @@ namespace spoclient.ViewModels
                 password.AppendChar(ch);
             }
 
-            servers.Add(new ServerInfo("Hyper-V", "172.27.221.2", "daisuke", password, "22"));
+            servers.Add(new ServerInfo("Hyper-V", "172.21.46.241", "daisuke", password, "22"));
         }
 
 
