@@ -86,7 +86,7 @@ namespace spoclient.ViewModels
             switch (e.State)
             {
                 case SshState.Connecting:
-                    SetHeader("�ڑ����Ă��܂�...");
+                    SetHeader("Ú‘±‚µ‚Ä‚¢‚Ü‚·...");
                     break;
 
                 case SshState.Connected:

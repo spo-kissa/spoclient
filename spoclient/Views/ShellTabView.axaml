@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:prism="http://prismlibrary.com/"
-			 xmlns:vm="using:spoclient.ViewModels"
+		         xmlns:prism="http://prismlibrary.com/"
+			       xmlns:vm="using:spoclient.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="650"
-             x:Class="spoclient.ShellTabView"
+　　　       x:Class="spoclient.ShellTabView"
 			 x:DataType="vm:ShellTabViewViewModel">
 
 	<Grid ColumnDefinitions="*,800" RowDefinitions="*">
