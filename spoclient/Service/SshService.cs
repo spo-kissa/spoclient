@@ -119,7 +119,8 @@ namespace spoclient.Service
                             {
                                 await Task.Delay(200);
 
-                                writer!.WriteLine("apJqUK57");
+                                var password = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(ServerInfo!.Password));
+                                writer!.WriteLine(password);
                                 writer.Flush();
                             }
                         }
@@ -135,7 +136,7 @@ namespace spoclient.Service
         }
 
 
-        private string CleanEscapeSequences(string input)
+        private static string CleanEscapeSequences(string input)
         {
             input = Regex.Replace(input, "\x1B\\[\\?2004[hl]", "");
             input = Regex.Replace(input, "\x1B\\]0;[^\x07]*\x07", "");
@@ -166,7 +167,41 @@ namespace spoclient.Service
             //terminalOutput.AppendText(input.Substring(lastIndex));
         }
 
-        private Color ParseAnsiColor(string ansiCode)
+        private static Color ParseAnsiColor(string ansiCode)
+        {
+            return ansiCode switch
+            {
+                "30" => Color.Black,
+                "31" => Color.Red,
+                "32" => Color.Green,
+                "33" => Color.Yellow,
+                "34" => Color.Blue,
+                "35" => Color.Magenta,
+                "36" => Color.Cyan,
+                "37" => Color.White,
+                "0" => Color.White,// Reset to default
+                _ => Color.White,
+            };
+        }
+
+
+        public async Task<SshCommandResult> ExecuteCommandAsync(string commandText)
+        {
+            if (!client!.IsConnected)
+            {
+                return new SshCommandResult(commandText, string.Empty, -1);
+            }
+
+            IsExecutingCommand = false;
+
+            writer!.WriteLine(commandText);
+            await writer.FlushAsync();
+
+            return new SshCommandResult(commandText, string.Empty, -0);
+        }
+
+
+        public async Task<SshCommandResult> ExecuteCommandSafeAsync(string commandText, CancellationToken cancellationToken = default)
         {
             return ansiCode switch
             {
