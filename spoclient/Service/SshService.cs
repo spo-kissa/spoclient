@@ -135,7 +135,7 @@ namespace spoclient.Service
         }
 
 
-        private string CleanEscapeSequences(string input)
+        private static string CleanEscapeSequences(string input)
         {
             input = Regex.Replace(input, "\x1B\\[\\?2004[hl]", "");
             input = Regex.Replace(input, "\x1B\\]0;[^\x07]*\x07", "");
@@ -166,7 +166,7 @@ namespace spoclient.Service
             //terminalOutput.AppendText(input.Substring(lastIndex));
         }
 
-        private Color ParseAnsiColor(string ansiCode)
+        private static Color ParseAnsiColor(string ansiCode)
         {
             return ansiCode switch
             {
@@ -193,7 +193,7 @@ namespace spoclient.Service
 
             IsExecutingCommand = false;
 
-            writer.WriteLine(commandText);
+            writer!.WriteLine(commandText);
             await writer.FlushAsync();
 
             return new SshCommandResult(commandText, string.Empty, -0);
