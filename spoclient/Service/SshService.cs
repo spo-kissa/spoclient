@@ -119,7 +119,8 @@ namespace spoclient.Service
                             {
                                 await Task.Delay(200);
 
-                                writer!.WriteLine("apJqUK57");
+                                var password = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(ServerInfo!.Password));
+                                writer!.WriteLine(password);
                                 writer.Flush();
                             }
                         }
