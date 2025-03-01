@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Security;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -81,6 +82,7 @@ namespace spoclient.ViewModels
             }
 
             servers.Add(new ServerInfo("Hyper-V", "172.21.46.241", "daisuke", password, "22"));
+            servers.Add(new ServerInfo("Hyper-V 2", "172.26.74.167", "daisuke", password, "22"));
         }
 
 
@@ -94,6 +96,12 @@ namespace spoclient.ViewModels
 
                 RequestClose?.Invoke(result);
             }
+        });
+
+
+        public DelegateCommand<TappedEventArgs> DoubleTappedCommand => new((e) =>
+        {
+            ConnectCommand.Execute();
         });
 
 

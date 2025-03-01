@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:prism="http://prismlibrary.com/"
 			 xmlns:vm="using:spoclient.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="650"
              x:Class="spoclient.ShellTabView"
 			 x:DataType="vm:ShellTabViewViewModel">
 
@@ -105,6 +105,14 @@
 					</ScrollViewer>
 				</Expander>
 
+				<Expander Header="サーバーオペレーション" IsVisible="True">
+					<ScrollViewer>
+						<WrapPanel>
+							<Button Content="パッケージアップデート" />
+						</WrapPanel>
+					</ScrollViewer>
+				</Expander>
+
 				<Expander Header="プールオペレーション" IsVisible="True">
 					<ScrollViewer>
 						<WrapPanel>
@@ -142,13 +150,16 @@
 		<ScrollViewer Grid.Column="1" Grid.Row="0">
 
 			<StackPanel>
-				
-				<TextBlock Text="{Binding TerminalOutput}" TextWrapping="Wrap"
-						   Background="Black" Foreground="White" FontFamily="Consolas" />
+
+				<ScrollViewer MaxHeight="600">
+					<TextBlock Text="{Binding TerminalOutput}" TextWrapping="Wrap"
+							   Background="Black" Foreground="White" FontFamily="Consolas"
+							   MinWidth="800" MaxWidth="800" MinHeight="600" />
+				</ScrollViewer>
 
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-					<TextBox HorizontalAlignment="Stretch" />
-					<Button HorizontalAlignment="Right">実行</Button>
+					<TextBox HorizontalAlignment="Stretch" Text="{Binding TerminalText}" />
+					<Button HorizontalAlignment="Right" Command="{Binding ExecuteTerminalTextCommand}">実行</Button>
 				</StackPanel>
 				
 			</StackPanel>

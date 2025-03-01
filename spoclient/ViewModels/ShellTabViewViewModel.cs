@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Prism.Commands;
 using Prism.Mvvm;
 using spoclient.Models;
 using spoclient.Service;
@@ -32,8 +33,21 @@ namespace spoclient.ViewModels
         }
 
 
-        private string terminalOutput = "";
+        public string TerminalText
+        {
+            get => terminalText;
+            set
+            {
+                terminalText = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(TerminalText)));
+            }
+        }
 
+
+        private string terminalOutput = string.Empty;
+
+
+        private string terminalText = string.Empty;
 
 
 
@@ -41,6 +55,12 @@ namespace spoclient.ViewModels
         public ShellTabViewViewModel()
         {
         }
+
+
+        public DelegateCommand ExecuteTerminalTextCommand => new(async() =>
+        {
+            await SshService!.ExecuteCommandAsync(TerminalText);
+        });
 
 
         public void SetHeader(string header)
@@ -60,6 +80,7 @@ namespace spoclient.ViewModels
             await SshService.ConnectAsync();
         }
 
+
         private void OnSshStateChanged(object? sender, SshStateChangedEventArgs e)
         {
             switch (e.State)
@@ -71,9 +92,9 @@ namespace spoclient.ViewModels
                 case SshState.Connected:
                     SetHeader(ServerInfo!.Server);
                     break;
-
             }
         }
+
 
         private void OnSshOutput(object? sender, SshOutputEventArgs e)
         {
