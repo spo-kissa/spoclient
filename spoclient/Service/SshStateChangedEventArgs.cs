@@ -10,16 +10,16 @@ namespace spoclient.Service
     {
         public SshState State { get; private set; }
 
-        public string Message { get; private set; } = string.Empty;
+        public string? ErrorMessage { get; private set; }
 
 
-        public SshStateChangedEventArgs(SshState state, string? message = null)
+        public SshStateChangedEventArgs(SshState state, string? errorMessage = null)
         {
             this.State = state;
 
-            if (message != null)
+            if (errorMessage != null)
             {
-                this.Message = message;
+                ErrorMessage = errorMessage;
             }
         }
     }
