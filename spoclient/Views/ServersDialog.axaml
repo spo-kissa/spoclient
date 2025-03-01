@@ -22,6 +22,9 @@
 				<EventTriggerBehavior EventName="SelectionChanged">
 					<InvokeCommandAction Command="{Binding SelectionChangedCommand}" PassEventArgsToCommand="True" />
 				</EventTriggerBehavior>
+				<EventTriggerBehavior EventName="DoubleTapped">
+					<InvokeCommandAction Command="{Binding DoubleTappedCommand}" PassEventArgsToCommand="True" />
+				</EventTriggerBehavior>
 			</Interaction.Behaviors>
 
 			<DataGrid.Columns>

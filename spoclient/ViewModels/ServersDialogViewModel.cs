@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Security;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -13,13 +14,13 @@ namespace spoclient.ViewModels
     public class ServersDialogViewModel : BindableBase, IDialogAware
     {
         /// <summary>
-        ///     ƒ_ƒCƒAƒƒO‚Ì•Â‚¶‚é‚ğ—v‹‚·‚éƒCƒxƒ“ƒg
+        ///     ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®é–‰ã˜ã‚‹ã‚’è¦æ±‚ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆ
         /// </summary>
         public event Action<IDialogResult>? RequestClose;
 
 
         /// <summary>
-        ///     ƒ_ƒCƒAƒƒO‚Ìƒ^ƒCƒgƒ‹
+        ///     ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®ã‚¿ã‚¤ãƒˆãƒ«
         /// </summary>
         public string Title => "Server Select";
 
@@ -28,19 +29,19 @@ namespace spoclient.ViewModels
 
 
         /// <summary>
-        ///     Ú‘±æƒT[ƒo[ƒŠƒXƒg(“Ç‚İæ‚èê—p)
+        ///     æ¥ç¶šå…ˆã‚µãƒ¼ãƒãƒ¼ãƒªã‚¹ãƒˆ(èª­ã¿å–ã‚Šå°‚ç”¨)
         /// </summary>
         public ReadOnlyObservableCollection<ServerInfo> Servers { get; private set; }
 
 
         /// <summary>
-        ///     ‘I‘ğ’†Ú‘±ƒT[ƒo[
+        ///     é¸æŠä¸­æ¥ç¶šã‚µãƒ¼ãƒãƒ¼
         /// </summary>
         public ServerInfo? SelectedServer { get; private set; }
 
 
         /// <summary>
-        ///     ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        ///     ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
         public ServersDialogViewModel()
         {
@@ -49,7 +50,7 @@ namespace spoclient.ViewModels
 
 
         /// <summary>
-        ///     ƒ_ƒCƒAƒƒO‚ğ•Â‚¶‚ê‚é‚©
+        ///     ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‰ã˜ã‚Œã‚‹ã‹
         /// </summary>
         /// <returns></returns>
         public bool CanCloseDialog()
@@ -59,7 +60,7 @@ namespace spoclient.ViewModels
 
         
         /// <summary>
-        ///     ƒ_ƒCƒAƒƒO‚ğ•Â‚¶‚½Œã‚Ìˆ—
+        ///     ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‰ã˜ãŸå¾Œã®å‡¦ç†
         /// </summary>
         public void OnDialogClosed()
         {
@@ -67,7 +68,7 @@ namespace spoclient.ViewModels
 
 
         /// <summary>
-        ///     ƒ_ƒCƒAƒƒO‚ğŠJ‚¢‚½Œã‚Ìˆ—
+        ///     ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‹ã„ãŸå¾Œã®å‡¦ç†
         /// </summary>
         /// <param name="parameters"></param>
         /// <exception cref="NotImplementedException"></exception>
@@ -81,6 +82,7 @@ namespace spoclient.ViewModels
             }
 
             servers.Add(new ServerInfo("Hyper-V", "172.21.46.241", "daisuke", password, "22"));
+            servers.Add(new ServerInfo("Hyper-V 2", "172.26.74.167", "daisuke", password, "22"));
         }
 
 
@@ -94,6 +96,12 @@ namespace spoclient.ViewModels
 
                 RequestClose?.Invoke(result);
             }
+        });
+
+
+        public DelegateCommand<TappedEventArgs> DoubleTappedCommand => new((e) =>
+        {
+            ConnectCommand.Execute();
         });
 
 
