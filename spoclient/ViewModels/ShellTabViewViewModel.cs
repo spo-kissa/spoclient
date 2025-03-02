@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Avalonia.Controls;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
+using spoclient.Events;
 using spoclient.Models;
 using spoclient.Service;
 
@@ -44,17 +47,33 @@ namespace spoclient.ViewModels
         }
 
 
+        public IEventAggregator EventAggregator => eventAggregator;
+
+
         private string terminalOutput = string.Empty;
 
 
         private string terminalText = string.Empty;
 
 
+        private readonly IEventAggregator eventAggregator;
 
 
-        public ShellTabViewViewModel()
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        public ShellTabViewViewModel(IEventAggregator eventAggregator)
         {
+            this.eventAggregator = eventAggregator;
         }
+
+
+
+        public DelegateCommand<SizeChangedEventArgs> SizeChangedCommand => new(e =>
+        {
+            eventAggregator.GetEvent<ScrollEvent>().Publish();
+        });
 
 
         public DelegateCommand ExecuteTerminalTextCommand => new(async() =>
@@ -86,7 +105,7 @@ namespace spoclient.ViewModels
             switch (e.State)
             {
                 case SshState.Connecting:
-                    SetHeader("Ú‘±‚µ‚Ä‚¢‚Ü‚·...");
+                    SetHeader("接続しています...");
                     break;
 
                 case SshState.Connected:
@@ -99,6 +118,7 @@ namespace spoclient.ViewModels
         private void OnSshOutput(object? sender, SshOutputEventArgs e)
         {
             TerminalOutput += e.Output;
+            eventAggregator.GetEvent<ScrollEvent>().Publish();
         }
     }
 }

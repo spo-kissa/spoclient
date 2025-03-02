@@ -7,6 +7,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using FluentAvalonia.UI.Controls;
 using Prism.DryIoc;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -34,6 +35,8 @@ namespace spoclient
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
+
             containerRegistry.RegisterForNavigation<MainView, MainViewViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
 

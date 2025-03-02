@@ -30,8 +30,13 @@ namespace spoclient.Service
         public Renci.SshNet.ConnectionInfo ConnectionInfo { get; private set; }
 
 
-        private bool IsExecutingCommand { get; set; } = false;
+        public int LastExitCode { get; private set; } = -1;
 
+
+        private SshServiceState state = SshServiceState.Paused;
+
+
+        private SshExitCodeProvider exitCodeProvider = new SshExitCodeProvider();
 
         private SshClient? client;
 
@@ -51,6 +56,7 @@ namespace spoclient.Service
 
             var pass = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(serverInfo.Password));
 
+            ServerInfo = serverInfo;
             ConnectionInfo = new PasswordConnectionInfo(host, port, user, pass);
         }
 
@@ -98,7 +104,7 @@ namespace spoclient.Service
             {
                 var buffer = new char[2048];
                 int bytesRead;
-                var result = new StringBuilder(4096);
+                var result = new List<string>(4096);
                 while (client!.IsConnected && (bytesRead = await reader!.ReadAsync(buffer, 0, buffer.Length)) > 0)
                 {
                     var output = new string(buffer, 0, bytesRead);
@@ -106,21 +112,47 @@ namespace spoclient.Service
 
                     output.Split(output.Contains(Environment.NewLine) ? '\n' : '\r').ForEach(async line =>
                     {
+                        result.Add(line);
+
                         if (line.Length > 0)
                         {
-                            if (!IsExecutingCommand && line.TrimEnd().EndsWith('$') || line.TrimEnd().EndsWith('#'))
+                            // コマンド実行後にプロンプトを検出したら、終了コードを取得する
+                            if (state == SshServiceState.RunningCommand && line.TrimEnd().EndsWith('$') || line.TrimEnd().EndsWith('#'))
                             {
-                                IsExecutingCommand = true;
+                                state = SshServiceState.GettingExitCode;
+                                exitCodeProvider.SetValue(LastExitCode, state);
+
                                 writer!.WriteLine("echo $?");
                                 writer.Flush();
                             }
 
+                            // 終了コードを取得する
+                            if (state == SshServiceState.GettingExitCode)
+                            {
+                                var lastLine = result[^2];
+                                if (int.TryParse(lastLine.Trim(), out int exitCode))
+                                {
+                                    state = SshServiceState.Paused;
+                                    LastExitCode = exitCode;
+                                    exitCodeProvider.SetValue(LastExitCode, state);
+                                }
+                            }
+
+                            // sudo パスワードを入力する
                             if (line.Contains("[sudo] password"))
                             {
                                 await Task.Delay(200);
 
-                                var password = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(ServerInfo!.Password));
-                                writer!.WriteLine(password);
+                                var ptr = Marshal.SecureStringToGlobalAllocUnicode(ServerInfo!.Password);
+                                try
+                                {
+                                    var password = Marshal.PtrToStringUni(ptr);
+                                    writer!.WriteLine(password);
+                                }
+                                finally
+                                {
+                                    Marshal.FreeHGlobal(ptr);
+                                }
                                 writer.Flush();
                             }
                         }
@@ -167,6 +199,7 @@ namespace spoclient.Service
             //terminalOutput.AppendText(input.Substring(lastIndex));
         }
 
+
         private static Color ParseAnsiColor(string ansiCode)
         {
             return ansiCode switch
@@ -192,12 +225,22 @@ namespace spoclient.Service
                 return new SshCommandResult(commandText, string.Empty, -1);
             }
 
-            IsExecutingCommand = false;
+            state = SshServiceState.RunningCommand;
+            exitCodeProvider.SetValue(LastExitCode, state);
 
             writer!.WriteLine(commandText);
-            await writer.FlushAsync();
+            writer.Flush();
 
-            return new SshCommandResult(commandText, string.Empty, -0);
+            var cancellationTokenSource = new CancellationTokenSource();
+            try
+            {
+                var exitCode = await exitCodeProvider.GetExitCodeWhenCommandExitedAsync(cancellationTokenSource.Token);
+                return new SshCommandResult(commandText, string.Empty, exitCode);
+            }
+            catch(OperationCanceledException)
+            {
+                return new SshCommandResult(commandText, string.Empty, -0);
+            }
         }
 
 
