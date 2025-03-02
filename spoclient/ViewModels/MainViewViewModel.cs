@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Input;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
+using DryIoc;
 using FluentAvalonia.UI.Controls;
 using ImTools;
 using Prism.Commands;
@@ -29,11 +30,14 @@ namespace spoclient.ViewModels
 
 
         private readonly IDialogService dialogService;
+
+        private readonly IContainer container;
         
 
-        public MainViewViewModel(IDialogService dialogService)
+        public MainViewViewModel(IDialogService dialogService, IContainer container)
         {
             this.dialogService = dialogService;
+            this.container = container;
 
             NavigationFactory = new NavigationFactory(this);
 
@@ -64,13 +68,13 @@ namespace spoclient.ViewModels
 
         private (TView View, TViewModel ViewModel)? CreateTabView<TViewModel, TView>()
             where TView : UserControl, IMainTabViewItem, new()
-            where TViewModel : MainTabViewModel, new()
+            where TViewModel : MainTabViewModel
         {
             var result = TabViewModelMatcher.ContainsKey(typeof(TView));
             if (result)
             {
                 var viewModelType = TabViewModelMatcher[typeof(TView)];
-                var viewModel = (TViewModel)Activator.CreateInstance(viewModelType)!;
+                var viewModel = container.Resolve<TViewModel>(); // (TViewModel)Activator.CreateInstance(viewModelType)!;
                 var view = Activator.CreateInstance<TView>();
                 viewModel.Content = view;
                 view.DataContext = viewModel;

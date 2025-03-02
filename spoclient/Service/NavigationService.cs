@@ -19,7 +19,7 @@ namespace spoclient.Service
 
         private Frame? frame;
 
-        private Panel overlayHost;
+        private Panel? overlayHost;
 
 
 

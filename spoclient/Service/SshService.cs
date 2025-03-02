@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -30,8 +31,15 @@ namespace spoclient.Service
         public Renci.SshNet.ConnectionInfo ConnectionInfo { get; private set; }
 
 
-        private bool IsExecutingCommand { get; set; } = false;
+        public int LastExitCode { get; private set; } = -1;
 
+
+        private SshServiceState state = SshServiceState.Idle;
+
+
+        private SshExitCodeProvider exitCodeProvider = new SshExitCodeProvider();
+
+        private readonly SshCommandResultProvider commandResultProvider = new();
 
         private SshClient? client;
 
@@ -51,6 +59,7 @@ namespace spoclient.Service
 
             var pass = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(serverInfo.Password));
 
+            ServerInfo = serverInfo;
             ConnectionInfo = new PasswordConnectionInfo(host, port, user, pass);
         }
 
@@ -98,7 +107,8 @@ namespace spoclient.Service
             {
                 var buffer = new char[2048];
                 int bytesRead;
-                var result = new StringBuilder(4096);
+                var results = new List<string>(4096);
+                var exitCodeLines = new List<string>();
                 while (client!.IsConnected && (bytesRead = await reader!.ReadAsync(buffer, 0, buffer.Length)) > 0)
                 {
                     var output = new string(buffer, 0, bytesRead);
@@ -106,21 +116,69 @@ namespace spoclient.Service
 
                     output.Split(output.Contains(Environment.NewLine) ? '\n' : '\r').ForEach(async line =>
                     {
+                        if (state == SshServiceState.GettingExitCode)
+                        {
+                            exitCodeLines.Add(line);
+                        }
+                        else
+                        {
+                            results.Add(line);
+                        }
+
                         if (line.Length > 0)
                         {
-                            if (!IsExecutingCommand && line.TrimEnd().EndsWith('$') || line.TrimEnd().EndsWith('#'))
+                            // コマンド実行後にプロンプトを検出したら、終了コードを取得する
+                            if (state == SshServiceState.RunningCommand && line.TrimEnd().EndsWith('$') || line.TrimEnd().EndsWith('#'))
                             {
-                                IsExecutingCommand = true;
+                                state = SshServiceState.GettingExitCode;
+                                exitCodeProvider.SetValue(LastExitCode, state);
+
+                                // コマンド実行結果を通知する
+                                commandResultProvider.SetResult(string.Join("\n", results)).SetState(state);
+
+                                // 実行結果を格納するバッファをクリアする
+                                results.Clear();
+
                                 writer!.WriteLine("echo $?");
                                 writer.Flush();
                             }
 
+                            // 終了コードを取得する
+                            if (exitCodeLines.Count > 2)
+                            {
+                                if (state == SshServiceState.GettingExitCode)
+                                {
+                                    var lastLine = exitCodeLines[^2];
+                                    if (int.TryParse(lastLine.Trim(), out int exitCode))
+                                    {
+                                        state = SshServiceState.Idle;
+                                        LastExitCode = exitCode;
+                                        exitCodeProvider.SetValue(LastExitCode, state);
+
+                                        // コマンド実行結果を通知する
+                                        commandResultProvider.SetExitCode(exitCode).SetState(state);
+
+                                        // 終了コードを格納するバッファをクリアする
+                                        exitCodeLines.Clear();
+                                    }
+                                }
+                            }
+
+                            // sudo パスワードを入力する
                             if (line.Contains("[sudo] password"))
                             {
                                 await Task.Delay(200);
 
-                                var password = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(ServerInfo!.Password));
-                                writer!.WriteLine(password);
+                                var ptr = Marshal.SecureStringToGlobalAllocUnicode(ServerInfo!.Password);
+                                try
+                                {
+                                    var password = Marshal.PtrToStringUni(ptr);
+                                    writer!.WriteLine(password);
+                                }
+                                finally
+                                {
+                                    Marshal.FreeHGlobal(ptr);
+                                }
                                 writer.Flush();
                             }
                         }
@@ -167,6 +225,7 @@ namespace spoclient.Service
             //terminalOutput.AppendText(input.Substring(lastIndex));
         }
 
+
         private static Color ParseAnsiColor(string ansiCode)
         {
             return ansiCode switch
@@ -192,12 +251,23 @@ namespace spoclient.Service
                 return new SshCommandResult(commandText, string.Empty, -1);
             }
 
-            IsExecutingCommand = false;
+            state = SshServiceState.RunningCommand;
+            exitCodeProvider.SetValue(LastExitCode, state);
+            commandResultProvider.SetCommandText(commandText).SetState(state);
 
             writer!.WriteLine(commandText);
-            await writer.FlushAsync();
+            writer.Flush();
 
-            return new SshCommandResult(commandText, string.Empty, -0);
+            var cancellationTokenSource = new CancellationTokenSource();
+            try
+            {
+                var result = await commandResultProvider.GetResultWhenCommandExitedAsync(cancellationTokenSource.Token);
+                return result;
+            }
+            catch(OperationCanceledException)
+            {
+                return new SshCommandResult(commandText, string.Empty, -0);
+            }
         }
 
 
