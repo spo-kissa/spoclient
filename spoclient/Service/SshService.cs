@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -33,10 +34,12 @@ namespace spoclient.Service
         public int LastExitCode { get; private set; } = -1;
 
 
-        private SshServiceState state = SshServiceState.Paused;
+        private SshServiceState state = SshServiceState.Idle;
 
 
         private SshExitCodeProvider exitCodeProvider = new SshExitCodeProvider();
+
+        private readonly SshCommandResultProvider commandResultProvider = new();
 
         private SshClient? client;
 
@@ -104,7 +107,8 @@ namespace spoclient.Service
             {
                 var buffer = new char[2048];
                 int bytesRead;
-                var result = new List<string>(4096);
+                var results = new List<string>(4096);
+                var exitCodeLines = new List<string>();
                 while (client!.IsConnected && (bytesRead = await reader!.ReadAsync(buffer, 0, buffer.Length)) > 0)
                 {
                     var output = new string(buffer, 0, bytesRead);
@@ -112,7 +116,14 @@ namespace spoclient.Service
 
                     output.Split(output.Contains(Environment.NewLine) ? '\n' : '\r').ForEach(async line =>
                     {
-                        result.Add(line);
+                        if (state == SshServiceState.GettingExitCode)
+                        {
+                            exitCodeLines.Add(line);
+                        }
+                        else
+                        {
+                            results.Add(line);
+                        }
 
                         if (line.Length > 0)
                         {
@@ -122,19 +133,34 @@ namespace spoclient.Service
                                 state = SshServiceState.GettingExitCode;
                                 exitCodeProvider.SetValue(LastExitCode, state);
 
+                                // コマンド実行結果を通知する
+                                commandResultProvider.SetResult(string.Join("\n", results)).SetState(state);
+
+                                // 実行結果を格納するバッファをクリアする
+                                results.Clear();
+
                                 writer!.WriteLine("echo $?");
                                 writer.Flush();
                             }
 
                             // 終了コードを取得する
-                            if (state == SshServiceState.GettingExitCode)
+                            if (exitCodeLines.Count > 2)
                             {
-                                var lastLine = result[^2];
-                                if (int.TryParse(lastLine.Trim(), out int exitCode))
+                                if (state == SshServiceState.GettingExitCode)
                                 {
-                                    state = SshServiceState.Paused;
-                                    LastExitCode = exitCode;
-                                    exitCodeProvider.SetValue(LastExitCode, state);
+                                    var lastLine = exitCodeLines[^2];
+                                    if (int.TryParse(lastLine.Trim(), out int exitCode))
+                                    {
+                                        state = SshServiceState.Idle;
+                                        LastExitCode = exitCode;
+                                        exitCodeProvider.SetValue(LastExitCode, state);
+
+                                        // コマンド実行結果を通知する
+                                        commandResultProvider.SetExitCode(exitCode).SetState(state);
+
+                                        // 終了コードを格納するバッファをクリアする
+                                        exitCodeLines.Clear();
+                                    }
                                 }
                             }
 
@@ -227,6 +253,7 @@ namespace spoclient.Service
 
             state = SshServiceState.RunningCommand;
             exitCodeProvider.SetValue(LastExitCode, state);
+            commandResultProvider.SetCommandText(commandText).SetState(state);
 
             writer!.WriteLine(commandText);
             writer.Flush();
@@ -234,8 +261,8 @@ namespace spoclient.Service
             var cancellationTokenSource = new CancellationTokenSource();
             try
             {
-                var exitCode = await exitCodeProvider.GetExitCodeWhenCommandExitedAsync(cancellationTokenSource.Token);
-                return new SshCommandResult(commandText, string.Empty, exitCode);
+                var result = await commandResultProvider.GetResultWhenCommandExitedAsync(cancellationTokenSource.Token);
+                return result;
             }
             catch(OperationCanceledException)
             {

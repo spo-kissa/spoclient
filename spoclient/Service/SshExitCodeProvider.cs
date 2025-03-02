@@ -7,7 +7,7 @@ namespace spoclient.Service
     public class SshExitCodeProvider
     {
         private int exitCode = -1;
-        private SshServiceState state = SshServiceState.Paused;
+        private SshServiceState state = SshServiceState.Idle;
         private readonly object lockObject = new();
         private event EventHandler<int>? ValueChanged;
 
@@ -31,7 +31,7 @@ namespace spoclient.Service
             {
                 lock (lockObject)
                 {
-                    if (state == SshServiceState.Paused)
+                    if (state == SshServiceState.Idle)
                     {
                         completionSource.SetResult(exitCode);
                         ValueChanged -= Handler;

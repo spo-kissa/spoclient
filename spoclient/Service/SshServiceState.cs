@@ -8,7 +8,7 @@ namespace spoclient.Service
 {
     public enum SshServiceState
     {
-        Paused,
+        Idle,
         RunningCommand,
         GettingExitCode,
     }
