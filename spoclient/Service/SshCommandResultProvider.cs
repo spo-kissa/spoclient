@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace spoclient.Service
 {
+    /// <summary>
+    ///     SSHコマンドの実行結果を提供するクラス
+    /// </summary>
     public class SshCommandResultProvider
     {
         private string commandText = string.Empty;
@@ -16,12 +19,20 @@ namespace spoclient.Service
         private event EventHandler<SshCommandResult>? StateChanged;
 
 
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
         public SshCommandResultProvider()
         {
             state = SshServiceState.Idle;
         }
 
 
+        /// <summary>
+        ///     コマンドテキストを設定する
+        /// </summary>
+        /// <param name="value">コマンドテキスト</param>
+        /// <returns>自身のインスタンスを返します</returns>
         public SshCommandResultProvider SetCommandText(string value)
         {
             lock (lockObject)
@@ -33,6 +44,11 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///     結果テキストを設定する
+        /// </summary>
+        /// <param name="value">結果テキスト</param>
+        /// <returns>自身のインスタンスを返します</returns>
         public SshCommandResultProvider SetResult(string value)
         {
             lock (lockObject)
@@ -44,6 +60,11 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///    終了コードを設定する
+        /// </summary>
+        /// <param name="value">終了コード</param>
+        /// <returns>自身のインスタンスを返します</returns>
         public SshCommandResultProvider SetExitCode(int value)
         {
             lock (lockObject)
@@ -55,6 +76,10 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///     状態を設定する
+        /// </summary>
+        /// <param name="newState">状態</param>
         public void SetState(SshServiceState newState)
         {
             var newValue = new SshCommandResult(commandText, resultText, exitCode);
@@ -67,6 +92,11 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///     結果が取得できるまで待機し、取得した結果を返します
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<SshCommandResult> GetResultWhenCommandExitedAsync(CancellationToken cancellationToken)
         {
             var completionSource = new TaskCompletionSource<SshCommandResult>();
