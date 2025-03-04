@@ -1,9 +1,4 @@
 ﻿using spoclient.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace spoclient.Models
 {
@@ -24,6 +19,11 @@ namespace spoclient.Models
 
         public ServerInfo()
         {
+            Entry = string.Empty;
+            Server = string.Empty;
+            User = string.Empty;
+            Password = string.Empty;
+            Port = string.Empty;
         }
 
 

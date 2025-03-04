@@ -154,6 +154,9 @@ namespace spoclient.ViewModels
         });
 
 
+        /// <summary>
+        ///     サーバー削除コマンド
+        /// </summary>
         public DelegateCommand DeleteServerCommand => new(async() =>
         {
             if (SelectedServer is null)

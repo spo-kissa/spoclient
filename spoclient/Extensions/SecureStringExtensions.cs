@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace spoclient.Extensions
 {
@@ -22,7 +18,10 @@ namespace spoclient.Extensions
             }
             finally
             {
-                Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
+                if (unmanagedString != IntPtr.Zero)
+                {
+                    Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
+                }
             }
         }
 

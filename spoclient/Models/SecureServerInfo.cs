@@ -1,6 +1,4 @@
-﻿using Renci.SshNet;
-using Renci.SshNet.Security;
-using System.Security;
+﻿using System.Security;
 
 namespace spoclient.Models
 {
@@ -22,6 +20,11 @@ namespace spoclient.Models
 
         public SecureServerInfo()
         {
+            Entry = string.Empty;
+            Server = string.Empty;
+            User = string.Empty;
+            Password = new SecureString();
+            Port = string.Empty;
         }
 
 
