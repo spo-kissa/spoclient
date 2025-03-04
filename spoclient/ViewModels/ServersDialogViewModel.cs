@@ -2,8 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Security;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using MessageBoxSlim.Avalonia;
+using MessageBoxSlim.Avalonia.DTO;
+using MessageBoxSlim.Avalonia.Enums;
+using MsBox.Avalonia;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -149,16 +154,25 @@ namespace spoclient.ViewModels
         });
 
 
-        public DelegateCommand DeleteServerCommand => new(() =>
+        public DelegateCommand DeleteServerCommand => new(async() =>
         {
             if (SelectedServer is null)
             {
                 return;
             }
 
+            var msgbox = MessageBoxManager.GetMessageBoxStandard(
+                "Delete Sever Entry",
+                $"Are you sure you want to delete {SelectedServer.Entry}?",
+                MsBox.Avalonia.Enums.ButtonEnum.YesNo,
+                MsBox.Avalonia.Enums.Icon.Warning,
+                WindowStartupLocation.CenterOwner);
 
-
-            this.servers.Remove(SelectedServer);
+            var result = await msgbox.ShowDialogAsync();
+            if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            {
+                this.servers.Remove(SelectedServer);
+            }
         });
 
 

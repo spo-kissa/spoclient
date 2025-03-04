@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageVersion>0.9.8.0</PackageVersion>
+        <Title>MessageBoxSlim.Avalonia</Title>
+        <Authors>SirJson, Lary&lt;f98f96.gmail.com&gt;</Authors>
+        <Description>A simpler MessageBox for AvaloniaUI</Description>
+        <PackageProjectUrl>https://github.com/SirJson/MessageBox.Avalonia</PackageProjectUrl>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/SirJson/MessageBox.Avalonia</RepositoryUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageTags>Avalonia,MessageBox</PackageTags>
+    </PropertyGroup>
+    <ItemGroup>
+        <AvaloniaResource Include="**\*.xaml">
+            <SubType>Designer</SubType>
+        </AvaloniaResource>
+        <AvaloniaResource Include="Assets\*" />
+    </ItemGroup>
+    <PropertyGroup>
+        <AvaloniaUseExternalMSBuild>true</AvaloniaUseExternalMSBuild>
+        <AssemblyName>MessageBoxSlim.Avalonia</AssemblyName>
+        <Company>SirJson,SirJson, Lary&lt;f98f96.gmail.com&gt;</Company>
+        <RepositoryType>git</RepositoryType>
+        <Version>0.9.8</Version>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <Optimize>True</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <Optimize>False</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Label="Avalonia">
+      <AvaloniaXamlIlDebuggerLaunch>True</AvaloniaXamlIlDebuggerLaunch>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Avalonia" Version="11.2.5" />
+      <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.5" />
+      <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    </ItemGroup>
+
+</Project>

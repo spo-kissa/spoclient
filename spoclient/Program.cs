@@ -1,5 +1,7 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Dialogs;
+using Avalonia.ReactiveUI;
 
 namespace spoclient
 {
@@ -18,6 +20,8 @@ namespace spoclient
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace()
+                .UseSkia()
+                .UseReactiveUI()
             ;
     }
 }

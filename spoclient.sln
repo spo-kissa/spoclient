@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spoclient", "spoclient\spoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsTest", "WinFormsTest\WinFormsTest.csproj", "{6141C67E-EAAC-4853-B8AB-1E624A0918FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBoxSlim.Avalonia", "MessageBox.Avalonia\MessageBoxSlim.Avalonia.csproj", "{B62E7ACE-2F0C-9416-6625-659F20690BB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6141C67E-EAAC-4853-B8AB-1E624A0918FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6141C67E-EAAC-4853-B8AB-1E624A0918FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6141C67E-EAAC-4853-B8AB-1E624A0918FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B62E7ACE-2F0C-9416-6625-659F20690BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B62E7ACE-2F0C-9416-6625-659F20690BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B62E7ACE-2F0C-9416-6625-659F20690BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B62E7ACE-2F0C-9416-6625-659F20690BB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
