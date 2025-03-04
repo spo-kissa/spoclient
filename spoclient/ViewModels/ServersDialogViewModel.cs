@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Security;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using MessageBoxSlim.Avalonia;
-using MessageBoxSlim.Avalonia.DTO;
-using MessageBoxSlim.Avalonia.Enums;
 using MsBox.Avalonia;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using spoclient.Extensions;
 using spoclient.Models;
+using System;
+using System.Collections.ObjectModel;
+using System.Security;
 
 namespace spoclient.ViewModels
 {

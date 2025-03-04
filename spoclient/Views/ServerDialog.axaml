@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+			 xmlns:vm="using:spoclient.ViewModels"
+			 x:DataType="vm:ServerDialogViewModel"
              x:Class="spoclient.ServerDialog">
 
 	<Grid ColumnDefinitions="110,*" RowDefinitions="*,Auto" Margin="6">
@@ -48,9 +50,23 @@
 
 					<StackPanel Grid.Row="1" Grid.Column="2">
 						<TextBlock></TextBlock>
-						<SplitButton>
-							SSH認証鍵
-						</SplitButton>
+						
+						<DropDownButton Content="SSH認証鍵" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+							<DropDownButton.Flyout>
+								<MenuFlyout>
+									<MenuItem Header="インポート">
+										<MenuItem Header="ファイルを開く" />
+										<MenuItem Header="クリップボードから" />
+									</MenuItem>
+									<MenuItem Header="エクスポート">
+										<MenuItem Header="ファイルへ保存" />
+										<MenuItem Header="クリップボードへコピー" />
+									</MenuItem>
+									<MenuItem Header="クリア" />
+								</MenuFlyout>
+							</DropDownButton.Flyout>
+						</DropDownButton>
+						
 					</StackPanel>
 					
 				</Grid>
@@ -60,8 +76,8 @@
 		</Border>
 
 		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button MinWidth="120" Margin="6" IsDefault="True">OK</Button>
-			<Button MinWidth="120" Margin="6" IsCancel="True">キャンセル</Button>
+			<Button MinWidth="120" Margin="6" IsDefault="True" Command="{Binding OkCommand}">OK</Button>
+			<Button MinWidth="120" Margin="6" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
 		</StackPanel>
 		
 	</Grid>
