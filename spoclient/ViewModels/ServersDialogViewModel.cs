@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using spoclient.Extensions;
 using spoclient.Models;
 
 namespace spoclient.ViewModels
@@ -25,27 +26,33 @@ namespace spoclient.ViewModels
         public string Title => "Server Select";
 
 
-        private readonly ObservableCollection<ServerInfo> servers = [];
+        private readonly ObservableCollection<SecureServerInfo> servers = [];
 
 
         /// <summary>
         ///     接続先サーバーリスト(読み取り専用)
         /// </summary>
-        public ReadOnlyObservableCollection<ServerInfo> Servers { get; private set; }
+        public ReadOnlyObservableCollection<SecureServerInfo> Servers { get; private set; }
 
 
         /// <summary>
         ///     選択中接続サーバー
         /// </summary>
-        public ServerInfo? SelectedServer { get; private set; }
+        public SecureServerInfo? SelectedServer { get; private set; }
+
+
+
+        private readonly IDialogService dialogService;
 
 
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        public ServersDialogViewModel()
+        public ServersDialogViewModel(IDialogService dialogService)
         {
-            this.Servers = new ReadOnlyObservableCollection<ServerInfo>(this.servers);
+            this.dialogService = dialogService;
+
+            this.Servers = new ReadOnlyObservableCollection<SecureServerInfo>(this.servers);
         }
 
 
@@ -74,6 +81,9 @@ namespace spoclient.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         public void OnDialogOpened(IDialogParameters parameters)
         {
+            var settings = new ServerSettingsRepository("P@assword");
+            var servers = settings.GetServers();
+
             var raw = "apJqUK57";
             var password = new SecureString();
             foreach (var ch in raw)
@@ -81,8 +91,8 @@ namespace spoclient.ViewModels
                 password.AppendChar(ch);
             }
 
-            servers.Add(new ServerInfo("Hyper-V", "172.21.46.241", "daisuke", password, "22"));
-            servers.Add(new ServerInfo("Hyper-V 2", "172.26.74.167", "daisuke", password, "22"));
+            this.servers.Add(new SecureServerInfo("Hyper-V", "172.21.46.241", "daisuke", password, "22"));
+            this.servers.Add(new SecureServerInfo("Hyper-V 2", "172.26.74.167", "daisuke", password, "22"));
         }
 
 
@@ -96,6 +106,59 @@ namespace spoclient.ViewModels
 
                 RequestClose?.Invoke(result);
             }
+        });
+
+
+        /// <summary>
+        ///     新規サーバー追加コマンド
+        /// </summary>
+        public DelegateCommand NewServerCommand => new(() =>
+        {
+            dialogService.ShowDialog<ServerDialog>(null, dialogResult =>
+            {
+                if (dialogResult.Result == ButtonResult.OK)
+                {
+                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>("ServerInfo");
+                    if (serverInfo is not null)
+                    {
+                        this.servers.Add(serverInfo);
+                    }
+                }
+            });
+        });
+
+
+        public DelegateCommand EditServerCommand => new(() =>
+        {
+            if (SelectedServer is null)
+            {
+                return;
+            }
+
+            var parameters = new DialogParameters()
+            {
+                { "ServerInfo", SelectedServer },
+            };
+            dialogService.ShowDialog<ServerDialog>(parameters, dialogResult =>
+            {
+                if (dialogResult.Result == ButtonResult.OK)
+                {
+                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>("ServerInfo");
+                }
+            });
+        });
+
+
+        public DelegateCommand DeleteServerCommand => new(() =>
+        {
+            if (SelectedServer is null)
+            {
+                return;
+            }
+
+
+
+            this.servers.Remove(SelectedServer);
         });
 
 
@@ -118,7 +181,7 @@ namespace spoclient.ViewModels
                 var count = (e.AddedItems.Count - e.RemovedItems.Count);
                 if (count == 1)
                 {
-                    SelectedServer = e.AddedItems[0] as ServerInfo;
+                    SelectedServer = e.AddedItems[0] as SecureServerInfo;
                     return;
                 }
             }

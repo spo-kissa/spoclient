@@ -52,7 +52,7 @@ namespace spoclient.ViewModels
             {
                 if (dialogResult.Result == ButtonResult.OK)
                 {
-                    var serverInfo = dialogResult.Parameters.GetValue<ServerInfo>("ServerInfo");
+                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>("ServerInfo");
 
                     var tuple = CreateTabView<ShellTabViewViewModel, ShellTabView>();
                     

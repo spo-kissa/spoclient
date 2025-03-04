@@ -24,12 +24,14 @@
     </PackageReference>
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.2.0.9" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="FluentAvaloniaUI" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.2" />
     <PackageReference Include="Prism.Avalonia" Version="8.1.97.11073" />
     <PackageReference Include="Prism.DryIoc.Avalonia" Version="8.1.97.11073" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
     <PackageReference Include="SQLitePCLRaw.core" Version="2.1.10" />
     <PackageReference Include="SSH.NET" Version="2024.2.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
   </ItemGroup>
 </Project>

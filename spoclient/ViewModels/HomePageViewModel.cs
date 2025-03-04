@@ -16,7 +16,7 @@ namespace spoclient.ViewModels
 
         public HomePageViewModel()
         {
-            ConnectRequestedCommand = new RelayCommand<ServerInfo>((e) =>
+            ConnectRequestedCommand = new RelayCommand<SecureServerInfo>((e) =>
             {
                 System.Diagnostics.Debug.WriteLine("OK");
             });

@@ -37,14 +37,14 @@
 		</DataGrid>
 
 		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="6 0 0 0">
-			<Button MinWidth="100" Command="{Binding ConnectCommand}">接続</Button>
-			<Button MinWidth="100" Command="{Binding CancelCommand}">キャンセル</Button>
+			<Button MinWidth="100" IsDefault="True" Command="{Binding ConnectCommand}">接続</Button>
+			<Button MinWidth="100" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
 		</StackPanel>
 
 		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="6 0 0 0" VerticalAlignment="Bottom">
-			<Button MinWidth="100">新規</Button>
-			<Button MinWidth="100">編集</Button>
-			<Button MinWidth="100">削除</Button>
+			<Button MinWidth="100" Command="{Binding NewServerCommand}">新規</Button>
+			<Button MinWidth="100" Command="{Binding EditServerCommand}">編集</Button>
+			<Button MinWidth="100" Command="{Binding DeleteServerCommand}">削除</Button>
 		</StackPanel>
 
 	</Grid>

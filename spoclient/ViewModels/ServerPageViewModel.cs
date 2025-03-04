@@ -11,9 +11,9 @@ namespace spoclient.ViewModels
 {
 	public class ServerPageViewModel : ViewModelBase
 	{
-		private readonly ObservableCollection<ServerInfo> servers;
+		private readonly ObservableCollection<SecureServerInfo> servers;
 
-		public event EventHandler<ServerInfo>? ConnectRequest;
+		public event EventHandler<SecureServerInfo>? ConnectRequest;
 
 
 		public ICommand ConnectCommand { get; }
@@ -21,13 +21,13 @@ namespace spoclient.ViewModels
 		public IRelayCommand<SelectionChangedEventArgs> SelectionChangedCommand { get; }
 
 
-		public IReadOnlyList<ServerInfo> Servers
+		public IReadOnlyList<SecureServerInfo> Servers
 		{
 			get => servers.AsReadOnly();
 		}
 
 
-		public ServerInfo? SelectedServer { get; private set; }
+		public SecureServerInfo? SelectedServer { get; private set; }
 
 
 
@@ -41,7 +41,7 @@ namespace spoclient.ViewModels
 			}
 
 			servers = [
-				new ServerInfo("Hyper-V", "172.27.221.2", "daisuke", password, "22"),
+				new SecureServerInfo("Hyper-V", "172.27.221.2", "daisuke", password, "22"),
 			];
 
 			ConnectCommand = new RelayCommand(() =>
@@ -59,7 +59,7 @@ namespace spoclient.ViewModels
                     var count = (e.AddedItems.Count - e.RemovedItems.Count);
                     if (count == 1)
                     {
-                        SelectedServer = e.AddedItems[0] as ServerInfo;
+                        SelectedServer = e.AddedItems[0] as SecureServerInfo;
 						return;
                     }
                 }

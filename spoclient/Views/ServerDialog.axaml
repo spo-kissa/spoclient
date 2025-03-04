@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             x:Class="spoclient.ServerDialog">
+
+	<Grid ColumnDefinitions="110,*" RowDefinitions="*,Auto" Margin="6">
+
+		<TreeView Grid.Column="0" BorderThickness="1" BorderBrush="LightGray">
+			<TreeView.Styles>
+				<Style Selector="TreeViewItem.level0">
+					<Setter Property="Padding" Value="0" />
+				</Style>
+			</TreeView.Styles>
+			<TreeViewItem Header="サーバー" />
+		</TreeView>
+
+		<Border Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"
+				Padding="8">
+
+			<StackPanel>
+				
+				<TextBlock Text="エントリー" />
+				<TextBox />
+
+				<Grid RowDefinitions="*,*" ColumnDefinitions="*,*,*">
+					
+					<StackPanel Grid.ColumnSpan="2">
+						<TextBlock Text="ホスト名(IPアドレス)" />
+						<TextBox />
+					</StackPanel>
+
+					<StackPanel Grid.Column="3">
+						<TextBlock Text="TCPポート" />
+						<AutoCompleteBox />
+					</StackPanel>
+
+					<StackPanel Grid.Row="1">
+						<TextBlock Text="ログインユーザー名" />
+						<TextBox />
+					</StackPanel>
+
+					<StackPanel Grid.Row="1" Grid.Column="1">
+						<TextBlock Text="パスワードまたはパスフレーズ" />
+						<TextBox PasswordChar="*" />
+					</StackPanel>
+
+					<StackPanel Grid.Row="1" Grid.Column="2">
+						<TextBlock></TextBlock>
+						<SplitButton>
+							SSH認証鍵
+						</SplitButton>
+					</StackPanel>
+					
+				</Grid>
+				
+			</StackPanel>
+			
+		</Border>
+
+		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button MinWidth="120" Margin="6" IsDefault="True">OK</Button>
+			<Button MinWidth="120" Margin="6" IsCancel="True">キャンセル</Button>
+		</StackPanel>
+		
+	</Grid>
+	
+</UserControl>
