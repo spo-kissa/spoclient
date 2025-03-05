@@ -13,15 +13,21 @@ namespace spoclient.ViewModels
 {
     public class MainViewViewModel : ViewModelBase
     {
+        /// <summary>
+        ///     ナビゲーションファクトリ
+        /// </summary>
         public NavigationFactory NavigationFactory { get; }
 
 
+        /// <summary>
+        ///     接続の一覧
+        /// </summary>
         public ObservableCollection<MainTabViewModel> Connections { get; } = [];
 
 
-        private Dictionary<Type, Type> TabViewModelMatcher { get; } = [];
-
-
+        /// <summary>
+        ///     選択されているタブのインデックス
+        /// </summary>
         public int? SelectedIndex
         {
             get => selectedIndex;
@@ -29,15 +35,35 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     選択されているタブのインデックス
+        /// </summary>
         private int? selectedIndex;
 
 
+        /// <summary>
+        ///     ダイアログサービス
+        /// </summary>
         private readonly IDialogService dialogService;
 
 
+        /// <summary>
+        ///     コンテナサービス
+        /// </summary>
         private readonly IContainer container;
-        
 
+
+        /// <summary>
+        ///     タブとビューモデルのマッチャー
+        /// </summary>
+        private Dictionary<Type, Type> TabViewModelMatcher { get; } = [];
+
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="dialogService">ダイアログサービス</param>
+        /// <param name="container">コンテナサービス</param>
         public MainViewViewModel(IDialogService dialogService, IContainer container)
         {
             this.dialogService = dialogService;
@@ -45,11 +71,14 @@ namespace spoclient.ViewModels
 
             NavigationFactory = new NavigationFactory(this);
 
-
+            // タブとビューモデルのマッチャーを設定
             TabViewModelMatcher.Add(typeof(ShellTabView), typeof(ShellTabViewViewModel));
         }
 
 
+        /// <summary>
+        ///     接続コマンド
+        /// </summary>
         public DelegateCommand ConnectCommand => new(() =>
         {
             dialogService.ShowDialog(nameof(ServersDialog), dialogResult =>
@@ -74,6 +103,10 @@ namespace spoclient.ViewModels
         });
 
 
+        /// <summary>
+        ///     タブを閉じる
+        /// </summary>
+        /// <param name="mainTabViewModel"></param>
         private void TabViewRequestClose(MainTabViewModel mainTabViewModel)
         {
             mainTabViewModel.RequestClose -= TabViewRequestClose;
@@ -83,7 +116,12 @@ namespace spoclient.ViewModels
         }
 
 
-
+        /// <summary>
+        ///     タブビューを作成
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <typeparam name="TView"></typeparam>
+        /// <returns></returns>
         private (TView View, TViewModel ViewModel)? CreateTabView<TViewModel, TView>()
             where TView : UserControl, IMainTabViewItem, new()
             where TViewModel : MainTabViewModel

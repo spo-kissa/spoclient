@@ -18,36 +18,81 @@ using System.Threading.Tasks;
 
 namespace spoclient.Service
 {
+    /// <summary>
+    ///     SSH接続サービス
+    /// </summary>
     public class SshService
     {
+        /// <summary>
+        ///     SSH接続状態が変更されたときに発生するイベント
+        /// </summary>
         public event EventHandler<SshStateChangedEventArgs>? StateChanged;
 
+        /// <summary>
+        ///     SSH出力があったときに発生するイベント
+        /// </summary>
         public event EventHandler<SshOutputEventArgs>? Output;
 
 
+        /// <summary>
+        ///     サーバー情報
+        /// </summary>
         public SecureServerInfo? ServerInfo { get; private set; }
 
 
-        public Renci.SshNet.ConnectionInfo ConnectionInfo { get; private set; }
+        /// <summary>
+        ///     接続情報
+        /// </summary>
+        public ConnectionInfo ConnectionInfo { get; private set; }
 
 
+        /// <summary>
+        ///     最後のコマンドの終了コード
+        /// </summary>
         public int LastExitCode { get; private set; } = -1;
 
 
+        /// <summary>
+        ///     SSHサービスの状態
+        /// </summary>
         private SshServiceState state = SshServiceState.Idle;
 
 
+        /// <summary>
+        ///     終了コードプロバイダ
+        /// </summary>
         private SshExitCodeProvider exitCodeProvider = new SshExitCodeProvider();
 
+
+        /// <summary>
+        ///     コマンド実行結果プロバイダ
+        /// </summary>
         private readonly SshCommandResultProvider commandResultProvider = new();
 
+
+        /// <summary>
+        ///     SSHクライアント
+        /// </summary>
         private SshClient? client;
 
+
+        /// <summary>
+        ///     SSHストリームリーダー
+        /// </summary>
         private StreamReader? reader;
 
+
+        /// <summary>
+        ///     SSHストリームライター
+        /// </summary>
         private StreamWriter? writer;
 
 
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="serverInfo"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public SshService(SecureServerInfo serverInfo)
         {
             var host = serverInfo.Server;
@@ -64,6 +109,10 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///     SSHサーバーに接続します
+        /// </summary>
+        /// <returns></returns>
         public async Task ConnectAsync()
         {
             client = new SshClient(ConnectionInfo);
@@ -100,7 +149,11 @@ namespace spoclient.Service
         }
 
 
-
+        /// <summary>
+        ///     SSHサーバーからの出力を読み取ります
+        /// </summary>
+        /// <param name="shellStream"></param>
+        /// <returns></returns>
         private async Task ReadSshOutput(Stream shellStream)
         {
             try
@@ -194,6 +247,11 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///     エスケープシーケンスをクリアします
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         private static string CleanEscapeSequences(string input)
         {
             input = Regex.Replace(input, "\x1B\\[\\?2004[hl]", "");
@@ -226,6 +284,11 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///     ANSIカラーコードを解析します
+        /// </summary>
+        /// <param name="ansiCode"></param>
+        /// <returns></returns>
         private static Color ParseAnsiColor(string ansiCode)
         {
             return ansiCode switch
@@ -244,6 +307,11 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///     コマンドを実行しその結果を取得します
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <returns></returns>
         public async Task<SshCommandResult> ExecuteCommandAsync(string commandText)
         {
             if (!client!.IsConnected)
@@ -271,6 +339,12 @@ namespace spoclient.Service
         }
 
 
+        /// <summary>
+        ///     コマンドを安全に実行しその結果を取得します
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<SshCommandResult> ExecuteCommandSafeAsync(string commandText, CancellationToken cancellationToken = default)
         {
             if (!client!.IsConnected)

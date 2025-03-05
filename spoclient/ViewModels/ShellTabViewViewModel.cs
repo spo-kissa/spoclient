@@ -1,32 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using Avalonia.Controls;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using spoclient.Events;
 using spoclient.Models;
 using spoclient.Service;
+using System.ComponentModel;
 
 namespace spoclient.ViewModels
 {
+    /// <summary>
+    ///     シェルタブのビューモデル
+    /// </summary>
     public class ShellTabViewViewModel : MainTabViewModel
     {
+        /// <summary>
+        ///     タブを閉じるイベント
+        /// </summary>
         public override event RequestCloseEventHandler? RequestClose;
 
+
+        /// <summary>
+        ///     タブのヘッダー
+        /// </summary>
         public override string Header { get => header; }
 
 
+        /// <summary>
+        ///     サーバー情報
+        /// </summary>
         public SecureServerInfo? ServerInfo { get; private set; }
 
 
-        private string header = string.Empty;
-
-
-        private SshService? SshService { get; set; }
-
-
+        /// <summary>
+        ///     ターミナル出力
+        /// </summary>
         public string TerminalOutput
         {
             get => terminalOutput;
@@ -38,6 +45,9 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     ターミナルテキスト
+        /// </summary>
         public string TerminalText
         {
             get => terminalText;
@@ -49,12 +59,30 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     タブのヘッダー
+        /// </summary>
+        private string header = string.Empty;
+
+
+        /// <summary>
+        ///     SSHサービス 
+        /// </summary>
+        private SshService? SshService { get; set; }
+
+
         public IEventAggregator EventAggregator => eventAggregator;
 
 
+        /// <summary>
+        ///     ターミナル出力
+        /// </summary>
         private string terminalOutput = string.Empty;
 
 
+        /// <summary>
+        ///     ターミナルテキスト
+        /// </summary>
         private string terminalText = string.Empty;
 
 
@@ -78,18 +106,29 @@ namespace spoclient.ViewModels
         });
 
 
+
+        /// <summary>
+        ///     ターミナルテキストを実行するコマンド
+        /// </summary>
         public DelegateCommand ExecuteTerminalTextCommand => new(async() =>
         {
             await SshService!.ExecuteCommandAsync(TerminalText);
         });
 
 
+        /// <summary>
+        ///     タブを閉じるコマンド
+        /// </summary>
         public override DelegateCommand CloseCommand => new(() =>
         {
             RequestClose?.Invoke(this);
         });
 
 
+        /// <summary>
+        ///     タブヘッダーを設定します
+        /// </summary>
+        /// <param name="header"></param>
         public void SetHeader(string header)
         {
             this.header = header;
@@ -97,6 +136,10 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     サーバーに接続します
+        /// </summary>
+        /// <param name="serverInfo"></param>
         public async void Connect(SecureServerInfo serverInfo)
         {
             ServerInfo = serverInfo;
@@ -108,6 +151,11 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     サーバーの接続状態が変更されたときの処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnSshStateChanged(object? sender, SshStateChangedEventArgs e)
         {
             switch (e.State)
@@ -123,6 +171,11 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     SSHの出力があったときの処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnSshOutput(object? sender, SshOutputEventArgs e)
         {
             TerminalOutput += e.Output;
