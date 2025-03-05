@@ -1,0 +1,50 @@
+name: CI - Build Only
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**/*.cs'
+      - '**/*.csproj'
+      - '**/*.sln'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        runtime: [win-x64, osx-x64, linux-x64]
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: .NET SDKをセットアップ
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: NuGetパッケージをキャッシュ
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: 依存関係を復元
+        run: dotnet restore
+
+      - name: アプリをビルド（Release）
+        run: dotnet build --configuration Release --no-restore
+
+      - name: ビルド成果物をアップロード
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.runtime }}
+          path: |
+            **/bin/Release/
