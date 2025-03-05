@@ -8,10 +8,12 @@ using spoclient.Extensions;
 using spoclient.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Security;
 
 namespace spoclient.ViewModels
 {
+    /// <summary>
+    ///    サーバー選択ダイアログのViewModel
+    /// </summary>
     public class ServersDialogViewModel : BindableBase, IDialogAware
     {
         /// <summary>
@@ -26,6 +28,9 @@ namespace spoclient.ViewModels
         public string Title => "Server Select";
 
 
+        /// <summary>
+        ///    接続先サーバーリスト
+        /// </summary>
         private readonly ObservableCollection<SecureServerInfo> servers = [];
 
 
@@ -41,19 +46,22 @@ namespace spoclient.ViewModels
         public SecureServerInfo? SelectedServer { get; private set; }
 
 
-
+        /// <summary>
+        ///    ダイアログサービス
+        /// </summary>
         private readonly IDialogService dialogService;
 
 
         /// <summary>
         ///     コンストラクタ
         /// </summary>
+        /// <param name="dialogService">ダイアログサービス</param>
         public ServersDialogViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
 
-            this.Servers = new ReadOnlyObservableCollection<SecureServerInfo>(this.servers);
-            this.servers.CollectionChanged += (sender, e) => RaisePropertyChanged(nameof(Servers));
+            Servers = new ReadOnlyObservableCollection<SecureServerInfo>(this.servers);
+            servers.CollectionChanged += (sender, e) => RaisePropertyChanged(nameof(Servers));
         }
 
 
@@ -87,19 +95,6 @@ namespace spoclient.ViewModels
 
             this.servers.AddRange(servers);
         }
-
-
-        public DelegateCommand ConnectCommand => new(() =>
-        {
-            if (this.SelectedServer is not null)
-            {
-                var result = new DialogResult(ButtonResult.OK);
-
-                result.Parameters.Add("ServerInfo", this.SelectedServer!);
-
-                RequestClose?.Invoke(result);
-            }
-        });
 
 
         /// <summary>
@@ -180,18 +175,42 @@ namespace spoclient.ViewModels
         });
 
 
+        /// <summary>
+        ///     サーバー接続コマンド
+        /// </summary>
+        public DelegateCommand ConnectCommand => new(() =>
+        {
+            if (this.SelectedServer is not null)
+            {
+                var result = new DialogResult(ButtonResult.OK);
+                result.Parameters.Add("ServerInfo", this.SelectedServer!);
+
+                RequestClose?.Invoke(result);
+            }
+        });
+
+
+        /// <summary>
+        ///     サーバー選択ダブルクリックコマンド
+        /// </summary>
         public DelegateCommand<TappedEventArgs> DoubleTappedCommand => new((e) =>
         {
             ConnectCommand.Execute();
         });
 
 
+        /// <summary>
+        ///    キャンセルボタンコマンド
+        /// </summary>
         public DelegateCommand CancelCommand => new(() =>
         {
             RequestClose?.Invoke(new DialogResult(ButtonResult.Cancel));
         });
 
 
+        /// <summary>
+        ///    サーバー選択変更コマンド
+        /// </summary>
         public DelegateCommand<SelectionChangedEventArgs> SelectionChangedCommand => new((e) =>
         {
             if (e is not null)
