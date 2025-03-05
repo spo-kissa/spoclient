@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+			 xmlns:vm="using:spoclient.ViewModels"
+			 x:DataType="vm:ServerDialogViewModel"
+             x:Class="spoclient.ServerDialog">
+
+	<Grid ColumnDefinitions="110,*" RowDefinitions="*,Auto" Margin="6">
+
+		<TreeView Grid.Column="0" BorderThickness="1" BorderBrush="LightGray">
+			<TreeView.Styles>
+				<Style Selector="TreeViewItem.level0">
+					<Setter Property="Padding" Value="0" />
+				</Style>
+			</TreeView.Styles>
+			<TreeViewItem Header="サーバー" />
+		</TreeView>
+
+		<Border Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"
+				Padding="8">
+
+			<StackPanel>
+				
+				<TextBlock Text="エントリー" />
+				<TextBox Text="{Binding Entry}" />
+
+				<Grid RowDefinitions="*,*" ColumnDefinitions="*,*,*">
+					
+					<StackPanel Grid.ColumnSpan="2">
+						<TextBlock Text="ホスト名(IPアドレス)" />
+						<TextBox Text="{Binding Server}" />
+					</StackPanel>
+
+					<StackPanel Grid.Column="3">
+						<TextBlock Text="TCPポート" />
+						<AutoCompleteBox Text="{Binding Port}" />
+					</StackPanel>
+
+					<StackPanel Grid.Row="1">
+						<TextBlock Text="ログインユーザー名" />
+						<TextBox Text="{Binding User}" />
+					</StackPanel>
+
+					<StackPanel Grid.Row="1" Grid.Column="1">
+						<TextBlock Text="パスワードまたはパスフレーズ" />
+						<TextBox PasswordChar="*" Text="{Binding Password}" />
+					</StackPanel>
+
+					<StackPanel Grid.Row="1" Grid.Column="2">
+						<TextBlock></TextBlock>
+						
+						<DropDownButton Content="SSH認証鍵" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+							<DropDownButton.Flyout>
+								<MenuFlyout>
+									<MenuItem Header="インポート">
+										<MenuItem Header="ファイルを開く" />
+										<MenuItem Header="クリップボードから" />
+									</MenuItem>
+									<MenuItem Header="エクスポート">
+										<MenuItem Header="ファイルへ保存" />
+										<MenuItem Header="クリップボードへコピー" />
+									</MenuItem>
+									<MenuItem Header="クリア" />
+								</MenuFlyout>
+							</DropDownButton.Flyout>
+						</DropDownButton>
+						
+					</StackPanel>
+					
+				</Grid>
+				
+			</StackPanel>
+			
+		</Border>
+
+		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button MinWidth="120" Margin="6" IsDefault="True" Command="{Binding OkCommand}">OK</Button>
+			<Button MinWidth="120" Margin="6" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
+		</StackPanel>
+		
+	</Grid>
+	
+</UserControl>

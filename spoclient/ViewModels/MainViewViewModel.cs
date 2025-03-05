@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Windows.Input;
-using Avalonia.Controls;
-using CommunityToolkit.Mvvm.Input;
+﻿using Avalonia.Controls;
 using DryIoc;
-using FluentAvalonia.UI.Controls;
-using ImTools;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
-using spoclient.Dialog;
 using spoclient.Models;
 using spoclient.ViewModels.MainView;
 using spoclient.Views;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace spoclient.ViewModels
 {
@@ -52,7 +45,7 @@ namespace spoclient.ViewModels
             {
                 if (dialogResult.Result == ButtonResult.OK)
                 {
-                    var serverInfo = dialogResult.Parameters.GetValue<ServerInfo>("ServerInfo");
+                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>("ServerInfo");
 
                     var tuple = CreateTabView<ShellTabViewViewModel, ShellTabView>();
                     

@@ -40,9 +40,10 @@ namespace spoclient
             containerRegistry.RegisterForNavigation<MainView, MainViewViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
 
-            containerRegistry.RegisterDialogWindow<DialogWindow>();
-
             containerRegistry.RegisterDialog<ServersDialog, ServersDialogViewModel>();
+            containerRegistry.RegisterDialog<ServerDialog, ServerDialogViewModel>();
+
+            containerRegistry.RegisterDialogWindow<DialogWindow>();
         }
 
 

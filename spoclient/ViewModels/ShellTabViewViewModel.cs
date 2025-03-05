@@ -16,7 +16,7 @@ namespace spoclient.ViewModels
         public override string Header { get => header; }
 
 
-        public ServerInfo? ServerInfo { get; private set; }
+        public SecureServerInfo? ServerInfo { get; private set; }
 
 
         private string header = string.Empty;
@@ -89,7 +89,7 @@ namespace spoclient.ViewModels
         }
 
 
-        public async void Connect(ServerInfo serverInfo)
+        public async void Connect(SecureServerInfo serverInfo)
         {
             ServerInfo = serverInfo;
 

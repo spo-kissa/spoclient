@@ -25,7 +25,7 @@ namespace spoclient.Service
         public event EventHandler<SshOutputEventArgs>? Output;
 
 
-        public Models.ServerInfo? ServerInfo { get; private set; }
+        public Models.SecureServerInfo? ServerInfo { get; private set; }
 
 
         public Renci.SshNet.ConnectionInfo ConnectionInfo { get; private set; }
@@ -48,7 +48,7 @@ namespace spoclient.Service
         private StreamWriter? writer;
 
 
-        public SshService(ServerInfo serverInfo)
+        public SshService(SecureServerInfo serverInfo)
         {
             var host = serverInfo.Server;
             if (!int.TryParse(serverInfo.Port, out int port))

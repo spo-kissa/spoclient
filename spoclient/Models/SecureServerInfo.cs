@@ -1,11 +1,12 @@
 ﻿using spoclient.Extensions;
+using System.Security;
 
 namespace spoclient.Models
 {
     /// <summary>
     ///     サーバー情報を保持するクラス
     /// </summary>
-    public class ServerInfo
+    public class SecureServerInfo
     {
         /// <summary>
         ///     エントリ名
@@ -25,28 +26,29 @@ namespace spoclient.Models
         /// <summary>
         ///     パスワード
         /// </summary>
-        public string Password { get; set; }
+        public SecureString Password { get; set; }
 
         /// <summary>
-        ///     ポート番号
+        ///    ポート番号
         /// </summary>
         public string Port { get; set; }
 
         /// <summary>
         ///     秘密鍵
         /// </summary>
-        public string? PrivateKey { get; set; }
+        public SecureString? PrivateKey { get; set; }
+
 
 
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        public ServerInfo()
+        public SecureServerInfo()
         {
             Entry = string.Empty;
             Server = string.Empty;
             User = string.Empty;
-            Password = string.Empty;
+            Password = new SecureString();
             Port = string.Empty;
         }
 
@@ -60,7 +62,7 @@ namespace spoclient.Models
         /// <param name="password">パスワード</param>
         /// <param name="port">ポート番号</param>
         /// <param name="privateKey">秘密鍵</param>
-        public ServerInfo(string entry, string server, string user, string password, string port, string? privateKey = null)
+        public SecureServerInfo(string entry, string server, string user, SecureString password, string port, SecureString? privateKey = null)
         {
             this.Entry = entry;
             this.Server = server;
@@ -72,18 +74,18 @@ namespace spoclient.Models
 
 
         /// <summary>
-        ///     Secureな<see cref="SecureServerInfo">SecureServerInfo</see>に変換します
+        ///    Unsecureな<see cref="ServerInfo">ServerInfo</see>に変換します
         /// </summary>
-        /// <returns>SecureなSecureServerInfo</returns>
-        public SecureServerInfo ToSecure()
+        /// <returns>UnsecureなServerInfo</returns>
+        public ServerInfo ToUnsecure()
         {
-            return new SecureServerInfo(
+            return new ServerInfo(
                 this.Entry,
                 this.Server,
                 this.User,
-                this.Password.ToSecureString(),
+                this.Password.ToUnsecureString() ?? string.Empty,
                 this.Port,
-                this.PrivateKey?.ToSecureString()
+                this.PrivateKey?.ToUnsecureString()
             );
         }
     }
