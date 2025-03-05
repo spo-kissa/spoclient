@@ -1,0 +1,57 @@
+name: CD - Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # v1.0.0 のようなバージョンタグをプッシュしたらリリース実行
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        runtime: [win-x64, osx-x64, linux-x64]
+        include:
+          - os: windows-latest
+            runtime: win-x64
+            ext: zip
+          - os: macos-latest
+            runtime: osx-x64
+            ext: tar.gz
+          - os: ubuntu-latest
+            runtime: linux-x64
+            ext: tar.gz
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: .NET SDKをセットアップ
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: ビルド成果物をダウンロード
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ matrix.runtime }}
+          path: ./build/
+
+      - name: 成果物を圧縮
+        run: |
+          if [ "${{ matrix.ext }}" = "zip" ]; then
+            Compress-Archive -Path ./build/* -DestinationPath ./spoclient-${{ matrix.runtime }}.zip
+          else
+            tar -czvf ./spoclient-${{ matrix.runtime }}.tar.gz -C ./build .
+          fi
+        shell: pwsh
+
+      - name: GitHubリリースを作成
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./spoclient-${{ matrix.runtime }}.${{ matrix.ext }}
+          token: ${{ secrets.GITHUB_TOKEN }}
