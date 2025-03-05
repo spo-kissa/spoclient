@@ -13,6 +13,8 @@ namespace spoclient.ViewModels
 {
     public class ShellTabViewViewModel : MainTabViewModel
     {
+        public override event RequestCloseEventHandler? RequestClose;
+
         public override string Header { get => header; }
 
 
@@ -82,6 +84,12 @@ namespace spoclient.ViewModels
         });
 
 
+        public override DelegateCommand CloseCommand => new(() =>
+        {
+            RequestClose?.Invoke(this);
+        });
+
+
         public void SetHeader(string header)
         {
             this.header = header;
@@ -109,7 +117,7 @@ namespace spoclient.ViewModels
                     break;
 
                 case SshState.Connected:
-                    SetHeader(ServerInfo!.Server);
+                    SetHeader(ServerInfo!.Entry);
                     break;
             }
         }

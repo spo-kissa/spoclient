@@ -104,18 +104,23 @@
 							TabWidthMode="Equal"
 							CloseButtonOverlayMode="Always"
 							CanReorderTabs="True"
-							TabItems="{Binding Connections}">
+							AddTabButtonCommand="{Binding ConnectCommand}"
+							TabItems="{Binding Connections}"
+							SelectedIndex="{Binding SelectedIndex}">
 
 					<ui:TabView.TabItemTemplate>
 						<DataTemplate x:DataType="vm:MainTabViewModel">
 							<ui:TabViewItem Header="{Binding Header}"
 											IconSource="CloudSyncCompleteFilled"
 											Content="{Binding Content}">
-								
+								<Interaction.Behaviors>
+									<EventTriggerBehavior EventName="CloseRequested">
+										<InvokeCommandAction Command="{Binding CloseCommand}" />
+									</EventTriggerBehavior>
+								</Interaction.Behaviors>
 							</ui:TabViewItem>
 						</DataTemplate>
 					</ui:TabView.TabItemTemplate>
-
 				</ui:TabView>
 				
 			</Grid>

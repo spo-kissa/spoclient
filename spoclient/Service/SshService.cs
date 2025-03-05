@@ -25,7 +25,7 @@ namespace spoclient.Service
         public event EventHandler<SshOutputEventArgs>? Output;
 
 
-        public Models.SecureServerInfo? ServerInfo { get; private set; }
+        public SecureServerInfo? ServerInfo { get; private set; }
 
 
         public Renci.SshNet.ConnectionInfo ConnectionInfo { get; private set; }

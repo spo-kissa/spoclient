@@ -5,7 +5,7 @@
 			 xmlns:prism="http://prismlibrary.com/"
 			 xmlns:vm="using:spoclient.ViewModels"
 			 prism:ViewModelLocator.AutoWireViewModel="True"
-			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
 			 x:Class="spoclient.Views.ServersDialog"
 			 x:DataType="vm:ServersDialogViewModel">
 
