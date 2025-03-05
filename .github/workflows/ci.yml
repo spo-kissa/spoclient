@@ -19,13 +19,19 @@ jobs:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
         runtime: [win-x64, osx-x64, linux-x64]
-        include:
+        exclude:
           - os: windows-latest
-            runtime: win-x64
-          - os: macox-latest
             runtime: osx-x64
-          - os: ubuntu-latest
+          - os: windows-latest
             runtime: linux-x64
+          - os: macos-latest
+            runtime: win-x64
+          - os: macos-latest
+            runtime: linux-x64
+          - os: ubuntu-latest
+            runtime: win-x64
+          - os: ubuntu-latest
+            runtime: osx-x64
 
     steps:
       - name: リポジトリをチェックアウト
@@ -35,7 +41,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
-          no-cache: true
 
       - name: NuGetパッケージをキャッシュ
         uses: actions/cache@v4
