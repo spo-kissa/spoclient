@@ -1,29 +1,39 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using spoclient.Extensions;
 using spoclient.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace spoclient.ViewModels
 {
+    /// <summary>
+    ///     サーバー情報ダイアログのViewModel
+    /// </summary>
     public class ServerDialogViewModel : BindableBase, IDialogAware
     {
+        /// <summary>
+        ///     ダイアログが閉じられるときに発生するイベント
+        /// </summary>
         public event Action<IDialogResult>? RequestClose;
 
 
+        /// <summary>
+        ///     ウィンドウタイトル
+        /// </summary>
         private string title = "Server New Entry";
 
 
+        /// <summary>
+        ///     サーバー情報
+        /// </summary>
         private SecureServerInfo secureServerInfo = new();
 
 
 
+        /// <summary>
+        ///     ウィンドウタイトル
+        /// </summary>
         public string Title
         {
             get => title;
@@ -35,6 +45,9 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     エントリ名
+        /// </summary>
         public string Entry
         {
             get => secureServerInfo.Entry;
@@ -46,6 +59,9 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     サーバー名
+        /// </summary>
         public string Server
         {
             get => secureServerInfo.Server;
@@ -57,6 +73,9 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     ポート番号
+        /// </summary>
         public string Port
         {
             get => secureServerInfo.Port;
@@ -68,6 +87,9 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     ユーザー名
+        /// </summary>
         public string User
         {
             get => secureServerInfo.User;
@@ -79,6 +101,9 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     パスワード
+        /// </summary>
         public string Password
         {
             get => secureServerInfo.Password.ToUnsecureString() ?? string.Empty;
@@ -90,6 +115,9 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     秘密鍵
+        /// </summary>
         public string? PrivateKey
         {
             get => secureServerInfo.PrivateKey?.ToUnsecureString();
@@ -101,17 +129,28 @@ namespace spoclient.ViewModels
         }
 
 
+        /// <summary>
+        ///     ダイアログが閉じることができるかどうかを取得します
+        /// </summary>
+        /// <returns></returns>
         public bool CanCloseDialog()
         {
             return true;
         }
 
 
+        /// <summary>
+        ///     ダイアログが閉じられたときに呼び出されます
+        /// </summary>
         public void OnDialogClosed()
         {
         }
 
 
+        /// <summary>
+        ///     ダイアログが開かれたときに呼び出されます
+        /// </summary>
+        /// <param name="parameters"></param>
         public void OnDialogOpened(IDialogParameters parameters)
         {
             if (parameters.ContainsKey(nameof(SecureServerInfo)))
