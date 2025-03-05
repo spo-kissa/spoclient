@@ -6,6 +6,9 @@ using spoclient.Events;
 
 namespace spoclient.Views
 {
+    /// <summary>
+    ///     スクロールビューアーをスクロールさせるためのビヘイビアークラス
+    /// </summary>
     public static class ScrollViewerBehavior
     {
         public static readonly AttachedProperty<IEventAggregator?> EventAggregatorProperty =
