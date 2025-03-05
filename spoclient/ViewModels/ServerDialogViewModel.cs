@@ -16,10 +16,23 @@ namespace spoclient.ViewModels
     {
         public event Action<IDialogResult>? RequestClose;
 
-        public string Title => "Server New Entry";
+
+        private string title = "Server New Entry";
 
 
         private SecureServerInfo secureServerInfo = new();
+
+
+
+        public string Title
+        {
+            get => title;
+            set
+            {
+                title = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         public string Entry
@@ -77,12 +90,12 @@ namespace spoclient.ViewModels
         }
 
 
-        public string PrivateKey
+        public string? PrivateKey
         {
-            get => secureServerInfo.PrivateKey?.ToUnsecureString() ?? string.Empty;
+            get => secureServerInfo.PrivateKey?.ToUnsecureString();
             set
             {
-                secureServerInfo.PrivateKey = value.ToSecureString();
+                secureServerInfo.PrivateKey = value?.ToSecureString();
                 RaisePropertyChanged();
             }
         }
@@ -104,6 +117,14 @@ namespace spoclient.ViewModels
             if (parameters.ContainsKey(nameof(SecureServerInfo)))
             {
                 this.secureServerInfo = parameters.GetValue<SecureServerInfo>(nameof(SecureServerInfo));
+                RaisePropertyChanged(nameof(Entry));
+                RaisePropertyChanged(nameof(Server));
+                RaisePropertyChanged(nameof(Port));
+                RaisePropertyChanged(nameof(User));
+                RaisePropertyChanged(nameof(Password));
+                RaisePropertyChanged(nameof(PrivateKey));
+
+                this.Title = "Server Edit Entry";
             }
         }
 
@@ -113,11 +134,10 @@ namespace spoclient.ViewModels
         /// </summary>
         public DelegateCommand OkCommand => new(() =>
         {
-            var parameters = new DialogParameters();
+            var result = new DialogResult(ButtonResult.OK);
+            result.Parameters.Add(nameof(SecureServerInfo), secureServerInfo);
 
-            parameters.Add(nameof(SecureServerInfo), secureServerInfo);
-
-            RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
+            RequestClose?.Invoke(result);
         });
 
 

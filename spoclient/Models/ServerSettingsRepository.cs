@@ -14,7 +14,7 @@ namespace spoclient.Models
     public class ServerSettingsRepository
     {
         private string connectionString;
-        private SecureString password;
+        private readonly SecureString password;
 
 
         public ServerSettingsRepository(string password)
@@ -35,7 +35,7 @@ namespace spoclient.Models
             connection.Open();
 
             var password = this.password.ToUnsecureString();
-            connection.Execute($"PRAGMA key = '{password}';");
+            //connection.Execute($"PRAGMA key = '{password}';");
 
             connection.Execute(@"
                 CREATE TABLE IF NOT EXISTS Servers (
@@ -47,6 +47,8 @@ namespace spoclient.Models
                     PrivateKey TEXT
                 )
             ");
+
+            connection.Close();
         }
 
 
@@ -56,28 +58,44 @@ namespace spoclient.Models
             connection.Open();
 
             var password = this.password.ToUnsecureString();
-            connection.Execute($"PRAGMA key = '{password}';");
+            //connection.Execute($"PRAGMA key = '{password}';");
 
             connection.Execute(@"
                 INSERT INTO Servers (Entry, Server, User, Password, Port, PrivateKey)
                 VALUES (@Entry, @Server, @User, @Password, @Port, @PrivateKey)
             ", server);
+
+            connection.Close();
         }
 
 
-        public void UpdateServer(ServerInfo server)
+        public void UpdateServer(ServerInfo server, ServerInfo from)
         {
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
             var password = this.password.ToUnsecureString();
-            connection.Execute($"PRAGMA key = '{password}';");
+            //connection.Execute($"PRAGMA key = '{password}';");
+
+            var EntryFrom = from.Entry;
+            var obj = new
+            {
+                server.Entry,
+                server.Server,
+                server.User,
+                server.Password,
+                server.Port,
+                server.PrivateKey,
+                EntryFrom
+            };
 
             connection.Execute(@"
                 UPDATE Servers
-                SET Server = @Server, User = @User, Password = @Password, Port = @Port, PrivateKey = @PrivateKey
-                WHERE Entry = @Entry
-            ", server);
+                SET Entry = @Entry, Server = @Server, User = @User, Password = @Password, Port = @Port, PrivateKey = @PrivateKey
+                WHERE Entry = @EntryFrom
+            ", obj);
+
+            connection.Close();
         }
 
 
@@ -87,12 +105,14 @@ namespace spoclient.Models
             connection.Open();
 
             var password = this.password.ToUnsecureString();
-            connection.Execute($"PRAGMA key = '{password}';");
+            //connection.Execute($"PRAGMA key = '{password}';");
 
             connection.Execute(@"
                 DELETE FROM Servers
                 WHERE Entry = @Entry
             ", new { Entry = entry });
+
+            connection.Close();
         }
 
 
@@ -102,7 +122,7 @@ namespace spoclient.Models
             connection.Open();
 
             var password = this.password.ToUnsecureString();
-            connection.Execute($"PRAGMA key = '{password}';");
+            //connection.Execute($"PRAGMA key = '{password}';");
 
             var results = connection.Query<ServerInfo>(@"
                 SELECT Entry, Server, User, Password, Port, PrivateKey
@@ -113,6 +133,8 @@ namespace spoclient.Models
             {
                 yield return result.ToSecure();
             }
+
+            connection.Close();
         }
     }
 }

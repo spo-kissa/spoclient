@@ -53,6 +53,7 @@ namespace spoclient.ViewModels
             this.dialogService = dialogService;
 
             this.Servers = new ReadOnlyObservableCollection<SecureServerInfo>(this.servers);
+            this.servers.CollectionChanged += (sender, e) => RaisePropertyChanged(nameof(Servers));
         }
 
 
@@ -84,15 +85,7 @@ namespace spoclient.ViewModels
             var settings = new ServerSettingsRepository("P@assword");
             var servers = settings.GetServers();
 
-            var raw = "apJqUK57";
-            var password = new SecureString();
-            foreach (var ch in raw)
-            {
-                password.AppendChar(ch);
-            }
-
-            this.servers.Add(new SecureServerInfo("Hyper-V", "172.21.46.241", "daisuke", password, "22"));
-            this.servers.Add(new SecureServerInfo("Hyper-V 2", "172.26.74.167", "daisuke", password, "22"));
+            this.servers.AddRange(servers);
         }
 
 
@@ -118,9 +111,11 @@ namespace spoclient.ViewModels
             {
                 if (dialogResult.Result == ButtonResult.OK)
                 {
-                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>("ServerInfo");
+                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>(nameof(SecureServerInfo));
                     if (serverInfo is not null)
                     {
+                        var settings = new ServerSettingsRepository("P@assword");
+                        settings.AddServer(serverInfo.ToUnsecure());
                         this.servers.Add(serverInfo);
                     }
                 }
@@ -128,6 +123,9 @@ namespace spoclient.ViewModels
         });
 
 
+        /// <summary>
+        ///    サーバー編集コマンド
+        /// </summary>
         public DelegateCommand EditServerCommand => new(() =>
         {
             if (SelectedServer is null)
@@ -137,13 +135,18 @@ namespace spoclient.ViewModels
 
             var parameters = new DialogParameters()
             {
-                { "ServerInfo", SelectedServer },
+                { nameof(SecureServerInfo), SelectedServer },
             };
             dialogService.ShowDialog<ServerDialog>(parameters, dialogResult =>
             {
                 if (dialogResult.Result == ButtonResult.OK)
                 {
-                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>("ServerInfo");
+                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>(nameof(SecureServerInfo));
+
+                    var settings = new ServerSettingsRepository("P@assword");
+                    settings.UpdateServer(serverInfo!.ToUnsecure(), SelectedServer.ToUnsecure());
+                    var index = this.servers.IndexOf(SelectedServer);
+                    this.servers[index] = serverInfo!;
                 }
             });
         });
@@ -169,6 +172,9 @@ namespace spoclient.ViewModels
             var result = await msgbox.ShowDialogAsync();
             if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
+                var settings = new ServerSettingsRepository("P@assword");
+
+                settings.DeleteServer(SelectedServer.Entry);
                 this.servers.Remove(SelectedServer);
             }
         });

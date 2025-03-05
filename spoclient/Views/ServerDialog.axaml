@@ -24,28 +24,28 @@
 			<StackPanel>
 				
 				<TextBlock Text="エントリー" />
-				<TextBox />
+				<TextBox Text="{Binding Entry}" />
 
 				<Grid RowDefinitions="*,*" ColumnDefinitions="*,*,*">
 					
 					<StackPanel Grid.ColumnSpan="2">
 						<TextBlock Text="ホスト名(IPアドレス)" />
-						<TextBox />
+						<TextBox Text="{Binding Server}" />
 					</StackPanel>
 
 					<StackPanel Grid.Column="3">
 						<TextBlock Text="TCPポート" />
-						<AutoCompleteBox />
+						<AutoCompleteBox Text="{Binding Port}" />
 					</StackPanel>
 
 					<StackPanel Grid.Row="1">
 						<TextBlock Text="ログインユーザー名" />
-						<TextBox />
+						<TextBox Text="{Binding User}" />
 					</StackPanel>
 
 					<StackPanel Grid.Row="1" Grid.Column="1">
 						<TextBlock Text="パスワードまたはパスフレーズ" />
-						<TextBox PasswordChar="*" />
+						<TextBox PasswordChar="*" Text="{Binding Password}" />
 					</StackPanel>
 
 					<StackPanel Grid.Row="1" Grid.Column="2">

@@ -1,4 +1,5 @@
-﻿using System.Security;
+﻿using spoclient.Extensions;
+using System.Security;
 
 namespace spoclient.Models
 {
@@ -36,6 +37,19 @@ namespace spoclient.Models
             this.Password = password;
             this.Port = port;
             this.PrivateKey = privateKey;
+        }
+
+
+        public ServerInfo ToUnsecure()
+        {
+            return new ServerInfo(
+                this.Entry,
+                this.Server,
+                this.User,
+                this.Password.ToUnsecureString() ?? string.Empty,
+                this.Port,
+                this.PrivateKey?.ToUnsecureString()
+            );
         }
     }
 }
