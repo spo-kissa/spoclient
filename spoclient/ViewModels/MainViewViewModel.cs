@@ -22,7 +22,18 @@ namespace spoclient.ViewModels
         private Dictionary<Type, Type> TabViewModelMatcher { get; } = [];
 
 
+        public int? SelectedIndex
+        {
+            get => selectedIndex;
+            set => SetProperty(ref selectedIndex, value);
+        }
+
+
+        private int? selectedIndex;
+
+
         private readonly IDialogService dialogService;
+
 
         private readonly IContainer container;
         
@@ -49,14 +60,28 @@ namespace spoclient.ViewModels
 
                     var tuple = CreateTabView<ShellTabViewViewModel, ShellTabView>();
                     
-                    if (tuple is not null)
+                    if (tuple is not null && serverInfo is not null)
                     {
                         Connections.Add(tuple!.Value.ViewModel);
                         tuple!.Value.ViewModel.Connect(serverInfo);
+
+                        tuple!.Value.ViewModel.RequestClose += TabViewRequestClose;
+
+                        SelectedIndex = Connections.Count - 1;
                     }
                 }
             });
         });
+
+
+        private void TabViewRequestClose(MainTabViewModel mainTabViewModel)
+        {
+            mainTabViewModel.RequestClose -= TabViewRequestClose;
+            var index = Connections.IndexOf(mainTabViewModel);
+
+            Connections.RemoveAt(index);
+        }
+
 
 
         private (TView View, TViewModel ViewModel)? CreateTabView<TViewModel, TView>()
