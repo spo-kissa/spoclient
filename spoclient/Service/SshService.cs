@@ -254,9 +254,17 @@ namespace spoclient.Service
         /// <returns></returns>
         private static string CleanEscapeSequences(string input)
         {
-            input = Regex.Replace(input, "\x1B\\[\\?2004[hl]", "");
-            input = Regex.Replace(input, "\x1B\\]0;[^\x07]*\x07", "");
-            input = Regex.Replace(input, "\x1B\\[([0-9;]*)m", "");
+            input = Regex.Replace(input, "\\x1B\\[\\?2004[hl]", "");
+            input = Regex.Replace(input, "\\x1B\\]0;[^\\x07]*\\x07", "");
+            input = Regex.Replace(input, "\\x1B\\[([0-9;]*)m", "");
+
+            // 追加のエスケープシーケンス削除（カーソル関連）
+            //input = Regex.Replace(input, "\\x1B7", "");  // ESC 7 (カーソル保存)
+            //input = Regex.Replace(input, "\\x1B8", "");  // ESC 8 (カーソル復元)
+            //input = Regex.Replace(input, "\\x1B\\[r", ""); // スクロール領域リセット
+            //input = Regex.Replace(input, "\\x1B\\[\\d+;\\d+H", ""); // カーソル移動
+            //input = Regex.Replace(input, "\\x1B\\[6n", ""); // カーソル位置取得
+
             return input;
         }
 
