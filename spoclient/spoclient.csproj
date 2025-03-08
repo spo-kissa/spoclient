@@ -44,4 +44,8 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VtNetCore.Avalonia\VtNetCore.Avalonia.csproj" />
+  </ItemGroup>
 </Project>
