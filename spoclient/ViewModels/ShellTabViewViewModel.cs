@@ -4,7 +4,11 @@ using Prism.Events;
 using spoclient.Events;
 using spoclient.Models;
 using spoclient.Service;
+using spoclient.Terminals;
+using System;
 using System.ComponentModel;
+using System.Threading;
+using VtNetCore.Avalonia;
 
 namespace spoclient.ViewModels
 {
@@ -29,6 +33,18 @@ namespace spoclient.ViewModels
         ///     サーバー情報
         /// </summary>
         public SecureServerInfo? ServerInfo { get; private set; }
+
+
+
+        public SshConnection? Connection
+        {
+            get => sshConnection;
+            set
+            {
+                sshConnection = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(Connection)));
+            }
+        }
 
 
         /// <summary>
@@ -71,6 +87,9 @@ namespace spoclient.ViewModels
         private SshService? SshService { get; set; }
 
 
+        private SshConnection? sshConnection = null;
+
+
         public IEventAggregator EventAggregator => eventAggregator;
 
 
@@ -110,9 +129,9 @@ namespace spoclient.ViewModels
         /// <summary>
         ///     ターミナルテキストを実行するコマンド
         /// </summary>
-        public DelegateCommand ExecuteTerminalTextCommand => new(async() =>
+        public DelegateCommand ExecuteTerminalTextCommand => new(() =>
         {
-            await SshService!.ExecuteCommandAsync(TerminalText);
+            Connection?.SendCommand(TerminalText);
         });
 
 
@@ -142,12 +161,30 @@ namespace spoclient.ViewModels
         /// <param name="serverInfo"></param>
         public async void Connect(SecureServerInfo serverInfo)
         {
+            var cancellationSource = new CancellationTokenSource();
+
             ServerInfo = serverInfo;
 
-            SshService = new SshService(serverInfo);
-            SshService.Output += OnSshOutput;
-            SshService.StateChanged += OnSshStateChanged;
-            await SshService.ConnectAsync();
+            Connection = new SshConnection(serverInfo);
+
+            Connection.DataReceived += OnSshDataReceived;
+            
+
+            if (!await Connection.ConnectAsync(cancellationSource.Token))
+            {
+                return;
+            }
+
+            //SshService = new SshService(serverInfo);
+            //SshService.Output += OnSshOutput;
+            //SshService.StateChanged += OnSshStateChanged;
+            //await SshService.ConnectAsync();
+        }
+
+
+        private void OnSshDataReceived(object? sender, DataReceivedEventArgs e)
+        {
+            
         }
 
 
@@ -156,15 +193,15 @@ namespace spoclient.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnSshStateChanged(object? sender, SshStateChangedEventArgs e)
+        private void OnSshStateChanged(object? sender, Terminals.SshStateChangedEventArgs e)
         {
             switch (e.State)
             {
-                case SshState.Connecting:
+                case SshConnectionState.Connecting:
                     SetHeader("接続しています...");
                     break;
 
-                case SshState.Connected:
+                case SshConnectionState.Connected:
                     SetHeader(ServerInfo!.Entry);
                     break;
             }

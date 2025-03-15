@@ -61,7 +61,7 @@ namespace spoclient.Service
         /// <summary>
         ///     終了コードプロバイダ
         /// </summary>
-        private SshExitCodeProvider exitCodeProvider = new SshExitCodeProvider();
+        private readonly SshExitCodeProvider exitCodeProvider = new();
 
 
         /// <summary>

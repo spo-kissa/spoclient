@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
 
 namespace spoclient.Extensions
 {
@@ -23,6 +24,18 @@ namespace spoclient.Extensions
                     Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
                 }
             }
+        }
+
+
+        public static byte[] ToUnsecureBytes(this SecureString secureString)
+        {
+            var unsecureString = ToUnsecureString(secureString);
+            if (unsecureString is null)
+            {
+                return [];
+            }
+
+            return Encoding.UTF8.GetBytes(unsecureString);
         }
 
 

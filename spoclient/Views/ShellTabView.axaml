@@ -5,6 +5,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:vm="using:spoclient.ViewModels"
 			 xmlns:views="using:spoclient.Views"
+			 xmlns:vt100="using:VtNetCore.Avalonia"
              mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="650"
              x:Class="spoclient.ShellTabView"
              x:DataType="vm:ShellTabViewViewModel">
@@ -154,16 +155,18 @@
 
 				<ScrollViewer MaxHeight="600" VerticalScrollBarVisibility="Auto"
 							  views:ScrollViewerBehavior.EventAggregator="{Binding EventAggregator}">
-					
-					<SelectableTextBlock Text="{Binding TerminalOutput}" TextWrapping="Wrap"
-							   Background="Black" Foreground="White" FontFamily="Consolas"
-							   MinWidth="800" MaxWidth="800" MinHeight="600">
+
+					<vt100:VirtualTerminalControl Connection="{Binding Connection}"
+												  Focusable="True"
+												  Background="Black" Foreground="White"
+												  FontFamily="Consolas"
+												  MinWidth="800" MaxWidth="800" MinHeight="600">
 						<Interaction.Behaviors>
 							<EventTriggerBehavior EventName="SizeChanged">
 								<InvokeCommandAction Command="{Binding SizeChangedCommand}" />
 							</EventTriggerBehavior>
 						</Interaction.Behaviors>
-					</SelectableTextBlock>
+					</vt100:VirtualTerminalControl>
 				</ScrollViewer>
 
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
