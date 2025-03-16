@@ -12,5 +12,11 @@ namespace SpoClient.Plugin.Recipe.V1
 
 
         string Description { get; }
+
+
+        string Command { get; }
+
+
+        bool UseSudo { get; }
     }
 }

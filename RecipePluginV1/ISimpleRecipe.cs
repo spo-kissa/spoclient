@@ -8,6 +8,5 @@ namespace SpoClient.Plugin.Recipe.V1
 {
     public interface ISimpleRecipe : IRecipe
     {
-        string Command { get; }
     }
 }

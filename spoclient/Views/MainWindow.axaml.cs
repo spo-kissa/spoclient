@@ -13,6 +13,7 @@ namespace spoclient.Views
             this.AttachDevTools();
 #endif
 
+            SplashScreen = new MainAppSplashScreen();
             TitleBar.ExtendsContentIntoTitleBar = true;
             TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
         }

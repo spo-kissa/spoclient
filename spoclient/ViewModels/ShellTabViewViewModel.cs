@@ -9,6 +9,7 @@ using spoclient.Service;
 using spoclient.Terminals;
 using SpoClient.Plugin.Recipe.V1;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Threading;
@@ -68,6 +69,20 @@ namespace spoclient.ViewModels
 
 
         /// <summary>
+        ///     
+        /// </summary>
+        public ObservableCollection<RecipeViewModel> Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+            }
+        }
+
+
+        /// <summary>
         ///     ターミナルテキスト
         /// </summary>
         public string TerminalText
@@ -85,6 +100,9 @@ namespace spoclient.ViewModels
         ///     タブのヘッダー
         /// </summary>
         private string header = string.Empty;
+
+
+        private ObservableCollection<RecipeViewModel> items { get; set; }
 
 
         /// <summary>
@@ -121,6 +139,18 @@ namespace spoclient.ViewModels
         public ShellTabViewViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
+            Items = [];
+
+            // プラグインを初期化
+            foreach (var recipe in RecipeV1Loader.Recipes)
+            {
+                var model = new RecipeViewModel(new RecipeModel(0, recipe));
+                model.GetConnection = (() =>
+                {
+                    return Connection;
+                });
+                Items.Add(model);
+            }
         }
 
 

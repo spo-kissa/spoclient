@@ -74,9 +74,6 @@ namespace spoclient.ViewModels
 
             // タブとビューモデルのマッチャーを設定
             TabViewModelMatcher.Add(typeof(ShellTabView), typeof(ShellTabViewViewModel));
-
-            // プラグインをロード
-            RecipeV1Loader.RegisterRecipes(RecipeV1Loader.GetRecipes(RecipeV1Loader.FindRecipePlugins()));
         }
 
 
