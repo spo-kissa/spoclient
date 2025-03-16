@@ -145,15 +145,17 @@
 				</Expander>
 
 				<Expander Header="Plugin" IsVisible="True">
-					<WrapPanel>
-						<ItemsControl ItemsSource="{Binding Items}">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<Button Content="{Binding Name}" Command="{Binding DelegateCommand}" />
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
-					</WrapPanel>
+					<ScrollViewer>
+						<WrapPanel>
+							<ItemsControl ItemsSource="{Binding Items}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Button Content="{Binding Name}" ToolTip.Tip="{Binding Description}" Command="{Binding DelegateCommand}" />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</WrapPanel>
+					</ScrollViewer>
 				</Expander>
 
 			</StackPanel>
