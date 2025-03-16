@@ -1,12 +1,17 @@
 using Avalonia.Controls;
+using CommunityToolkit.Mvvm.Input;
 using Prism.Commands;
 using Prism.Events;
 using spoclient.Events;
 using spoclient.Models;
+using spoclient.Plugins.Recipe;
 using spoclient.Service;
 using spoclient.Terminals;
+using SpoClient.Plugin.Recipe.V1;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using System.Threading;
 using VtNetCore.Avalonia;
 
@@ -35,7 +40,9 @@ namespace spoclient.ViewModels
         public SecureServerInfo? ServerInfo { get; private set; }
 
 
-
+        /// <summary>
+        ///     SSH接続オブジェクト
+        /// </summary>
         public SshConnection? Connection
         {
             get => sshConnection;
@@ -62,6 +69,20 @@ namespace spoclient.ViewModels
 
 
         /// <summary>
+        ///     
+        /// </summary>
+        public ObservableCollection<RecipeViewModel> Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+            }
+        }
+
+
+        /// <summary>
         ///     ターミナルテキスト
         /// </summary>
         public string TerminalText
@@ -79,6 +100,9 @@ namespace spoclient.ViewModels
         ///     タブのヘッダー
         /// </summary>
         private string header = string.Empty;
+
+
+        private ObservableCollection<RecipeViewModel> items { get; set; }
 
 
         /// <summary>
@@ -115,6 +139,18 @@ namespace spoclient.ViewModels
         public ShellTabViewViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
+            Items = [];
+
+            // プラグインを初期化
+            foreach (var recipe in RecipeV1Loader.Recipes)
+            {
+                var model = new RecipeViewModel(new RecipeModel(0, recipe));
+                model.GetConnection = (() =>
+                {
+                    return Connection;
+                });
+                Items.Add(model);
+            }
         }
 
 
@@ -166,9 +202,9 @@ namespace spoclient.ViewModels
             ServerInfo = serverInfo;
 
             Connection = new SshConnection(serverInfo);
-
+            Connection.StateChanged += OnSshStateChanged;
             Connection.DataReceived += OnSshDataReceived;
-            
+
 
             if (!await Connection.ConnectAsync(cancellationSource.Token))
             {
@@ -184,7 +220,8 @@ namespace spoclient.ViewModels
 
         private void OnSshDataReceived(object? sender, DataReceivedEventArgs e)
         {
-            
+            var text = Encoding.UTF8.GetString(e.Data);
+            System.Diagnostics.Debug.WriteLine(text);
         }
 
 
@@ -218,5 +255,11 @@ namespace spoclient.ViewModels
             TerminalOutput += e.Output;
             eventAggregator.GetEvent<ScrollEvent>().Publish();
         }
+
+
+        public DelegateCommand CheckPackageUpdate => new(() =>
+        {
+            Connection?.SendCommand("apt list --upgradable");
+        });
     }
 }

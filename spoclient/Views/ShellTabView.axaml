@@ -14,7 +14,7 @@
 		
 		<ScrollViewer Grid.Column="0">
 
-			<StackPanel>
+			<StackPanel Name="Panel">
 			
 				<Expander Header="Ubuntu 初期設定" IsVisible="True">
 					<WrapPanel>
@@ -110,7 +110,8 @@
 				<Expander Header="サーバーオペレーション" IsVisible="True">
 					<ScrollViewer>
 						<WrapPanel>
-							<Button Content="パッケージアップデート" />
+							<Button Content="パッケージアップデート確認"
+									Command="{Binding CheckPackageUpdate}" />
 						</WrapPanel>
 					</ScrollViewer>
 				</Expander>
@@ -143,6 +144,17 @@
 					</ScrollViewer>
 				</Expander>
 
+				<Expander Header="Plugin" IsVisible="True">
+					<WrapPanel>
+						<ItemsControl ItemsSource="{Binding Items}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Button Content="{Binding Name}" Command="{Binding DelegateCommand}" />
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</WrapPanel>
+				</Expander>
 
 			</StackPanel>
 

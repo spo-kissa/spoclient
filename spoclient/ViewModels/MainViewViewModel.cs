@@ -3,6 +3,7 @@ using DryIoc;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using spoclient.Models;
+using spoclient.Plugins.Recipe;
 using spoclient.ViewModels.MainView;
 using spoclient.Views;
 using System;

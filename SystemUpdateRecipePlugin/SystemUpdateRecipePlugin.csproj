@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>SpoClient.Plugin.Recipe.V1.SystemUpdate</RootNamespace>
+    <BaseOutputPath>..\spoclient\bin\Debug\net8.0\Plugin\</BaseOutputPath>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <AssemblyName>$(MSBuildProjectName).v1</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RecipePluginV1\RecipePluginV1.csproj" />
+  </ItemGroup>
+
+</Project>
