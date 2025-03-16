@@ -1,12 +1,16 @@
 using Avalonia.Controls;
+using CommunityToolkit.Mvvm.Input;
 using Prism.Commands;
 using Prism.Events;
 using spoclient.Events;
 using spoclient.Models;
+using spoclient.Plugins.Recipe;
 using spoclient.Service;
 using spoclient.Terminals;
+using SpoClient.Plugin.Recipe.V1;
 using System;
 using System.ComponentModel;
+using System.Text;
 using System.Threading;
 using VtNetCore.Avalonia;
 
@@ -35,7 +39,9 @@ namespace spoclient.ViewModels
         public SecureServerInfo? ServerInfo { get; private set; }
 
 
-
+        /// <summary>
+        ///     SSH接続オブジェクト
+        /// </summary>
         public SshConnection? Connection
         {
             get => sshConnection;
@@ -166,9 +172,9 @@ namespace spoclient.ViewModels
             ServerInfo = serverInfo;
 
             Connection = new SshConnection(serverInfo);
-
+            Connection.StateChanged += OnSshStateChanged;
             Connection.DataReceived += OnSshDataReceived;
-            
+
 
             if (!await Connection.ConnectAsync(cancellationSource.Token))
             {
@@ -184,7 +190,8 @@ namespace spoclient.ViewModels
 
         private void OnSshDataReceived(object? sender, DataReceivedEventArgs e)
         {
-            
+            var text = Encoding.UTF8.GetString(e.Data);
+            System.Diagnostics.Debug.WriteLine(text);
         }
 
 
@@ -218,5 +225,11 @@ namespace spoclient.ViewModels
             TerminalOutput += e.Output;
             eventAggregator.GetEvent<ScrollEvent>().Publish();
         }
+
+
+        public DelegateCommand CheckPackageUpdate => new(() =>
+        {
+            Connection?.SendCommand("apt list --upgradable");
+        });
     }
 }

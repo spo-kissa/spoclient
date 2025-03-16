@@ -3,6 +3,7 @@ using DryIoc;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using spoclient.Models;
+using spoclient.Plugins.Recipe;
 using spoclient.ViewModels.MainView;
 using spoclient.Views;
 using System;
@@ -73,6 +74,9 @@ namespace spoclient.ViewModels
 
             // タブとビューモデルのマッチャーを設定
             TabViewModelMatcher.Add(typeof(ShellTabView), typeof(ShellTabViewViewModel));
+
+            // プラグインをロード
+            RecipeV1Loader.RegisterRecipes(RecipeV1Loader.GetRecipes(RecipeV1Loader.FindRecipePlugins()));
         }
 
 

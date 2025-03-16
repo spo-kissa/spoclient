@@ -110,7 +110,8 @@
 				<Expander Header="サーバーオペレーション" IsVisible="True">
 					<ScrollViewer>
 						<WrapPanel>
-							<Button Content="パッケージアップデート" />
+							<Button Content="パッケージアップデート確認"
+									Command="{Binding CheckPackageUpdate}" />
 						</WrapPanel>
 					</ScrollViewer>
 				</Expander>

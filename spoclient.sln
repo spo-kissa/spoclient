@@ -9,6 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtNetCore", "VtNetCore\VtNe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtNetCore.Avalonia", "VtNetCore.Avalonia\VtNetCore.Avalonia.csproj", "{75A4DD8E-235A-F6E7-E8CF-14093B76D9AF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Recipe", "Recipe", "{95211EAD-9DB3-4F81-BE59-0129212C2D6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipePluginV1", "RecipePluginV1\RecipePluginV1.csproj", "{9C856E4E-7919-4A8F-91FC-5D711D2967C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemUpdateRecipePlugin", "SystemUpdateRecipePlugin\SystemUpdateRecipePlugin.csproj", "{F3B4B5FB-423C-4A17-A2E1-2666CB015FA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +35,22 @@ Global
 		{75A4DD8E-235A-F6E7-E8CF-14093B76D9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75A4DD8E-235A-F6E7-E8CF-14093B76D9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75A4DD8E-235A-F6E7-E8CF-14093B76D9AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C856E4E-7919-4A8F-91FC-5D711D2967C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C856E4E-7919-4A8F-91FC-5D711D2967C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C856E4E-7919-4A8F-91FC-5D711D2967C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C856E4E-7919-4A8F-91FC-5D711D2967C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3B4B5FB-423C-4A17-A2E1-2666CB015FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3B4B5FB-423C-4A17-A2E1-2666CB015FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3B4B5FB-423C-4A17-A2E1-2666CB015FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3B4B5FB-423C-4A17-A2E1-2666CB015FA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{95211EAD-9DB3-4F81-BE59-0129212C2D6D} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
+		{9C856E4E-7919-4A8F-91FC-5D711D2967C5} = {95211EAD-9DB3-4F81-BE59-0129212C2D6D}
+		{F3B4B5FB-423C-4A17-A2E1-2666CB015FA2} = {95211EAD-9DB3-4F81-BE59-0129212C2D6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21EF71A8-907D-4013-BD8E-57013046BABA}
