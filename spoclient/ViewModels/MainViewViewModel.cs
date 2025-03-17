@@ -118,6 +118,15 @@ namespace spoclient.ViewModels
 
 
         /// <summary>
+        ///     バージョン情報ダイアログ
+        /// </summary>
+        public DelegateCommand ShowAboutDialogCommand => new(() =>
+        {
+            dialogService.ShowDialog(nameof(AboutDialog));
+        });
+
+
+        /// <summary>
         ///     タブビューを作成
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>

@@ -5,16 +5,16 @@ namespace SpoClient.Plugin.Recipe.V1
 {
     public abstract class RecipePlugin : IRecipePlugin
     {
-        public abstract string GetName();
+        public abstract string Name { get; }
 
 
-        public abstract string GetDescription();
+        public abstract string Description { get; }
 
 
-        public abstract string GetAuthorName();
+        public abstract string AuthorName { get; }
 
 
-        public abstract Version GetVersion();
+        public abstract Version Version { get; }
 
 
         public static Version GetVersion(Assembly assembly)

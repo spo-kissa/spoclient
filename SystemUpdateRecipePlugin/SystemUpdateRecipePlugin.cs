@@ -11,31 +11,29 @@ namespace SpoClient.Plugin.Recipe.V1.SystemUpdate
         ///     プラグイン名を取得します。
         /// </summary>
         /// <returns></returns>
-        public override string GetName() => "System Update Plugin";
+        public override string Name => "System Update Plugin";
 
 
         /// <summary>
         ///     プラグインの概要を取得します。
         /// </summary>
         /// <returns></returns>
-        public override string GetDescription() => "Ubuntu Operating System Update Packages.";
+        public override string Description => "Ubuntu Operating System Update Packages.";
 
 
         /// <summary>
         ///     プラグインの作成者を取得します。
         /// </summary>
         /// <returns></returns>
-        public override string GetAuthorName() => "Cardano SPO Kissa (DAISUKE)";
+        public override string AuthorName => "Cardano SPO Kissa (DAISUKE)";
 
 
         /// <summary>
         ///     プラグインのバージョンを取得します。
         /// </summary>
         /// <returns></returns>
-        public override Version GetVersion()
-        {
-            return GetVersion(Assembly.GetExecutingAssembly());
-        }
+        public override Version Version => GetVersion(Assembly.GetExecutingAssembly());
+        
 
 
         /// <summary>
@@ -51,6 +49,7 @@ namespace SpoClient.Plugin.Recipe.V1.SystemUpdate
                 typeof(DoUpgrade),
                 typeof(CheckRebootRequired),
                 typeof(CheckRebootRequiredPackages),
+                typeof(AutoRemovePackages),
                 typeof(Reboot),
             };
 

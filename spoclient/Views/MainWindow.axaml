@@ -11,7 +11,8 @@
         x:Class="spoclient.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="{Binding Title}">
+        Title="{Binding Title}"
+		Width="1500">
 
 
     <Design.DataContext>
