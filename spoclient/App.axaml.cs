@@ -38,6 +38,7 @@ namespace spoclient
 
             containerRegistry.RegisterDialog<ServersDialog, ServersDialogViewModel>();
             containerRegistry.RegisterDialog<ServerDialog, ServerDialogViewModel>();
+            containerRegistry.RegisterDialog<AboutDialog, AboutDialogViewModel>();
 
             containerRegistry.RegisterDialogWindow<DialogWindow>();
         }

@@ -8,14 +8,13 @@
 			 xmlns:pages="using:spoclient.Pages"
 			 xmlns:models="using:spoclient.Models"
 			 xmlns:vm="using:spoclient.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:Class="spoclient.Views.MainView"
 			 x:DataType="vm:MainViewViewModel">
 	
-	<Grid RowDefinitions="Auto,*">
-
 		<Grid Name="TitleBarHost"
 			  ColumnDefinitions="Auto,Auto,*,Auto"
+			  RowDefinitions="Auto,Auto,*"
 			  Background="Transparent">
 
 			<Image Margin="12 4"
@@ -52,12 +51,23 @@
 					
 				</AutoCompleteBox>
 			</Border>
-			
-		</Grid>
 
+			<Menu Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top">
+				<MenuItem Header="ファイル"></MenuItem>
+				<MenuItem Header="編集"></MenuItem>
+				<MenuItem Header="表示"></MenuItem>
+				<MenuItem Header="ヘルプ">
+					<MenuItem Header="バージョン情報" Command="{Binding ShowAboutDialogCommand}"></MenuItem>
+				</MenuItem>
+			</Menu>
+			
+		
 		<ui:NavigationView AlwaysShowHeader="False"
-						   PaneDisplayMode="Left"
+						   PaneDisplayMode="LeftCompact"
+						   Grid.Row="1"
 						   Grid.RowSpan="2"
+						   Grid.Column="0"
+						   Grid.ColumnSpan="3"
 						   Name="NavView"
 						   IsSettingsVisible="True">
 
@@ -65,11 +75,7 @@
 				<ui:NavigationViewItem Content="新規接続" Tag="NewConnection" IconSource="CloudFilled" />
 				<ui:NavigationViewItem Content="接続切断" Tag="Disconnect" IconSource="CloudOffline" />
 
-				<ui:NavigationViewItem Content="初期設定" Tag="Setup" IconSource="New" SelectsOnInvoked="False">
-					<ui:NavigationViewItem.MenuItems>
-						<ui:NavigationViewItem Content="パスワード変更" Tag="Passwd" IconSource="Password" />
-					</ui:NavigationViewItem.MenuItems>
-				</ui:NavigationViewItem>
+				<ui:NavigationViewItem Content="パスワード変更" Tag="Passwd" IconSource="Key" />
 				
 			</ui:NavigationView.MenuItems>
 
@@ -131,7 +137,6 @@
 			   Grid.Row="1">
 
 		</Panel>
+		</Grid>
 
-	</Grid>
-	
-</UserControl>
+	</UserControl>

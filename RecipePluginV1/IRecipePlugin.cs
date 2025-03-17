@@ -8,16 +8,16 @@ namespace SpoClient.Plugin.Recipe.V1
 {
     public interface IRecipePlugin
     {
-        string GetName();
+        string Name { get; }
 
 
-        string GetDescription();
+        string Description { get; }
 
 
-        string GetAuthorName();
+        string AuthorName { get; }
 
 
-        Version GetVersion();
+        Version Version { get; }
 
 
         IReadOnlyList<Type> GetRecipes();

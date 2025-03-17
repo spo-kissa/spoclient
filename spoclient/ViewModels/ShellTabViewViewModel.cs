@@ -1,3 +1,4 @@
+using static AnsiVtConsole.NetCore.Component.Console.Unicode;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Commands;
@@ -14,6 +15,10 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading;
 using VtNetCore.Avalonia;
+using AnsiVtConsole.NetCore;
+using System.Threading.Tasks;
+using Microlithix.Text.Ansi;
+using Microlithix.Text.Ansi.Element;
 
 namespace spoclient.ViewModels
 {
@@ -102,7 +107,7 @@ namespace spoclient.ViewModels
         private string header = string.Empty;
 
 
-        private ObservableCollection<RecipeViewModel> items { get; set; }
+        private ObservableCollection<RecipeViewModel> items { get; set; } = [];
 
 
         /// <summary>
@@ -131,6 +136,8 @@ namespace spoclient.ViewModels
 
         private readonly IEventAggregator eventAggregator;
 
+
+        private AnsiStringParser parser = new();
 
 
         /// <summary>
@@ -211,6 +218,27 @@ namespace spoclient.ViewModels
                 return;
             }
 
+            //await Task.Run(async () =>
+            //{
+            //    var buffer = new char[4096];
+
+            //    while (Connection?.IsConnected ?? false && !cancellationSource.IsCancellationRequested)
+            //    {
+            //        var received = await console.In.ReadAsync(buffer, 0, buffer.Length);
+
+            //        if (received > 0)
+            //        {
+            //            var receivedChars = new char[received];
+            //            Buffer.BlockCopy(buffer, 0, receivedChars, 0, received);
+
+            //            System.Diagnostics.Debug.WriteLine(new string(receivedChars));
+            //        }
+
+            //        await Task.Delay(5);
+            //    }
+
+            //}, cancellationSource.Token);
+
             //SshService = new SshService(serverInfo);
             //SshService.Output += OnSshOutput;
             //SshService.StateChanged += OnSshStateChanged;
@@ -220,8 +248,34 @@ namespace spoclient.ViewModels
 
         private void OnSshDataReceived(object? sender, DataReceivedEventArgs e)
         {
+            var stream = new AnsiStreamParser();
+
             var text = Encoding.UTF8.GetString(e.Data);
-            System.Diagnostics.Debug.WriteLine(text);
+
+            var elements = parser.Parse(text);
+
+            foreach (IAnsiStringParserElement element in elements)
+            {
+                if (element is AnsiPrintableString printable)
+                {
+                    System.Diagnostics.Debug.Print($"{printable.Text}");
+                }
+                else if (element is AnsiPrintableChar printableChar)
+                {
+                    System.Diagnostics.Debug.Print($"{printableChar.Character}");
+                }
+                else if (element is AnsiControlString controlString)
+                {
+                    //System.Diagnostics.Debug.Print($"{controlString.Text}");
+                }
+                else
+                {
+                    //System.Diagnostics.Debug.Print($"{element.GetType()}");
+                }
+            }
+
+//            var text = Encoding.UTF8.GetString(e.Data);
+//            System.Diagnostics.Debug.WriteLine(text);
         }
 
 

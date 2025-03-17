@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:prism="http://prismlibrary.com/"
+			 xmlns:vm="using:spoclient.ViewModels"
+			 prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             x:Class="spoclient.Views.AboutDialog"
+			 x:DataType="vm:AboutDialogViewModel">
+
+	<Grid Margin="10" RowDefinitions="Auto,Auto,*,Auto">
+
+		<StackPanel Orientation="Horizontal">
+			
+			<Image Source="/Assets/avalonia-logo.ico" Width="72" Height="72" />
+
+			<StackPanel>
+				<TextBlock Text="SPO Client" FontSize="27" FontWeight="Bold" />
+				<TextBlock FontWeight="Bold" Margin="10 0">
+					<Run Text="Version." />
+					<Run Text="{Binding Version}" />
+				</TextBlock>
+				<HyperlinkButton Content="https://github.com/spo-kissa/spoclient/" />
+			</StackPanel>
+			
+		</StackPanel>
+
+		<TextBlock Grid.Row="1" Text="- Plugins -" Margin="20 10 0 0" FontSize="22" FontWeight="Bold" />
+		<ScrollViewer Grid.Row="2">
+			<ListBox ItemsSource="{Binding Plugins}" Margin="10">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Vertical">
+							<StackPanel Orientation="Horizontal">
+								<TextBlock>
+									<Run Text="{Binding Name}" FontWeight="Bold" />
+									<Run Text=" - " />
+									<Run Text="{Binding Version}" FontWeight="Bold" />
+									<Run Text=" - " />
+									<Run Text="{Binding AuthorName}" />
+								</TextBlock>
+							</StackPanel>
+							<TextBlock Text="{Binding Description}" HorizontalAlignment="Center" />
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</ScrollViewer>
+
+		<Button Grid.Row="3" VerticalAlignment="Bottom"
+				HorizontalAlignment="Right"
+				Margin="10" Width="120"
+				Command="{Binding CloseCommand}">OK</Button>
+
+	</Grid>
+
+</UserControl>

@@ -25,7 +25,7 @@ namespace spoclient.Plugins.Recipe
                     var recipePlugin = Activator.CreateInstance(recipePluginType) as IRecipePlugin;
                     if (recipePlugin is not null)
                     {
-                        Debug.WriteLine(recipePlugin.GetName());
+                        Debug.WriteLine(recipePlugin.Name);
                         yield return recipePlugin;
                     }
                 }
