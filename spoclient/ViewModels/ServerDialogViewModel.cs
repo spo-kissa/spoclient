@@ -1,12 +1,15 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
+using FluentAvalonia.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using spoclient.Extensions;
 using spoclient.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace spoclient.ViewModels
@@ -212,11 +215,70 @@ namespace spoclient.ViewModels
         /// <summary>
         ///     クリップボードから秘密鍵をインポートメニューコマンド
         /// </summary>
-        public DelegateCommand<UserControl> ImportPrivateKeyClipboadCommand => new((e) =>
+        public DelegateCommand<UserControl> ImportPrivateKeyClipboadCommand => new(async (e) =>
         {
+            var topLevel = TopLevel.GetTopLevel(e);
+
+            if (topLevel is null)
+            {
+                return;
+            }
+
+            if (topLevel.Clipboard is null)
+            {
+                return;
+            }
+
+            var formats = await topLevel.Clipboard.GetFormatsAsync();
+
+            if (formats is null)
+            {
+                return;
+            }
+
+
+            foreach (var format in formats)
+            {
+                try
+                {
+                    var data = await topLevel.Clipboard.GetDataAsync(format);
+                    System.Diagnostics.Debug.WriteLine("==================================================================");
+                    System.Diagnostics.Debug.WriteLine(format);
+                    System.Diagnostics.Debug.WriteLine(data);
+
+
+                    if (format == "Files" && data is IEnumerable<IStorageItem> enumerator)
+                    {
+                        foreach (var item in enumerator)
+                        {
+                            System.Diagnostics.Debug.WriteLine(item.Name);
+                        }
+                    }
+                    if (format == "FileName" && data != null)
+                    {
+                        var fileName = Encoding.Default.GetString((byte[])data).Trim();
+                        System.Diagnostics.Debug.WriteLine(fileName);
+                        using var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
+                        using var streamReader = new StreamReader(fileStream);
+                        PrivateKey = await streamReader.ReadToEndAsync();
+                    }
+                    if (format == "Text" && data != null)
+                    {
+                        PrivateKey = data?.ToString();
+                    }
+                }
+                catch { }
+            }
+
         }, (e) =>
         {
-            return false;
+            var clipboard = TopLevel.GetTopLevel(e)?.Clipboard;
+            if (clipboard is null)
+            {
+                return false;
+            }
+            var formats = clipboard.GetFormatsAsync().Result;
+            return formats.Length > 0;
         });
 
 
@@ -268,11 +330,25 @@ namespace spoclient.ViewModels
         /// <summary>
         ///     クリップボードへ秘密鍵をエクスポートメニューコマンド
         /// </summary>
-        public DelegateCommand<UserControl> ExportPrivateKeyClipboadCommand => new((e) =>
+        public DelegateCommand<UserControl> ExportPrivateKeyClipboadCommand => new(async (e) =>
         {
+            var topLevel = TopLevel.GetTopLevel(e);
+
+            if (topLevel is null)
+            {
+                return;
+            }
+
+            if (topLevel.Clipboard is null)
+            {
+                return;
+            }
+
+            await topLevel.Clipboard.SetTextAsync(PrivateKey);
+
         }, (e) =>
         {
-            return false;
+            return !string.IsNullOrWhiteSpace(PrivateKey);
         });
 
 
