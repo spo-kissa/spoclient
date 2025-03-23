@@ -1,9 +1,13 @@
-﻿using Prism.Commands;
+﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using spoclient.Extensions;
 using spoclient.Models;
 using System;
+using System.IO;
+using System.Text;
 
 namespace spoclient.ViewModels
 {
@@ -166,6 +170,123 @@ namespace spoclient.ViewModels
                 this.Title = "Server Edit Entry";
             }
         }
+
+
+        /// <summary>
+        ///     ファイルから秘密鍵をインポートメニューコマンド
+        /// </summary>
+        public DelegateCommand<UserControl> ImportPrivateKeyFileCommand => new(async (e) =>
+        {
+            var topLevel = TopLevel.GetTopLevel(e);
+
+            if (topLevel is null)
+            {
+                return;
+            }
+
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "Open SSH Private Key File",
+                AllowMultiple = false,
+            });
+
+            if (files.Count >= 1)
+            {
+                await using var stream = await files[0].OpenReadAsync();
+                using var streamReader = new StreamReader(stream);
+                var fileContent = await streamReader.ReadToEndAsync();
+
+                if (string.IsNullOrWhiteSpace(fileContent))
+                {
+                    return;
+                }
+
+                PrivateKey = fileContent;
+            }
+        }, (e) =>
+        {
+            return true;
+        });
+
+
+        /// <summary>
+        ///     クリップボードから秘密鍵をインポートメニューコマンド
+        /// </summary>
+        public DelegateCommand<UserControl> ImportPrivateKeyClipboadCommand => new((e) =>
+        {
+        }, (e) =>
+        {
+            return false;
+        });
+
+
+
+        /// <summary>
+        ///     エクスポートメニューコマンド
+        /// </summary>
+        public DelegateCommand<UserControl> ExportCommand => new((e) =>
+        {
+        }, (e) =>
+        {
+            return !string.IsNullOrWhiteSpace(PrivateKey);
+        });
+
+
+
+        /// <summary>
+        ///     ファイルへ秘密鍵をエクスポートメニューコマンド
+        /// </summary>
+        public DelegateCommand<UserControl> ExportPrivateKeyFileCommand => new(async (e) =>
+        {
+            var topLevel = TopLevel.GetTopLevel(e);
+
+            if (topLevel is null)
+            {
+                return;
+            }
+
+            var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            {
+                Title = "Export SSH Private Key File",
+                DefaultExtension = ".key",
+                ShowOverwritePrompt = true,
+                SuggestedFileName = "private.key",
+            });
+
+            if (file is not null && PrivateKey is not null)
+            {
+                await using var stream = await file.OpenWriteAsync();
+                using var streamWriter = new StreamWriter(stream, Encoding.UTF8);
+                await streamWriter.WriteAsync(PrivateKey);
+            }
+        }, (e) =>
+        {
+            return !string.IsNullOrWhiteSpace(PrivateKey);
+        });
+
+
+        /// <summary>
+        ///     クリップボードへ秘密鍵をエクスポートメニューコマンド
+        /// </summary>
+        public DelegateCommand<UserControl> ExportPrivateKeyClipboadCommand => new((e) =>
+        {
+        }, (e) =>
+        {
+            return false;
+        });
+
+
+
+        /// <summary>
+        ///     クリアメニューコマンド
+        /// </summary>
+        public DelegateCommand<UserControl> ClearPrivateKeyCommand => new((e) =>
+        {
+            PrivateKey = null;
+        }, (e) =>
+        {
+            return !string.IsNullOrWhiteSpace(PrivateKey);
+        });
 
 
         /// <summary>

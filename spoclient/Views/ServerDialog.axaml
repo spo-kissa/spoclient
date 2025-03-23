@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
 			 xmlns:vm="using:spoclient.ViewModels"
 			 x:DataType="vm:ServerDialogViewModel"
+			 x:Name="Dialog"
              x:Class="spoclient.ServerDialog">
 
 	<Grid ColumnDefinitions="110,*" RowDefinitions="*,Auto" Margin="6">
@@ -55,14 +56,14 @@
 							<DropDownButton.Flyout>
 								<MenuFlyout>
 									<MenuItem Header="インポート">
-										<MenuItem Header="ファイルを開く" />
-										<MenuItem Header="クリップボードから" />
+										<MenuItem Header="ファイルを開く" Command="{Binding ImportPrivateKeyFileCommand}" CommandParameter="{Binding ElementName=Dialog}" />
+										<MenuItem Header="クリップボードから" Command="{Binding ImportPrivateKeyClipboadCommand}" CommandParameter="{Binding ElementName=Dialog}" />
 									</MenuItem>
-									<MenuItem Header="エクスポート">
-										<MenuItem Header="ファイルへ保存" />
-										<MenuItem Header="クリップボードへコピー" />
+									<MenuItem Header="エクスポート" Command="{Binding ExportCommand}" CommandParameter="{Binding ElementName=Dialog}">
+										<MenuItem Header="ファイルへ保存" Command="{Binding ExportPrivateKeyFileCommand}" CommandParameter="{Binding ElementName=Dialog}" />
+										<MenuItem Header="クリップボードへコピー" Command="{Binding ExportPrivateKeyClipboadCommand}" CommandParameter="{Binding ElementName=Dialog}" />
 									</MenuItem>
-									<MenuItem Header="クリア" />
+									<MenuItem Header="クリア" Command="{Binding ClearPrivateKeyCommand}" CommandParameter="{Binding ElementName=Dialog}" />
 								</MenuFlyout>
 							</DropDownButton.Flyout>
 						</DropDownButton>
