@@ -15,7 +15,7 @@ namespace spoclient.ViewModels
     /// <summary>
     ///     サーバー情報ダイアログのViewModel
     /// </summary>
-    public class ServerDialogViewModel : BindableBase, IDialogAware
+    public class ServerDialogViewModel : ViewModelBase, IDialogAware
     {
         /// <summary>
         ///     ダイアログが閉じられるときに発生するイベント
@@ -24,30 +24,9 @@ namespace spoclient.ViewModels
 
 
         /// <summary>
-        ///     ウィンドウタイトル
-        /// </summary>
-        private string title = "Server New Entry";
-
-
-        /// <summary>
         ///     サーバー情報
         /// </summary>
         private SecureServerInfo secureServerInfo = new();
-
-
-
-        /// <summary>
-        ///     ウィンドウタイトル
-        /// </summary>
-        public string Title
-        {
-            get => title;
-            set
-            {
-                title = value;
-                RaisePropertyChanged();
-            }
-        }
 
 
         /// <summary>
@@ -168,7 +147,7 @@ namespace spoclient.ViewModels
                 RaisePropertyChanged(nameof(Password));
                 RaisePropertyChanged(nameof(PrivateKey));
 
-                this.Title = "Server Edit Entry";
+                this.Title = "Edit Server Entry";
             }
         }
 
