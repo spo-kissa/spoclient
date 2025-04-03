@@ -16,7 +16,7 @@ namespace SpoClient.Setting
             {
                 return false;
             }
-            using var fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             byte[] header = new byte[16];
             fs.Read(header, 0, 16);
             string headerText = Encoding.ASCII.GetString(header);
