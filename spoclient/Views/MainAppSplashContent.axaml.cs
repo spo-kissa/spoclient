@@ -66,8 +66,17 @@ public partial class MainAppSplashContent : UserControl
     private async Task RunLogoAnimation()
     {
         var logo = this.FindControl<Image>("logo_image");
+        if (logo is null)
+        {
+            return;
+        }
 
         var tg = logo.RenderTransform as TransformGroup;
+        if (tg is null)
+        {
+            return;
+        }
+
         var scale = tg.Children[0] as ScaleTransform;
         var rotate = tg.Children[1] as RotateTransform;
 
