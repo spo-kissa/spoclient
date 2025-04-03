@@ -19,8 +19,8 @@
 
 			<Image Margin="12 4"
 				   IsHitTestVisible="False"
-				   Source="/Assets/avalonia-logo.ico"
-				   Width="18" Height="18"
+				   Source="/Assets/icon.ico"
+				   Width="20" Height="20"
 				   DockPanel.Dock="Left"
 				   Name="WindowIcon"
 				   RenderOptions.BitmapInterpolationMode="HighQuality">

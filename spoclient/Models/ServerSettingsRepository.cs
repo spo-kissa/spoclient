@@ -1,13 +1,9 @@
 ﻿using Dapper;
+using Microsoft.Data.Sqlite;
 using spoclient.Extensions;
-using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Linq;
 using System.Reflection;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace spoclient.Models
 {
@@ -21,7 +17,7 @@ namespace spoclient.Models
         {
             var databasePath = Assembly.GetExecutingAssembly().Location + ".settings";
 
-            connectionString = $"Data Source={databasePath};version=3;";
+            connectionString = $"Data Source={databasePath};";
 
             this.password = (new SecureString()).FromString(password);
 
@@ -31,7 +27,7 @@ namespace spoclient.Models
 
         private void InitializeDatabase()
         {
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SqliteConnection(connectionString);
             connection.Open();
 
             var password = this.password.ToUnsecureString();
@@ -54,7 +50,7 @@ namespace spoclient.Models
 
         public void AddServer(ServerInfo server)
         {
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SqliteConnection(connectionString);
             connection.Open();
 
             var password = this.password.ToUnsecureString();
@@ -71,7 +67,7 @@ namespace spoclient.Models
 
         public void UpdateServer(ServerInfo server, ServerInfo from)
         {
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SqliteConnection(connectionString);
             connection.Open();
 
             var password = this.password.ToUnsecureString();
@@ -101,7 +97,7 @@ namespace spoclient.Models
 
         public void DeleteServer(string entry)
         {
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SqliteConnection(connectionString);
             connection.Open();
 
             var password = this.password.ToUnsecureString();
@@ -118,7 +114,7 @@ namespace spoclient.Models
 
         public IEnumerable<SecureServerInfo> GetServers()
         {
-            using var connection = new SQLiteConnection(connectionString);
+            using var connection = new SqliteConnection(connectionString);
             connection.Open();
 
             var password = this.password.ToUnsecureString();

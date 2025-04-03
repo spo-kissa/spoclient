@@ -38,6 +38,11 @@ namespace spoclient.Models
         /// </summary>
         public SecureString? PrivateKey { get; set; }
 
+        /// <summary>
+        ///     sudoパスワード
+        /// </summary>
+        public SecureString? SudoPassword { get; set; }
+
 
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace spoclient.Models
         /// <param name="password">パスワード</param>
         /// <param name="port">ポート番号</param>
         /// <param name="privateKey">秘密鍵</param>
-        public SecureServerInfo(string entry, string server, string user, SecureString password, string port, SecureString? privateKey = null)
+        public SecureServerInfo(string entry, string server, string user, SecureString password, string port, SecureString? privateKey = null, SecureString? sudoPassword = null)
         {
             this.Entry = entry;
             this.Server = server;
@@ -70,6 +75,7 @@ namespace spoclient.Models
             this.Password = password;
             this.Port = port;
             this.PrivateKey = privateKey;
+            this.SudoPassword = sudoPassword;
         }
 
 
@@ -85,7 +91,8 @@ namespace spoclient.Models
                 this.User,
                 this.Password.ToUnsecureString() ?? string.Empty,
                 this.Port,
-                this.PrivateKey?.ToUnsecureString()
+                this.PrivateKey?.ToUnsecureString(),
+                this.SudoPassword?.ToUnsecureString()
             );
         }
     }

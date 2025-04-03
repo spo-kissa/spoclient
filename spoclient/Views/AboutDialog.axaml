@@ -9,13 +9,17 @@
              x:Class="spoclient.Views.AboutDialog"
 			 x:DataType="vm:AboutDialogViewModel">
 
-	<Grid Margin="10" RowDefinitions="Auto,Auto,*,Auto">
+	<Grid Margin="20" RowDefinitions="Auto,Auto,*,Auto">
 
 		<StackPanel Orientation="Horizontal">
-			
-			<Image Source="/Assets/avalonia-logo.ico" Width="72" Height="72" />
 
-			<StackPanel>
+			<Border Margin="10 0 0 0"
+					CornerRadius="20"
+					ClipToBounds="True">
+				<Image Source="/Assets/icon.ico" Width="100" Height="100" Stretch="UniformToFill" />
+			</Border>
+
+			<StackPanel Margin="20 0">
 				<TextBlock Text="SPO Client" FontSize="27" FontWeight="Bold" />
 				<TextBlock FontWeight="Bold" Margin="10 0">
 					<Run Text="Version." />

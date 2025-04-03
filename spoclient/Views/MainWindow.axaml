@@ -10,7 +10,7 @@
 		x:CompileBindings="True"
         x:Class="spoclient.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/icon.ico"
         Title="{Binding Title}"
 		Width="1500">
 

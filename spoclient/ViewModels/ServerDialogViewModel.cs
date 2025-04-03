@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using FluentAvalonia.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -9,7 +8,6 @@ using spoclient.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace spoclient.ViewModels
