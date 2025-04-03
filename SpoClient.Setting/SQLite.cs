@@ -1,9 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SpoClient.Setting
 {
@@ -16,6 +12,10 @@ namespace SpoClient.Setting
         /// <returns></returns>
         public static bool IsEncrypted(string path)
         {
+            if (!File.Exists(path))
+            {
+                return false;
+            }
             using var fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
             byte[] header = new byte[16];
             fs.Read(header, 0, 16);
