@@ -3,16 +3,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:prism="http://prismlibrary.com/"
+		xmlns:vm="using:spoclient.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="spoclient.DialogWindow"
+		x:DataType="vm:ViewModelBase"
 		prism:ViewModelLocator.AutoWireViewModel="True"
 		WindowStartupLocation="CenterOwner"
 		Width="600"
 		Height="350"
-		ShowInTaskbar="False">
-
-	<TitleBar>
-		
-	</TitleBar>
+		CanResize="False"
+		ShowInTaskbar="False"
+		Title="{Binding Title}">
 	
 </Window>

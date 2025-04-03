@@ -1,13 +1,25 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 
 namespace spoclient.ViewModels
 {
+    /// <summary>
+    ///    ビューモデルの基底クラス
+    /// </summary>
     public class ViewModelBase : BindableBase
     {
-        private string title = string.Empty;
+        /// <summary>
+        ///     ビューのタイトル
+        /// </summary>
+        protected string title = string.Empty;
 
 
-        public string Title { get => title; set => SetProperty(ref title, value); }
+        /// <summary>
+        ///     ビューのタイトルを取得または設定します。
+        /// </summary>
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
+        }
     }
 }

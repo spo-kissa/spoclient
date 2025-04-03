@@ -14,18 +14,12 @@ namespace spoclient.ViewModels
     /// <summary>
     ///    サーバー選択ダイアログのViewModel
     /// </summary>
-    public class ServersDialogViewModel : BindableBase, IDialogAware
+    public class ServersDialogViewModel : ViewModelBase, IDialogAware
     {
         /// <summary>
         ///     ダイアログの閉じるを要求するイベント
         /// </summary>
         public event Action<IDialogResult>? RequestClose;
-
-
-        /// <summary>
-        ///     ダイアログのタイトル
-        /// </summary>
-        public string Title => "Server Select";
 
 
         /// <summary>
@@ -62,6 +56,8 @@ namespace spoclient.ViewModels
 
             Servers = new ReadOnlyObservableCollection<SecureServerInfo>(this.servers);
             servers.CollectionChanged += (sender, e) => RaisePropertyChanged(nameof(Servers));
+
+            Title = "Select Server";
         }
 
 
