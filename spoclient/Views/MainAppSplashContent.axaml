@@ -1,19 +1,116 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
              x:Class="spoclient.MainAppSplashContent"
-			 Background="#696cc3" Foreground="White">
+			 Background="#00492b" Foreground="White">
 
 	<Panel>
 
 		<StackPanel Spacing="10"
 					VerticalAlignment="Center">
+
+			<Border CornerRadius="30"
+					ClipToBounds="True"
+					Width="200"
+					Height="200"
+					BorderBrush="White"
+					BorderThickness="0">
+
+				<Image x:Name="logo_image"
+					   Source="/Assets/icon.ico"
+					   Stretch="UniformToFill"
+					   Opacity="1"
+					   Width="200"
+					   Height="200"
+					   RenderTransformOrigin="0.5,0.5">
+					<Image.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform />
+							<RotateTransform />
+						</TransformGroup>
+					</Image.RenderTransform>
+				</Image>
+			</Border>
 			
-			<Image Source="/Assets/avalonia-logo.ico"
-				   Width="150"
-				   Height="150" />
 			
 			<ProgressBar Name="ProgressBar"
 						 MaxWidth="200"
@@ -27,5 +124,5 @@
 		</StackPanel>
 		
 	</Panel>
-	
+
 </UserControl>

@@ -6,6 +6,7 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,15 +44,13 @@
     <PackageReference Include="Microlithix.AnsiParser" Version="1.0.0" />
     <PackageReference Include="Prism.Avalonia" Version="8.1.97.11073" />
     <PackageReference Include="Prism.DryIoc.Avalonia" Version="8.1.97.11073" />
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
-    <PackageReference Include="SQLitePCLRaw.core" Version="2.1.11" />
     <PackageReference Include="SSH.NET" Version="2024.2.0" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RecipePluginV1\RecipePluginV1.csproj" />
+    <ProjectReference Include="..\SpoClient.Setting\SpoClient.Setting.csproj" />
     <ProjectReference Include="..\VtNetCore.Avalonia\VtNetCore.Avalonia.csproj" />
   </ItemGroup>
 </Project>
