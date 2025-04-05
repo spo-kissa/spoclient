@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using FluentAvalonia.UI.Controls;
+using LocalizationManager;
 using Prism.DryIoc;
 using Prism.Events;
 using Prism.Ioc;
@@ -32,6 +33,7 @@ namespace spoclient
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.RegisterSingleton<ILocalizationManager>(() => LocalizationManagerExtensions.Default);
 
             containerRegistry.RegisterForNavigation<MainView, MainViewViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();

@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using DryIoc;
+using LocalizationManager;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using spoclient.Models;
@@ -8,6 +9,8 @@ using spoclient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using LocalizationManager.Avalonia;
+using System.Globalization;
 
 namespace spoclient.ViewModels
 {
@@ -36,6 +39,27 @@ namespace spoclient.ViewModels
 
 
         /// <summary>
+        ///    ファイルメニューのヘッダー
+        /// </summary>
+        public string FileMenuHeader => localization["File", "UI"];
+
+
+        public string EditMenuHeader => localization["Edit", "UI"];
+
+
+        public string ViewMenuHeader => localization["View", "UI"];
+
+
+        public string HelpMenuHeader => localization["Help", "UI"];
+
+
+        public string LanguageMenuHeader => localization["LanguageMenuHeader", "UI"];
+
+
+        public string SystemLanguageMenuHeader => localization["SystemLanguageMenuHeader", "UI"];
+
+
+        /// <summary>
         ///     選択されているタブのインデックス
         /// </summary>
         private int? selectedIndex;
@@ -45,6 +69,12 @@ namespace spoclient.ViewModels
         ///     ダイアログサービス
         /// </summary>
         private readonly IDialogService dialogService;
+
+
+        /// <summary>
+        ///     ローカライズマネージャ
+        /// </summary>
+        private readonly ILocalizationManager localization;
 
 
         /// <summary>
@@ -64,9 +94,10 @@ namespace spoclient.ViewModels
         /// </summary>
         /// <param name="dialogService">ダイアログサービス</param>
         /// <param name="container">コンテナサービス</param>
-        public MainViewViewModel(IDialogService dialogService, IContainer container)
+        public MainViewViewModel(IDialogService dialogService, ILocalizationManager localization, IContainer container)
         {
             this.dialogService = dialogService;
+            this.localization = localization;
             this.container = container;
 
             NavigationFactory = new NavigationFactory(this);
@@ -100,6 +131,12 @@ namespace spoclient.ViewModels
                     }
                 }
             });
+        });
+
+
+        public DelegateCommand ChangeLanguageEnglish => new(() =>
+        {
+            localization.CurrentCulture = new CultureInfo("en-US");
         });
 
 

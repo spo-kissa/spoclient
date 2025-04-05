@@ -11,12 +11,21 @@ namespace SpoClient.Setting
 {
     public class Settings
     {
+        /// <summary>
+        ///     シングルトンインスタンス
+        /// </summary>
         private static Settings? instance = null;
 
 
+        /// <summary>
+        ///     設定ファイルが暗号化されている場合、パスワードを要求するイベント
+        /// </summary>
         public event EventHandler? PasswordRequired;
 
 
+        /// <summary>
+        ///     シングルトンインスタンスを取得します
+        /// </summary>
         public static Settings Instance
         {
             get
@@ -42,17 +51,23 @@ namespace SpoClient.Setting
         }
 
 
-
+        /// <summary>
+        ///     設定ファイルを開きます
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<SqliteConnection?> OpenAsync(string path, string? password = null)
         {
-            var encrypted = SQLite.IsEncrypted(path);
-            if (encrypted && string.IsNullOrWhiteSpace(password))
-            {
-                //throw new ArgumentException("設定ファイルが暗号化されていますが、パスワードが指定されませんでした。", nameof(password));
-            }
 
             try
             {
+                var encrypted = SQLite.IsEncrypted(path);
+                if (encrypted && string.IsNullOrWhiteSpace(password))
+                {
+                    throw new ArgumentException("設定ファイルが暗号化されていますが、パスワードが指定されませんでした。", nameof(password));
+                }
+
                 var connectionString = new SqliteConnectionStringBuilder
                 {
                     DataSource = path,
@@ -61,14 +76,10 @@ namespace SpoClient.Setting
 
                 var connection = new SqliteConnection(connectionString);
                 await connection.OpenAsync();
-                if (connection.IsCipherEncrypted())
-                {
-                    throw new InvalidOperationException("SQLiteの暗号化が解除されていません。");
-                }
                 Connection = connection;
                 return Connection;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (string.IsNullOrEmpty(password))
                 {

@@ -53,90 +53,99 @@
 			</Border>
 
 			<Menu Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top">
-				<MenuItem Header="ファイル"></MenuItem>
-				<MenuItem Header="編集"></MenuItem>
-				<MenuItem Header="表示"></MenuItem>
-				<MenuItem Header="ヘルプ">
-					<MenuItem Header="バージョン情報" Command="{Binding ShowAboutDialogCommand}"></MenuItem>
+				<MenuItem Header="{Binding FileMenuHeader}"></MenuItem>
+				<MenuItem Header="{Binding EditMenuHeader}"></MenuItem>
+				<MenuItem Header="{Binding ViewMenuHeader}">
+					<MenuItem Header="{Binding LanguageMenuHeader}">
+						<MenuItem Header="{Binding SystemLanguageMenuHeader}" />
+						<Separator />
+						<MenuItem Header="English" Command="{Binding ChangeLanguageEnglish}" />
+						<MenuItem Header="日本語" />
+					</MenuItem>
+				</MenuItem>
+				<MenuItem Header="{Binding HelpMenuHeader}">
+					<MenuItem Header="パスワードロック"  />
+					<Separator />
+					<MenuItem Header="バージョン情報" Command="{Binding ShowAboutDialogCommand}" />
 				</MenuItem>
 			</Menu>
 			
 		
-		<ui:NavigationView AlwaysShowHeader="False"
-						   PaneDisplayMode="LeftCompact"
-						   Grid.Row="1"
-						   Grid.RowSpan="2"
-						   Grid.Column="0"
-						   Grid.ColumnSpan="3"
-						   Name="NavView"
-						   IsSettingsVisible="True">
+			<ui:NavigationView AlwaysShowHeader="False"
+							   PaneDisplayMode="LeftCompact"
+							   Grid.Row="1"
+							   Grid.RowSpan="2"
+							   Grid.Column="0"
+							   Grid.ColumnSpan="3"
+							   Name="NavView"
+							   IsSettingsVisible="True">
 
-			<ui:NavigationView.MenuItems>
-				<ui:NavigationViewItem Content="新規接続" Tag="NewConnection" IconSource="CloudFilled" />
-				<ui:NavigationViewItem Content="接続切断" Tag="Disconnect" IconSource="CloudOffline" />
+				<ui:NavigationView.MenuItems>
+					<ui:NavigationViewItem Content="新規接続" Tag="NewConnection" IconSource="CloudFilled" />
+					<ui:NavigationViewItem Content="接続切断" Tag="Disconnect" IconSource="CloudOffline" />
 
-				<ui:NavigationViewItem Content="パスワード変更" Tag="Passwd" IconSource="Key" />
+					<ui:NavigationViewItem Content="パスワード変更" Tag="Passwd" IconSource="Key" />
 				
-			</ui:NavigationView.MenuItems>
+				</ui:NavigationView.MenuItems>
 
-			<!--
-			<ui:NavigationView.PaneCustomContent>
-				<StackPanel>
-					<TreeView BorderThickness="1" BorderBrush="Black">
-						<TreeView.Items>
-							<TreeViewItem Header="ルート">
-								<TreeViewItem Header="子">
-									<TreeViewItem Header="孫" />
+				<!--
+				<ui:NavigationView.PaneCustomContent>
+					<StackPanel>
+						<TreeView BorderThickness="1" BorderBrush="Black">
+							<TreeView.Items>
+								<TreeViewItem Header="ルート">
+									<TreeViewItem Header="子">
+										<TreeViewItem Header="孫" />
+									</TreeViewItem>
 								</TreeViewItem>
-							</TreeViewItem>
-						</TreeView.Items>
-					</TreeView>
-				</StackPanel>
-			</ui:NavigationView.PaneCustomContent>
-			-->
+							</TreeView.Items>
+						</TreeView>
+					</StackPanel>
+				</ui:NavigationView.PaneCustomContent>
+				-->
 
-			<Grid RowDefinitions="Auto,*">
+				<Grid RowDefinitions="Auto,*">
 
-				<ui:CommandBar DefaultLabelPosition="Right">
-					<ui:CommandBar.PrimaryCommands>
-						<ui:CommandBarButton IconSource="CloudFilled" Label="接続" Command="{Binding ConnectCommand}" />
-						<ui:CommandBarButton IconSource="CloudOffline" Label="切断" />
-						<ui:CommandBarSeparator />
-					</ui:CommandBar.PrimaryCommands>
-				</ui:CommandBar>
+					<ui:CommandBar DefaultLabelPosition="Right">
+						<ui:CommandBar.PrimaryCommands>
+							<ui:CommandBarButton IconSource="CloudFilled" Label="接続" Command="{Binding ConnectCommand}" />
+							<ui:CommandBarButton IconSource="CloudOffline" Label="切断" />
+							<ui:CommandBarSeparator />
+						</ui:CommandBar.PrimaryCommands>
+					</ui:CommandBar>
 
-				<ui:TabView Grid.Row="1"
-							Name="TerminalTabView"
-							TabWidthMode="Equal"
-							CloseButtonOverlayMode="Always"
-							CanReorderTabs="True"
-							AddTabButtonCommand="{Binding ConnectCommand}"
-							TabItems="{Binding Connections}"
-							SelectedIndex="{Binding SelectedIndex}">
+					<ui:TabView Grid.Row="1"
+								Name="TerminalTabView"
+								TabWidthMode="Equal"
+								CloseButtonOverlayMode="Always"
+								CanReorderTabs="True"
+								AddTabButtonCommand="{Binding ConnectCommand}"
+								TabItems="{Binding Connections}"
+								SelectedIndex="{Binding SelectedIndex}">
 
-					<ui:TabView.TabItemTemplate>
-						<DataTemplate x:DataType="vm:MainTabViewModel">
-							<ui:TabViewItem Header="{Binding Header}"
-											IconSource="CloudSyncCompleteFilled"
-											Content="{Binding Content}">
-								<Interaction.Behaviors>
-									<EventTriggerBehavior EventName="CloseRequested">
-										<InvokeCommandAction Command="{Binding CloseCommand}" />
-									</EventTriggerBehavior>
-								</Interaction.Behaviors>
-							</ui:TabViewItem>
-						</DataTemplate>
-					</ui:TabView.TabItemTemplate>
-				</ui:TabView>
+						<ui:TabView.TabItemTemplate>
+							<DataTemplate x:DataType="vm:MainTabViewModel">
+								<ui:TabViewItem Header="{Binding Header}"
+												IconSource="CloudSyncCompleteFilled"
+												Content="{Binding Content}">
+									<Interaction.Behaviors>
+										<EventTriggerBehavior EventName="CloseRequested">
+											<InvokeCommandAction Command="{Binding CloseCommand}" />
+										</EventTriggerBehavior>
+									</Interaction.Behaviors>
+								</ui:TabViewItem>
+							</DataTemplate>
+						</ui:TabView.TabItemTemplate>
+					</ui:TabView>
 				
-			</Grid>
+				</Grid>
 			
-		</ui:NavigationView>
+			</ui:NavigationView>
 
-		<Panel Name="OverlayHost"
-			   Grid.Row="1">
+			<Panel Name="OverlayHost"
+				   Grid.Row="1">
 
-		</Panel>
+			</Panel>
 		</Grid>
 
 	</UserControl>
