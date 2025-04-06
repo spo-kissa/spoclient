@@ -28,8 +28,8 @@
 			</Interaction.Behaviors>
 
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Entry" Binding="{Binding Entry}" />
-				<DataGridTextColumn Header="Server" Binding="{Binding Server}" />
+				<DataGridTextColumn Header="Entry" Binding="{Binding Name}" />
+				<DataGridTextColumn Header="Server" Binding="{Binding Host}" />
 				<DataGridTextColumn Header="User" Binding="{Binding User}" />
 				<DataGridTextColumn Header="Port" Binding="{Binding Port}" />
 			</DataGrid.Columns>

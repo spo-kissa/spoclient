@@ -25,13 +25,13 @@
 			<StackPanel>
 				
 				<TextBlock Text="エントリー" />
-				<TextBox Text="{Binding Entry}" />
+				<TextBox Text="{Binding Name}" />
 
 				<Grid RowDefinitions="*,*" ColumnDefinitions="*,*,*">
 					
 					<StackPanel Grid.ColumnSpan="2">
 						<TextBlock Text="ホスト名(IPアドレス)" />
-						<TextBox Text="{Binding Server}" />
+						<TextBox Text="{Binding Host}" />
 					</StackPanel>
 
 					<StackPanel Grid.Column="3">

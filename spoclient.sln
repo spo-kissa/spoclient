@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemUpdateRecipePlugin", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpoClient.Setting", "SpoClient.Setting\SpoClient.Setting.csproj", "{66096839-98AD-4050-BDBF-7BECC1669289}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Localization", "Localization", "{DCF5D587-F142-4EDC-925E-46FD9C65A3A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpoClient.Localization", "SpoClient.Localization\SpoClient.Localization.csproj", "{DF0C103E-1274-08DC-8FC5-E7A830714B2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,10 @@ Global
 		{66096839-98AD-4050-BDBF-7BECC1669289}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66096839-98AD-4050-BDBF-7BECC1669289}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66096839-98AD-4050-BDBF-7BECC1669289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF0C103E-1274-08DC-8FC5-E7A830714B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF0C103E-1274-08DC-8FC5-E7A830714B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF0C103E-1274-08DC-8FC5-E7A830714B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF0C103E-1274-08DC-8FC5-E7A830714B2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +65,7 @@ Global
 		{95211EAD-9DB3-4F81-BE59-0129212C2D6D} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
 		{9C856E4E-7919-4A8F-91FC-5D711D2967C5} = {95211EAD-9DB3-4F81-BE59-0129212C2D6D}
 		{F3B4B5FB-423C-4A17-A2E1-2666CB015FA2} = {95211EAD-9DB3-4F81-BE59-0129212C2D6D}
+		{DF0C103E-1274-08DC-8FC5-E7A830714B2A} = {DCF5D587-F142-4EDC-925E-46FD9C65A3A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21EF71A8-907D-4013-BD8E-57013046BABA}

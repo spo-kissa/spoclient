@@ -1,5 +1,9 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
+using LocalizationManager;
+using LocalizationManager.Avalonia;
+using SpoClient.Localization;
+using System;
+using System.Resources;
 
 namespace spoclient
 {
@@ -16,6 +20,15 @@ namespace spoclient
         public static AppBuilder BuildAvaloniaApp() => AppBuilder
                 .Configure<App>()
                 .UsePlatformDetect()
+                .UseLocalizationManager(() =>
+                {
+                    var manager = new ResourceManager(
+                        "SpoClient.Localization.Resources.Strings",
+                        typeof(Localizer).Assembly
+                    );
+                    var provider = LocalizationProviderExtensions.MakeResourceProvider("UI", manager);
+                    return provider;
+                })
                 .WithInterFont()
                 .LogToTrace()
                 .UseSkia()

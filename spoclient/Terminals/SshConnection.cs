@@ -2,6 +2,7 @@
 using Renci.SshNet.Common;
 using spoclient.Extensions;
 using spoclient.Models;
+using SpoClient.Setting.Models;
 using System;
 using System.IO;
 using System.Text;
@@ -56,9 +57,9 @@ namespace spoclient.Terminals
             this.Closed += OnClosed;
         }
 
-        public SshConnection(SecureServerInfo server)
+        public SshConnection(SecureServer server)
         {
-            var host = server.Server;
+            var host = server.Host;
             var port = int.TryParse(server.Port, out var number) ? number : 22;
             var user = server.User;
             var pass = server.Password;
@@ -66,14 +67,14 @@ namespace spoclient.Terminals
 
             if (pkey is null)
             {
-                this.connectionInfo = new PasswordConnectionInfo(host, port, user, pass.ToUnsecureBytes());
+                this.connectionInfo = new PasswordConnectionInfo(host, port, user, pass?.ToUnsecureBytes());
             }
             else
             {
                 using var stream = new MemoryStream(pkey.ToUnsecureBytes(), false);
                 stream.Position = 0;
 
-                using var privateKey = new PrivateKeyFile(stream, pass.ToUnsecureString());
+                using var privateKey = new PrivateKeyFile(stream, pass?.ToUnsecureString());
                 this.connectionInfo = new PrivateKeyConnectionInfo(host, port, user, privateKey);
             }
         }
