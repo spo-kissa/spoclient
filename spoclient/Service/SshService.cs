@@ -2,6 +2,7 @@
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using spoclient.Models;
+using SpoClient.Setting;
 using SpoClient.Setting.Models;
 using System;
 using System.Collections.Generic;
@@ -219,16 +220,7 @@ namespace spoclient.Service
                             {
                                 await Task.Delay(200);
 
-                                var ptr = Marshal.SecureStringToGlobalAllocUnicode(SecureServer!.Password);
-                                try
-                                {
-                                    var password = Marshal.PtrToStringUni(ptr);
-                                    writer!.WriteLine(password);
-                                }
-                                finally
-                                {
-                                    Marshal.FreeHGlobal(ptr);
-                                }
+                                writer!.WriteLine(SecureServer?.SudoPassword?.ToUnsecureString() ?? "");
                                 writer.Flush();
                             }
                         }
