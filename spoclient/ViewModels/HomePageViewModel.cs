@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.Input;
+using SpoClient.Setting.Models;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
-using spoclient.Models;
 
 namespace spoclient.ViewModels
 {
@@ -16,7 +11,7 @@ namespace spoclient.ViewModels
 
         public HomePageViewModel()
         {
-            ConnectRequestedCommand = new RelayCommand<SecureServerInfo>((e) =>
+            ConnectRequestedCommand = new RelayCommand<SecureServer>((e) =>
             {
                 System.Diagnostics.Debug.WriteLine("OK");
             });

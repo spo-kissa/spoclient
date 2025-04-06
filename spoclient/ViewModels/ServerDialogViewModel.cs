@@ -1,10 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using spoclient.Extensions;
-using spoclient.Models;
+using SpoClient.Setting.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,18 +25,18 @@ namespace spoclient.ViewModels
         /// <summary>
         ///     サーバー情報
         /// </summary>
-        private SecureServerInfo secureServerInfo = new();
+        private SecureServer secureServer;
 
 
         /// <summary>
         ///     エントリ名
         /// </summary>
-        public string Entry
+        public string Name
         {
-            get => secureServerInfo.Entry;
+            get => secureServer.Name;
             set
             {
-                secureServerInfo.Entry = value;
+                secureServer.Name = value;
                 RaisePropertyChanged();
             }
         }
@@ -46,12 +45,12 @@ namespace spoclient.ViewModels
         /// <summary>
         ///     サーバー名
         /// </summary>
-        public string Server
+        public string Host
         {
-            get => secureServerInfo.Server;
+            get => secureServer.Host;
             set
             {
-                secureServerInfo.Server = value;
+                secureServer.Host = value;
                 RaisePropertyChanged();
             }
         }
@@ -62,10 +61,10 @@ namespace spoclient.ViewModels
         /// </summary>
         public string Port
         {
-            get => secureServerInfo.Port;
+            get => secureServer.Port;
             set
             {
-                secureServerInfo.Port = value;
+                secureServer.Port = value;
                 RaisePropertyChanged();
             }
         }
@@ -76,10 +75,10 @@ namespace spoclient.ViewModels
         /// </summary>
         public string User
         {
-            get => secureServerInfo.User;
+            get => secureServer.User;
             set
             {
-                secureServerInfo.User = value;
+                secureServer.User = value;
                 RaisePropertyChanged();
             }
         }
@@ -90,10 +89,10 @@ namespace spoclient.ViewModels
         /// </summary>
         public string Password
         {
-            get => secureServerInfo.Password.ToUnsecureString() ?? string.Empty;
+            get => secureServer.Password?.ToUnsecureString() ?? string.Empty;
             set
             {
-                secureServerInfo.Password = value.ToSecureString();
+                secureServer.Password = value.ToSecureString();
                 RaisePropertyChanged();
             }
         }
@@ -104,12 +103,20 @@ namespace spoclient.ViewModels
         /// </summary>
         public string? PrivateKey
         {
-            get => secureServerInfo.PrivateKey?.ToUnsecureString();
+            get => secureServer.PrivateKey?.ToUnsecureString();
             set
             {
-                secureServerInfo.PrivateKey = value?.ToSecureString();
+                secureServer.PrivateKey = value?.ToSecureString();
                 RaisePropertyChanged();
             }
+        }
+
+
+
+        public ServerDialogViewModel()
+        {
+            secureServer = SecureServer.Empty;
+            Title = "Add Server Entry";
         }
 
 
@@ -137,11 +144,11 @@ namespace spoclient.ViewModels
         /// <param name="parameters"></param>
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            if (parameters.ContainsKey(nameof(SecureServerInfo)))
+            if (parameters.ContainsKey(nameof(SecureServer)))
             {
-                this.secureServerInfo = parameters.GetValue<SecureServerInfo>(nameof(SecureServerInfo));
-                RaisePropertyChanged(nameof(Entry));
-                RaisePropertyChanged(nameof(Server));
+                this.secureServer = parameters.GetValue<SecureServer>(nameof(SecureServer));
+                RaisePropertyChanged(nameof(Name));
+                RaisePropertyChanged(nameof(Host));
                 RaisePropertyChanged(nameof(Port));
                 RaisePropertyChanged(nameof(User));
                 RaisePropertyChanged(nameof(Password));
@@ -348,7 +355,7 @@ namespace spoclient.ViewModels
         public DelegateCommand OkCommand => new(() =>
         {
             var result = new DialogResult(ButtonResult.OK);
-            result.Parameters.Add(nameof(SecureServerInfo), secureServerInfo);
+            result.Parameters.Add(nameof(SecureServer), secureServer);
 
             RequestClose?.Invoke(result);
         });

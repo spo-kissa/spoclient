@@ -19,6 +19,7 @@ using AnsiVtConsole.NetCore;
 using System.Threading.Tasks;
 using Microlithix.Text.Ansi;
 using Microlithix.Text.Ansi.Element;
+using SpoClient.Setting.Models;
 
 namespace spoclient.ViewModels
 {
@@ -42,7 +43,7 @@ namespace spoclient.ViewModels
         /// <summary>
         ///     サーバー情報
         /// </summary>
-        public SecureServerInfo? ServerInfo { get; private set; }
+        public SecureServer? SecureServer { get; private set; }
 
 
         /// <summary>
@@ -202,13 +203,13 @@ namespace spoclient.ViewModels
         ///     サーバーに接続します
         /// </summary>
         /// <param name="serverInfo"></param>
-        public async void Connect(SecureServerInfo serverInfo)
+        public async void Connect(SecureServer secureServer)
         {
             var cancellationSource = new CancellationTokenSource();
 
-            ServerInfo = serverInfo;
+            SecureServer = secureServer;
 
-            Connection = new SshConnection(serverInfo);
+            Connection = new SshConnection(secureServer);
             Connection.StateChanged += OnSshStateChanged;
             Connection.DataReceived += OnSshDataReceived;
 
@@ -293,7 +294,7 @@ namespace spoclient.ViewModels
                     break;
 
                 case SshConnectionState.Connected:
-                    SetHeader(ServerInfo!.Entry);
+                    SetHeader(SecureServer!.Name);
                     break;
             }
         }

@@ -53,17 +53,17 @@
 			</Border>
 
 			<Menu Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top">
-				<MenuItem Header="{Binding FileMenuHeader}"></MenuItem>
-				<MenuItem Header="{Binding EditMenuHeader}"></MenuItem>
-				<MenuItem Header="{Binding ViewMenuHeader}">
-					<MenuItem Header="{Binding LanguageMenuHeader}">
-						<MenuItem Header="{Binding SystemLanguageMenuHeader}" />
+				<MenuItem Header="{Binding FileMenuHeader, FallbackValue=File}"></MenuItem>
+				<MenuItem Header="{Binding EditMenuHeader, FallbackValue=Edit}"></MenuItem>
+				<MenuItem Header="{Binding ViewMenuHeader, FallbackValue=View}">
+					<MenuItem Header="{Binding LanguageMenuHeader, FallbackValue=Language}">
+						<MenuItem Header="{Binding SystemLanguageMenuHeader, FallbackValue=System}" />
 						<Separator />
 						<MenuItem Header="English" Command="{Binding ChangeLanguageEnglish}" />
 						<MenuItem Header="日本語" />
 					</MenuItem>
 				</MenuItem>
-				<MenuItem Header="{Binding HelpMenuHeader}">
+				<MenuItem Header="{Binding HelpMenuHeader, FallbackValue=Help}">
 					<MenuItem Header="パスワードロック"  />
 					<Separator />
 					<MenuItem Header="バージョン情報" Command="{Binding ShowAboutDialogCommand}" />

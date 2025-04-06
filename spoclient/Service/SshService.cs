@@ -1,15 +1,12 @@
-﻿using Avalonia.Controls;
-using Avalonia.Threading;
-using ImTools;
+﻿using ImTools;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using spoclient.Models;
+using SpoClient.Setting.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -37,7 +34,7 @@ namespace spoclient.Service
         /// <summary>
         ///     サーバー情報
         /// </summary>
-        public SecureServerInfo? ServerInfo { get; private set; }
+        public SecureServer? SecureServer { get; private set; }
 
 
         /// <summary>
@@ -93,18 +90,18 @@ namespace spoclient.Service
         /// </summary>
         /// <param name="serverInfo"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public SshService(SecureServerInfo serverInfo)
+        public SshService(SecureServer secureServer)
         {
-            var host = serverInfo.Server;
-            if (!int.TryParse(serverInfo.Port, out int port))
+            var host = secureServer.Host;
+            if (!int.TryParse(secureServer.Port, out int port))
             {
-                throw new ArgumentOutOfRangeException(nameof(serverInfo));
+                throw new ArgumentOutOfRangeException(nameof(secureServer));
             }
-            var user = serverInfo.User;
+            var user = secureServer.User;
 
-            var pass = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(serverInfo.Password));
+            var pass = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(secureServer.Password));
 
-            ServerInfo = serverInfo;
+            SecureServer = secureServer;
             ConnectionInfo = new PasswordConnectionInfo(host, port, user, pass);
         }
 
@@ -222,7 +219,7 @@ namespace spoclient.Service
                             {
                                 await Task.Delay(200);
 
-                                var ptr = Marshal.SecureStringToGlobalAllocUnicode(ServerInfo!.Password);
+                                var ptr = Marshal.SecureStringToGlobalAllocUnicode(SecureServer!.Password);
                                 try
                                 {
                                     var password = Marshal.PtrToStringUni(ptr);

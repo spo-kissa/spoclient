@@ -2,10 +2,11 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using MsBox.Avalonia;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using spoclient.Extensions;
-using spoclient.Models;
+using SpoClient.Setting;
+using SpoClient.Setting.Models;
+using SpoClient.Setting.Repositories;
 using System;
 using System.Collections.ObjectModel;
 
@@ -25,19 +26,19 @@ namespace spoclient.ViewModels
         /// <summary>
         ///    接続先サーバーリスト
         /// </summary>
-        private readonly ObservableCollection<SecureServerInfo> servers = [];
+        private readonly ObservableCollection<SecureServer> servers = [];
 
 
         /// <summary>
         ///     接続先サーバーリスト(読み取り専用)
         /// </summary>
-        public ReadOnlyObservableCollection<SecureServerInfo> Servers { get; private set; }
+        public ReadOnlyObservableCollection<SecureServer> Servers { get; private set; }
 
 
         /// <summary>
         ///     選択中接続サーバー
         /// </summary>
-        public SecureServerInfo? SelectedServer { get; private set; }
+        public SecureServer? SelectedServer { get; private set; }
 
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace spoclient.ViewModels
         {
             this.dialogService = dialogService;
 
-            Servers = new ReadOnlyObservableCollection<SecureServerInfo>(this.servers);
+            Servers = new ReadOnlyObservableCollection<SecureServer>(this.servers);
             servers.CollectionChanged += (sender, e) => RaisePropertyChanged(nameof(Servers));
 
             Title = "Select Server";
@@ -86,10 +87,9 @@ namespace spoclient.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            var settings = new ServerSettingsRepository("P@assword");
-            var servers = settings.GetServers();
+            var servers = new Servers(Settings.Instance.Connection!);
 
-            this.servers.AddRange(servers);
+            this.servers.AddRange(servers.GetSecureAll());
         }
 
 
@@ -102,12 +102,12 @@ namespace spoclient.ViewModels
             {
                 if (dialogResult.Result == ButtonResult.OK)
                 {
-                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>(nameof(SecureServerInfo));
-                    if (serverInfo is not null)
+                    var secureServer = dialogResult.Parameters.GetValue<SecureServer>(nameof(SecureServer));
+                    if (secureServer is not null)
                     {
-                        var settings = new ServerSettingsRepository("P@assword");
-                        settings.AddServer(serverInfo.ToUnsecure());
-                        this.servers.Add(serverInfo);
+                        var servers = new Servers(Settings.Instance.Connection!);
+                        servers.Add(secureServer);
+                        this.servers.Add(secureServer);
                     }
                 }
             });
@@ -126,18 +126,19 @@ namespace spoclient.ViewModels
 
             var parameters = new DialogParameters()
             {
-                { nameof(SecureServerInfo), SelectedServer },
+                { nameof(SecureServer), SelectedServer },
             };
             dialogService.ShowDialog<ServerDialog>(parameters, dialogResult =>
             {
                 if (dialogResult.Result == ButtonResult.OK)
                 {
-                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>(nameof(SecureServerInfo));
+                    var secureServer = dialogResult.Parameters.GetValue<SecureServer>(nameof(SecureServer));
 
-                    var settings = new ServerSettingsRepository("P@assword");
-                    settings.UpdateServer(serverInfo!.ToUnsecure(), SelectedServer.ToUnsecure());
+                    var servers = new Servers(Settings.Instance.Connection!);
+                    servers.Update(secureServer);
+
                     var index = this.servers.IndexOf(SelectedServer);
-                    this.servers[index] = serverInfo!;
+                    this.servers[index] = secureServer;
                 }
             });
         });
@@ -155,7 +156,7 @@ namespace spoclient.ViewModels
 
             var msgbox = MessageBoxManager.GetMessageBoxStandard(
                 "Delete Sever Entry",
-                $"Are you sure you want to delete {SelectedServer.Entry}?",
+                $"Are you sure you want to delete {SelectedServer.Name}?",
                 MsBox.Avalonia.Enums.ButtonEnum.YesNo,
                 MsBox.Avalonia.Enums.Icon.Warning,
                 WindowStartupLocation.CenterOwner);
@@ -163,9 +164,9 @@ namespace spoclient.ViewModels
             var result = await msgbox.ShowDialogAsync();
             if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
-                var settings = new ServerSettingsRepository("P@assword");
+                var servers = new Servers(Settings.Instance.Connection!);
+                servers.Delete(SelectedServer);
 
-                settings.DeleteServer(SelectedServer.Entry);
                 this.servers.Remove(SelectedServer);
             }
         });
@@ -179,7 +180,7 @@ namespace spoclient.ViewModels
             if (this.SelectedServer is not null)
             {
                 var result = new DialogResult(ButtonResult.OK);
-                result.Parameters.Add("ServerInfo", this.SelectedServer!);
+                result.Parameters.Add("SecureServer", this.SelectedServer!);
 
                 RequestClose?.Invoke(result);
             }
@@ -214,7 +215,7 @@ namespace spoclient.ViewModels
                 var count = (e.AddedItems.Count - e.RemovedItems.Count);
                 if (count == 1)
                 {
-                    SelectedServer = e.AddedItems[0] as SecureServerInfo;
+                    SelectedServer = e.AddedItems[0] as SecureServer;
                     return;
                 }
             }

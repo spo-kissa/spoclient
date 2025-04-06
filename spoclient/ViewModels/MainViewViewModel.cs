@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using LocalizationManager.Avalonia;
 using System.Globalization;
+using SpoClient.Setting.Models;
 
 namespace spoclient.ViewModels
 {
@@ -116,14 +117,14 @@ namespace spoclient.ViewModels
             {
                 if (dialogResult.Result == ButtonResult.OK)
                 {
-                    var serverInfo = dialogResult.Parameters.GetValue<SecureServerInfo>("ServerInfo");
+                    var secureServer = dialogResult.Parameters.GetValue<SecureServer>("SecureServer");
 
                     var tuple = CreateTabView<ShellTabViewViewModel, ShellTabView>();
                     
-                    if (tuple is not null && serverInfo is not null)
+                    if (tuple is not null && secureServer is not null)
                     {
                         Connections.Add(tuple!.Value.ViewModel);
-                        tuple!.Value.ViewModel.Connect(serverInfo);
+                        tuple!.Value.ViewModel.Connect(secureServer);
 
                         tuple!.Value.ViewModel.RequestClose += TabViewRequestClose;
 
