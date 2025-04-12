@@ -1,3 +1,4 @@
+using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -12,6 +13,7 @@ using spoclient.Pages;
 using spoclient.Regions;
 using spoclient.ViewModels;
 using spoclient.Views;
+using SpoClient.Localization;
 
 namespace spoclient
 {
