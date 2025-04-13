@@ -87,7 +87,7 @@ namespace spoclient.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            var servers = new Servers(Settings.Instance.Connection!);
+            var servers = new Servers(SettingManager.Instance.Connection!);
 
             this.servers.AddRange(servers.GetSecureAll());
         }
@@ -105,7 +105,7 @@ namespace spoclient.ViewModels
                     var secureServer = dialogResult.Parameters.GetValue<SecureServer>(nameof(SecureServer));
                     if (secureServer is not null)
                     {
-                        var servers = new Servers(Settings.Instance.Connection!);
+                        var servers = new Servers(SettingManager.Instance.Connection!);
                         servers.Add(secureServer);
                         this.servers.Add(secureServer);
                     }
@@ -134,7 +134,7 @@ namespace spoclient.ViewModels
                 {
                     var secureServer = dialogResult.Parameters.GetValue<SecureServer>(nameof(SecureServer));
 
-                    var servers = new Servers(Settings.Instance.Connection!);
+                    var servers = new Servers(SettingManager.Instance.Connection!);
                     servers.Update(secureServer);
 
                     var index = this.servers.IndexOf(SelectedServer);
@@ -164,7 +164,7 @@ namespace spoclient.ViewModels
             var result = await msgbox.ShowDialogAsync();
             if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
-                var servers = new Servers(Settings.Instance.Connection!);
+                var servers = new Servers(SettingManager.Instance.Connection!);
                 servers.Delete(SelectedServer);
 
                 this.servers.Remove(SelectedServer);
