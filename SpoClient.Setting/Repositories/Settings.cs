@@ -4,20 +4,35 @@ using System.Collections.Specialized;
 
 namespace SpoClient.Setting.Repositories
 {
+    /// <summary>
+    ///     Application settings repository
+    /// </summary>
     public class Settings
     {
-        public SqliteConnection Connection { get; private set; }
+        /// <summary>
+        ///     SQLite connection
+        /// </summary>
+        public SqliteConnection connection;
 
 
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="connection"></param>
         public Settings(SqliteConnection connection)
         {
-            Connection = connection;
+            this.connection = connection;
         }
 
 
+        /// <summary>
+        ///     Add a new setting
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Add(string key, string? value)
         {
-            Connection.Execute(@"
+            connection.Execute(@"
                 INSERT INTO Settings (Key, Value)
                 VALUES (@Key, @Value)
             ", new
@@ -28,16 +43,24 @@ namespace SpoClient.Setting.Repositories
         }
 
 
+        /// <summary>
+        ///     Add a new setting
+        /// </summary>
+        /// <param name="setting"></param>
         public void Add(Models.Setting setting)
         {
             this.Add(setting.Key, setting.Value);
         }
 
 
-
+        /// <summary>
+        ///     Update an existing setting
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Update(string key, string? value)
         {
-            Connection.Execute(@"
+            connection.Execute(@"
                 UPDATE Settings
                 SET Value = @Value
                 WHERE Key = @Key
@@ -49,9 +72,13 @@ namespace SpoClient.Setting.Repositories
         }
 
 
+        /// <summary>
+        ///     Delete a setting
+        /// </summary>
+        /// <param name="key"></param>
         public void Delete(string key)
         {
-            Connection.Execute(@"
+            connection.Execute(@"
                 DELETE FROM Settings
                 WHERE Key = @Key
             ", new
@@ -62,13 +89,13 @@ namespace SpoClient.Setting.Repositories
 
 
         /// <summary>
-        ///     指定したキーの設定を取得します
+        ///     Get a setting by key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
         public Models.Setting? Get(string key)
         {
-            return Connection.QuerySingleOrDefault<Models.Setting>(@"
+            return connection.QuerySingleOrDefault<Models.Setting>(@"
                 SELECT Key, Value
                 FROM Settings
                 WHERE Key = @Key
@@ -80,12 +107,12 @@ namespace SpoClient.Setting.Repositories
 
 
         /// <summary>
-        ///     全ての設定を取得します
+        ///     Get all settings
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Models.Setting> GetAll()
         {
-            return Connection.Query<Models.Setting>(@"
+            return connection.Query<Models.Setting>(@"
                 SELECT Key, Value
                 FROM Settings
             ");
@@ -93,7 +120,7 @@ namespace SpoClient.Setting.Repositories
 
 
         /// <summary>
-        ///     全ての設定を取得します
+        ///     Get all settings as a StringDictionary
         /// </summary>
         /// <returns></returns>
         public StringDictionary GetAllDictionary()

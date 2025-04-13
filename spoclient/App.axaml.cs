@@ -15,6 +15,7 @@ using spoclient.ViewModels;
 using spoclient.Views;
 using SpoClient.Setting;
 using SpoClient.Setting.Models;
+using System.Globalization;
 
 namespace spoclient
 {
@@ -42,8 +43,14 @@ namespace spoclient
                 return SettingManager.Instance.OpenAsync("spoclient.setting").Result;
             });
             containerRegistry.RegisterSingleton<IAppSettings, AppSettings>();
-            containerRegistry.RegisterSingleton<ILocalizationManager>(() => LocalizationManagerExtensions.Default);
-
+            containerRegistry.RegisterSingleton<ILocalizationManager>((c) =>
+            {
+                var lm =  LocalizationManagerExtensions.Default!;
+                var settings = c.Resolve<IAppSettings>();
+                var culture = settings[AppSettingKeys.Culture];
+                lm.CurrentCulture = new CultureInfo(culture ?? "en-US");
+                return lm;
+            });
             containerRegistry.RegisterForNavigation<MainView, MainViewViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
 

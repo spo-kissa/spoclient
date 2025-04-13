@@ -26,8 +26,7 @@ namespace spoclient
                         "SpoClient.Localization.Resources.Strings",
                         typeof(Localizer).Assembly
                     );
-                    var provider = LocalizationProviderExtensions.MakeResourceProvider("UI", manager);
-                    return provider;
+                    return LocalizationProviderExtensions.MakeResourceProvider("UI", manager);
                 })
                 .WithInterFont()
                 .LogToTrace()
