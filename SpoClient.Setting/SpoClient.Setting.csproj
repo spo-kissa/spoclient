@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Servers\Migrations\0001_create_servers.sql" />
+    <None Remove="SQL\Migrations\0001_create_servers.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Servers\Migrations\*.sql" />
+    <EmbeddedResource Include="SQL\Migrations\*.sql" />
   </ItemGroup>
 
   <ItemGroup>

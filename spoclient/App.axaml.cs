@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using FluentAvalonia.UI.Controls;
 using LocalizationManager;
+using Microsoft.Data.Sqlite;
 using Prism.DryIoc;
 using Prism.Events;
 using Prism.Ioc;
@@ -13,7 +14,9 @@ using spoclient.Pages;
 using spoclient.Regions;
 using spoclient.ViewModels;
 using spoclient.Views;
-using SpoClient.Localization;
+using SpoClient.Setting;
+using SpoClient.Setting.Models;
+using System.Globalization;
 
 namespace spoclient
 {
@@ -35,8 +38,20 @@ namespace spoclient
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-            containerRegistry.RegisterSingleton<ILocalizationManager>(() => LocalizationManagerExtensions.Default);
-
+            containerRegistry.RegisterSingleton<SettingManager>(() => SettingManager.Instance);
+            containerRegistry.RegisterSingleton<SqliteConnection>(() =>
+            {
+                return SettingManager.Instance.OpenAsync("spoclient.setting").Result;
+            });
+            containerRegistry.RegisterSingleton<IAppSettings, AppSettings>();
+            containerRegistry.RegisterSingleton<ILocalizationManager>((c) =>
+            {
+                var lm =  LocalizationManagerExtensions.Default!;
+                var settings = c.Resolve<IAppSettings>();
+                var culture = settings[AppSettingKeys.Culture];
+                lm.CurrentCulture = new CultureInfo(culture ?? "en-US");
+                return lm;
+            });
             containerRegistry.RegisterForNavigation<MainView, MainViewViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
 

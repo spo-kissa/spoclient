@@ -1,20 +1,14 @@
 ﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpoClient.Setting
 {
-    public class Settings
+    public class SettingManager
     {
         /// <summary>
         ///     シングルトンインスタンス
         /// </summary>
-        private static Settings? instance = null;
+        private static SettingManager? instance = null;
 
 
         /// <summary>
@@ -26,11 +20,11 @@ namespace SpoClient.Setting
         /// <summary>
         ///     シングルトンインスタンスを取得します
         /// </summary>
-        public static Settings Instance
+        public static SettingManager Instance
         {
             get
             {
-                instance ??= new Settings();
+                instance ??= new SettingManager();
                 return instance;
             }
         }
@@ -46,7 +40,7 @@ namespace SpoClient.Setting
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        private Settings()
+        private SettingManager()
         {
         }
 

@@ -30,7 +30,7 @@ public partial class MainAppSplashContent : UserControl
 
         LoadingText.Text = "Loading Settings...";
 
-        var settings = Settings.Instance;
+        var settings = SettingManager.Instance;
         settings.PasswordRequired += ((s, e) =>
         {
             var password = new SecureString();
@@ -40,11 +40,11 @@ public partial class MainAppSplashContent : UserControl
             }
             settings.Password = password;
         });
-        await settings.OpenAsync("spoclient.setting");
+        //await settings.OpenAsync("spoclient.setting");
 
 
         var migrator = new Migrator(settings.Connection!);
-        await migrator.ApplyMigrationsFromResourcesAsync("SpoClient.Setting.Servers.Migrations");
+        await migrator.ApplyMigrationsFromResourcesAsync("SpoClient.Setting.SQL.Migrations");
 
 
         LoadingText.Text = "Loading Plugins...";
