@@ -1,5 +1,6 @@
 ﻿using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
+using LocalizationManager;
 using System;
 using System.Globalization;
 namespace SpoClient.Localization
@@ -9,8 +10,11 @@ namespace SpoClient.Localization
     public class TranslateExtension : MarkupExtension
     {
         public string Key { get; set; }
-
-        public TranslateExtension() { }
+        private ILocalizationManager localizationManager;
+        public TranslateExtension(ILocalizationManager localizationManager) 
+        {
+            this.localizationManager = localizationManager;
+        }
 
         public TranslateExtension(string key)
         {

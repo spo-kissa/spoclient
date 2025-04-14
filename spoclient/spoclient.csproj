@@ -21,14 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.json" />
     <None Remove="Assets\icon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

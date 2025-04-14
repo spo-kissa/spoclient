@@ -61,7 +61,7 @@
 						<MenuItem Header="{Binding SystemLanguageMenuHeader, FallbackValue=System}" />
 						<Separator />
 						<MenuItem Header="English" Command="{Binding ChangeLanguageEnglish}" />
-						<MenuItem Header="日本語" Command="{Binding ChangeLanguageJapan}" />
+						<MenuItem Header="日本語" Command="{Binding ChangeLanguageJapanese}" />
 					</MenuItem>
 				</MenuItem>
 				<MenuItem Header="{Binding HelpMenuHeader, FallbackValue=Help}">
