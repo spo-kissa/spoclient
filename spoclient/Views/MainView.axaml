@@ -8,6 +8,7 @@
 			 xmlns:pages="using:spoclient.Pages"
 			 xmlns:models="using:spoclient.Models"
 			 xmlns:vm="using:spoclient.ViewModels"
+			 xmlns:l10n="clr-namespace:SpoClient.Localization"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:Class="spoclient.Views.MainView"
 			 x:DataType="vm:MainViewViewModel">
@@ -60,7 +61,7 @@
 						<MenuItem Header="{Binding SystemLanguageMenuHeader, FallbackValue=System}" />
 						<Separator />
 						<MenuItem Header="English" Command="{Binding ChangeLanguageEnglish}" />
-						<MenuItem Header="日本語" />
+						<MenuItem Header="日本語" Command="{Binding ChangeLanguageJapanese}" />
 					</MenuItem>
 				</MenuItem>
 				<MenuItem Header="{Binding HelpMenuHeader, FallbackValue=Help}">
@@ -81,8 +82,8 @@
 							   IsSettingsVisible="True">
 
 				<ui:NavigationView.MenuItems>
-					<ui:NavigationViewItem Content="新規接続" Tag="NewConnection" IconSource="CloudFilled" />
-					<ui:NavigationViewItem Content="接続切断" Tag="Disconnect" IconSource="CloudOffline" />
+					<ui:NavigationViewItem Content="{l10n:Translate NewConnection}" Tag="NewConnection" IconSource="CloudFilled" />
+					<ui:NavigationViewItem Content="{l10n:Translate Disconnect}" Tag="Disconnect" IconSource="CloudOffline" />
 
 					<ui:NavigationViewItem Content="パスワード変更" Tag="Passwd" IconSource="Key" />
 				

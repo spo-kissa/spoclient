@@ -12,6 +12,8 @@ using System.Collections.ObjectModel;
 using LocalizationManager.Avalonia;
 using System.Globalization;
 using SpoClient.Setting.Models;
+using SpoClient.Localization;
+using System.Configuration;
 
 namespace spoclient.ViewModels
 {
@@ -83,6 +85,7 @@ namespace spoclient.ViewModels
         /// </summary>
         private readonly IContainer container;
 
+        private readonly IAppSettings appSettings;
 
         /// <summary>
         ///     タブとビューモデルのマッチャー
@@ -95,12 +98,12 @@ namespace spoclient.ViewModels
         /// </summary>
         /// <param name="dialogService">ダイアログサービス</param>
         /// <param name="container">コンテナサービス</param>
-        public MainViewViewModel(IDialogService dialogService, ILocalizationManager localization, IContainer container)
+        public MainViewViewModel(IDialogService dialogService, ILocalizationManager localization, IContainer container, IAppSettings appSettings)
         {
             this.dialogService = dialogService;
             this.localization = localization;
             this.container = container;
-
+            this.appSettings = appSettings;
             NavigationFactory = new NavigationFactory(this);
 
             // タブとビューモデルのマッチャーを設定
@@ -138,9 +141,14 @@ namespace spoclient.ViewModels
         public DelegateCommand ChangeLanguageEnglish => new(() =>
         {
             localization.CurrentCulture = new CultureInfo("en-US");
+            appSettings[AppSettingKeys.Culture] = "en-US";
         });
 
-
+        public DelegateCommand ChangeLanguageJapanese => new(() =>
+        {
+            localization.CurrentCulture = new CultureInfo("ja-JP");
+            appSettings[AppSettingKeys.Culture] = "ja-JP";
+        });
         /// <summary>
         ///     タブを閉じる
         /// </summary>

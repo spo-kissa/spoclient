@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Disconnect" xml:space="preserve">
+    <value>接続切断</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>編集</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="LanguageMenuHeader" xml:space="preserve">
     <value>言語</value>
+  </data>
+  <data name="NewConnection" xml:space="preserve">
+    <value>新規接続</value>
   </data>
   <data name="SystemLanguageMenuHeader" xml:space="preserve">
     <value>システム</value>
