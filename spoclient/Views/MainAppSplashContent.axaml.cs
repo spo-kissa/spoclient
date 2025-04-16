@@ -43,8 +43,8 @@ public partial class MainAppSplashContent : UserControl
         //await settings.OpenAsync("spoclient.setting");
 
 
-        var migrator = new Migrator(settings.Connection!);
-        await migrator.ApplyMigrationsFromResourcesAsync("SpoClient.Setting.SQL.Migrations");
+        //var migrator = new Migrator(settings.Connection!);
+        //await migrator.ApplyMigrationsFromResourcesAsync("SpoClient.Setting.SQL.Migrations");
 
 
         LoadingText.Text = "Loading Plugins...";
