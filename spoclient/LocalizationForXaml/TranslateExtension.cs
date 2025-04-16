@@ -1,8 +1,7 @@
-﻿using Avalonia.Data.Converters;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
 using LocalizationManager;
 using System;
-using System.Globalization;
+using Prism.Ioc;
 namespace SpoClient.Localization
 {
 
@@ -10,10 +9,9 @@ namespace SpoClient.Localization
     public class TranslateExtension : MarkupExtension
     {
         public string Key { get; set; }
-        private ILocalizationManager localizationManager;
-        public TranslateExtension(ILocalizationManager localizationManager) 
+
+        public TranslateExtension()
         {
-            this.localizationManager = localizationManager;
         }
 
         public TranslateExtension(string key)
@@ -23,7 +21,8 @@ namespace SpoClient.Localization
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return StaticLocalizer.Get(Key);
+            var localizationManager = ContainerLocator.Container.Resolve<ILocalizationManager>();
+            return localizationManager.GetValue(Key, "UI");
         }
     }
 
