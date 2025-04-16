@@ -15,18 +15,21 @@ namespace spoclient.Plugins.Recipe
         public static IEnumerable<IRecipePlugin> FindRecipePlugins()
         {
             var location = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "Plugin");
-            var files = Directory.EnumerateFiles(location, "*.v1.dll", SearchOption.AllDirectories);
-            foreach (var file in files)
+            if (Directory.Exists(location))
             {
-                using var loader = PluginLoader.CreateFromAssemblyFile(file, false, [typeof(IRecipePlugin), typeof(IRecipe), typeof(ISimpleRecipe)]);
-                var plugin = loader.LoadDefaultAssembly();
-                foreach (var recipePluginType in plugin.GetTypes().Where(t => typeof(IRecipePlugin).IsAssignableFrom(t) && !t.IsAbstract))
+                var files = Directory.EnumerateFiles(location, "*.v1.dll", SearchOption.AllDirectories);
+                foreach (var file in files)
                 {
-                    var recipePlugin = Activator.CreateInstance(recipePluginType) as IRecipePlugin;
-                    if (recipePlugin is not null)
+                    using var loader = PluginLoader.CreateFromAssemblyFile(file, false, [typeof(IRecipePlugin), typeof(IRecipe), typeof(ISimpleRecipe)]);
+                    var plugin = loader.LoadDefaultAssembly();
+                    foreach (var recipePluginType in plugin.GetTypes().Where(t => typeof(IRecipePlugin).IsAssignableFrom(t) && !t.IsAbstract))
                     {
-                        Debug.WriteLine(recipePlugin.Name);
-                        yield return recipePlugin;
+                        var recipePlugin = Activator.CreateInstance(recipePluginType) as IRecipePlugin;
+                        if (recipePlugin is not null)
+                        {
+                            Debug.WriteLine(recipePlugin.Name);
+                            yield return recipePlugin;
+                        }
                     }
                 }
             }
