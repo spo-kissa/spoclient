@@ -8,7 +8,7 @@
 			 xmlns:pages="using:spoclient.Pages"
 			 xmlns:models="using:spoclient.Models"
 			 xmlns:vm="using:spoclient.ViewModels"
-			 xmlns:l10n="clr-namespace:SpoClient.Localization"
+			 xmlns:l10n="using:spoclient.Views.Extensions"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:Class="spoclient.Views.MainView"
 			 x:DataType="vm:MainViewViewModel">
