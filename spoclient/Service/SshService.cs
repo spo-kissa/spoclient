@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -100,7 +99,7 @@ namespace spoclient.Service
             }
             var user = secureServer.User;
 
-            var pass = Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(secureServer.Password));
+            var pass = secureServer.Password?.ToUnsecureString();
 
             SecureServer = secureServer;
             ConnectionInfo = new PasswordConnectionInfo(host, port, user, pass);
