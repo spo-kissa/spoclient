@@ -16,6 +16,7 @@ using spoclient.Views;
 using SpoClient.Setting;
 using SpoClient.Setting.Models;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace spoclient
 {
@@ -37,11 +38,17 @@ namespace spoclient
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-            containerRegistry.RegisterSingleton<SettingManager>(() => SettingManager.Instance);
-            containerRegistry.RegisterSingleton<SqliteConnection>(() =>
+            containerRegistry.RegisterSingleton<SqliteConnection?>(() =>
             {
-                return SettingManager.Instance.OpenAsync("spoclient.setting").Result;
+                return Task.Run<SqliteConnection?>(async () =>
+                {
+                    var c = await SettingManager.Instance.OpenAsync("spoclient.setting");
+                    var migrator = new Migrator(c!);
+                    await migrator.ApplyMigrationsFromResourcesAsync("SpoClient.Setting.SQL.Migrations");
+                    return c;
+                }).Result;
             });
+            containerRegistry.RegisterSingleton<SettingManager>(() => SettingManager.Instance);
             containerRegistry.RegisterSingleton<IAppSettings, AppSettings>();
             containerRegistry.RegisterSingleton<ILocalizationManager>((c) =>
             {
