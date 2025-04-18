@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
 			 xmlns:vm="using:spoclient.ViewModels"
 			 x:DataType="vm:ServerDialogViewModel"
+			 xmlns:l10n="using:spoclient.Views.Extensions"
 			 x:Name="Dialog"
              x:Class="spoclient.ServerDialog">
 
@@ -16,7 +17,7 @@
 					<Setter Property="Padding" Value="0" />
 				</Style>
 			</TreeView.Styles>
-			<TreeViewItem Header="サーバー" />
+			<TreeViewItem Header="{l10n:Translate Server}" />
 		</TreeView>
 
 		<Border Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"
@@ -24,46 +25,46 @@
 
 			<StackPanel>
 				
-				<TextBlock Text="エントリー" />
+				<TextBlock Text="{l10n:Translate Entry}" />
 				<TextBox Text="{Binding Name}" />
 
 				<Grid RowDefinitions="*,*" ColumnDefinitions="*,*,*">
 					
 					<StackPanel Grid.ColumnSpan="2">
-						<TextBlock Text="ホスト名(IPアドレス)" />
+						<TextBlock Text="{l10n:Translate Hostname}" />
 						<TextBox Text="{Binding Host}" />
 					</StackPanel>
 
 					<StackPanel Grid.Column="3">
-						<TextBlock Text="TCPポート" />
+						<TextBlock Text="{l10n:Translate Port}" />
 						<AutoCompleteBox Text="{Binding Port}" />
 					</StackPanel>
 
 					<StackPanel Grid.Row="1">
-						<TextBlock Text="ログインユーザー名" />
+						<TextBlock Text="{l10n:Translate Username}" />
 						<TextBox Text="{Binding User}" />
 					</StackPanel>
 
 					<StackPanel Grid.Row="1" Grid.Column="1">
-						<TextBlock Text="パスワードまたはパスフレーズ" />
+						<TextBlock Text="{l10n:Translate LoginPassword}" />
 						<TextBox PasswordChar="*" Text="{Binding Password}" />
 					</StackPanel>
 
 					<StackPanel Grid.Row="1" Grid.Column="2">
 						<TextBlock></TextBlock>
 						
-						<DropDownButton Content="SSH認証鍵" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<DropDownButton Content="{l10n:Translate AuthKey}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
 							<DropDownButton.Flyout>
 								<MenuFlyout>
-									<MenuItem Header="インポート">
-										<MenuItem Header="ファイルを開く" Command="{Binding ImportPrivateKeyFileCommand}" CommandParameter="{Binding ElementName=Dialog}" />
-										<MenuItem Header="クリップボードから" Command="{Binding ImportPrivateKeyClipboadCommand}" CommandParameter="{Binding ElementName=Dialog}" />
+									<MenuItem Header="{l10n:Translate Import}">
+										<MenuItem Header="{l10n:Translate OpenFile}" Command="{Binding ImportPrivateKeyFileCommand}" CommandParameter="{Binding ElementName=Dialog}" />
+										<MenuItem Header="{l10n:Translate ViaClipboard}" Command="{Binding ImportPrivateKeyClipboadCommand}" CommandParameter="{Binding ElementName=Dialog}" />
 									</MenuItem>
-									<MenuItem Header="エクスポート" Command="{Binding ExportCommand}" CommandParameter="{Binding ElementName=Dialog}">
-										<MenuItem Header="ファイルへ保存" Command="{Binding ExportPrivateKeyFileCommand}" CommandParameter="{Binding ElementName=Dialog}" />
-										<MenuItem Header="クリップボードへコピー" Command="{Binding ExportPrivateKeyClipboadCommand}" CommandParameter="{Binding ElementName=Dialog}" />
+									<MenuItem Header="{l10n:Translate Export}" Command="{Binding ExportCommand}" CommandParameter="{Binding ElementName=Dialog}">
+										<MenuItem Header="{l10n:Translate SaveToFile}" Command="{Binding ExportPrivateKeyFileCommand}" CommandParameter="{Binding ElementName=Dialog}" />
+										<MenuItem Header="{l10n:Translate CopyToClipboard}" Command="{Binding ExportPrivateKeyClipboadCommand}" CommandParameter="{Binding ElementName=Dialog}" />
 									</MenuItem>
-									<MenuItem Header="クリア" Command="{Binding ClearPrivateKeyCommand}" CommandParameter="{Binding ElementName=Dialog}" />
+									<MenuItem Header="{l10n:Translate Clear}" Command="{Binding ClearPrivateKeyCommand}" CommandParameter="{Binding ElementName=Dialog}" />
 								</MenuFlyout>
 							</DropDownButton.Flyout>
 						</DropDownButton>
@@ -78,7 +79,7 @@
 
 		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
 			<Button MinWidth="120" Margin="6" IsDefault="True" Command="{Binding OkCommand}">OK</Button>
-			<Button MinWidth="120" Margin="6" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
+			<Button MinWidth="120" Margin="6" IsCancel="True" Command="{Binding CancelCommand}" Content="{l10n:Translate Cancel}"></Button>
 		</StackPanel>
 		
 	</Grid>
