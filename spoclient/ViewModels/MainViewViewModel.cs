@@ -3,17 +3,14 @@ using DryIoc;
 using LocalizationManager;
 using Prism.Commands;
 using Prism.Services.Dialogs;
-using spoclient.Models;
 using spoclient.ViewModels.MainView;
 using spoclient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using LocalizationManager.Avalonia;
 using System.Globalization;
 using SpoClient.Setting.Models;
-using SpoClient.Localization;
-using System.Configuration;
+
 
 namespace spoclient.ViewModels
 {
