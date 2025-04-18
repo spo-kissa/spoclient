@@ -10,16 +10,38 @@ namespace spoclient.Views.Extensions
         public string Key { get; set; }
 
 
+        public string DefaultValue { get; set; }
+
+
         public TranslateExtension(string key)
         {
             Key = key;
+            DefaultValue = key;
+        }
+
+
+        public TranslateExtension(string key, string defaultValue)
+        {
+            Key = key;
+            DefaultValue = defaultValue;
         }
 
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var localizationManager = ContainerLocator.Container.Resolve<ILocalizationManager>();
-            return localizationManager.GetValue(Key, "UI");
+            try
+            {
+                var localizationManager = ContainerLocator.Container.Resolve<ILocalizationManager>();
+                if (localizationManager == null)
+                {
+                    return DefaultValue;
+                }
+                return localizationManager.GetValue(Key, "UI");
+            }
+            catch
+            {
+                return DefaultValue;
+            }
         }
     }
 }

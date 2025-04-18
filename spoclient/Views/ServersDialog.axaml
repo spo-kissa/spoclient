@@ -29,10 +29,10 @@
 			</Interaction.Behaviors>
 
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Entry" Binding="{Binding Name}" />
-				<DataGridTextColumn Header="Server" Binding="{Binding Host}" />
-				<DataGridTextColumn Header="User" Binding="{Binding User}" />
-				<DataGridTextColumn Header="Port" Binding="{Binding Port}" />
+				<DataGridTextColumn Header="{l10n:Translate Entry}" Binding="{Binding Name}" />
+				<DataGridTextColumn Header="{l10n:Translate Hostname}" Binding="{Binding Host}" />
+				<DataGridTextColumn Header="{l10n:Translate Username}" Binding="{Binding User}" />
+				<DataGridTextColumn Header="{l10n:Translate Port}" Binding="{Binding Port}" />
 			</DataGrid.Columns>
 
 		</DataGrid>
@@ -43,9 +43,9 @@
 		</StackPanel>
 
 		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="6 0 0 0" VerticalAlignment="Bottom">
-			<Button Margin="2" MinWidth="100" Command="{Binding NewServerCommand}" Content="{l10n:Translate AddServer}"></Button>
+			<Button Margin="2" MinWidth="100" Command="{Binding NewServerCommand}" Content="{l10n:Translate AddServer, Add}"></Button>
 			<Button Margin="2" MinWidth="100" Command="{Binding EditServerCommand}" Content="{l10n:Translate Edit}"></Button>
-			<Button Margin="2" MinWidth="100" Command="{Binding DeleteServerCommand}" Content="{l10n:Translate RemoveServer}"></Button>
+			<Button Margin="2" MinWidth="100" Command="{Binding DeleteServerCommand}" Content="{l10n:Translate RemoveServer, Remove}"></Button>
 		</StackPanel>
 
 	</Grid>
