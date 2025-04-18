@@ -47,7 +47,7 @@
 			<Border Grid.Column="2" Padding="6">
 				<AutoCompleteBox Name="SearchBox"
 								 MaxWidth="500"
-								 Watermark="検索"
+								 Watermark="{l10n:Translate Search}"
 								 Classes="SampleApp">
 					
 				</AutoCompleteBox>
@@ -65,9 +65,9 @@
 					</MenuItem>
 				</MenuItem>
 				<MenuItem Header="{Binding HelpMenuHeader, FallbackValue=Help}">
-					<MenuItem Header="パスワードロック"  />
+					<MenuItem Header="{l10n:Translate PasswordLock}"  />
 					<Separator />
-					<MenuItem Header="バージョン情報" Command="{Binding ShowAboutDialogCommand}" />
+					<MenuItem Header="{l10n:Translate AppInfo}" Command="{Binding ShowAboutDialogCommand}" />
 				</MenuItem>
 			</Menu>
 			
@@ -83,9 +83,9 @@
 
 				<ui:NavigationView.MenuItems>
 					<ui:NavigationViewItem Content="{l10n:Translate NewConnection}" Tag="NewConnection" IconSource="CloudFilled" />
-					<ui:NavigationViewItem Content="{l10n:Translate Disconnect}" Tag="Disconnect" IconSource="CloudOffline" />
+					<ui:NavigationViewItem Content="{l10n:Translate Disconnection}" Tag="Disconnect" IconSource="CloudOffline" />
 
-					<ui:NavigationViewItem Content="パスワード変更" Tag="Passwd" IconSource="Key" />
+					<ui:NavigationViewItem Content="{l10n:Translate Password}" Tag="Passwd" IconSource="Key" />
 				
 				</ui:NavigationView.MenuItems>
 
@@ -109,8 +109,8 @@
 
 					<ui:CommandBar DefaultLabelPosition="Right">
 						<ui:CommandBar.PrimaryCommands>
-							<ui:CommandBarButton IconSource="CloudFilled" Label="接続" Command="{Binding ConnectCommand}" />
-							<ui:CommandBarButton IconSource="CloudOffline" Label="切断" />
+							<ui:CommandBarButton IconSource="CloudFilled" Label="{l10n:Translate Connect}" Command="{Binding ConnectCommand}" />
+							<ui:CommandBarButton IconSource="CloudOffline" Label="{l10n:Translate Disconnect}" />
 							<ui:CommandBarSeparator />
 						</ui:CommandBar.PrimaryCommands>
 					</ui:CommandBar>

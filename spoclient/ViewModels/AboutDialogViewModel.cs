@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using LocalizationManager;
+using Prism.Commands;
 using Prism.Services.Dialogs;
 using spoclient.Plugins.Recipe;
 using SpoClient.Plugin.Recipe.V1;
@@ -15,7 +16,7 @@ namespace spoclient.ViewModels
 
         private string version = string.Empty;
 
-
+        ILocalizationManager localization;
         public string Version
         {
             get => version;
@@ -40,10 +41,10 @@ namespace spoclient.ViewModels
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        public AboutDialogViewModel()
+        public AboutDialogViewModel(ILocalizationManager localization)
         {
             Version = GetAssemblyVersion(Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly())?.ToString() ?? string.Empty;
-
+            this.localization = localization;
             var plugins = RecipeV1Loader.FindRecipePlugins();
             foreach (var plugin in plugins)
             {
@@ -75,7 +76,7 @@ namespace spoclient.ViewModels
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            Title = "バージョン情報";
+            Title = localization["AppInfo","UI"];
         }
     }
 }
