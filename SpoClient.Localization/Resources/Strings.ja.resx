@@ -117,11 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddServer" xml:space="preserve">
+    <value>新規</value>
+  </data>
+  <data name="AppInfo" xml:space="preserve">
+    <value>バージョン情報</value>
+  </data>
+  <data name="AuthKey" xml:space="preserve">
+    <value>SSH認証鍵</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>接続</value>
+  </data>
+  <data name="CopyToClipboard" xml:space="preserve">
+    <value>クリップボードへコピー</value>
+  </data>
   <data name="Disconnect" xml:space="preserve">
+    <value>切断</value>
+  </data>
+  <data name="Disconnection" xml:space="preserve">
     <value>接続切断</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>編集</value>
+  </data>
+  <data name="Entry" xml:space="preserve">
+    <value>エントリー"</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>エクスポート</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>ファイル</value>
@@ -129,14 +159,56 @@
   <data name="Help" xml:space="preserve">
     <value>ヘルプ</value>
   </data>
+  <data name="Hostname" xml:space="preserve">
+    <value>ホスト名(IPアドレス)</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>インポート</value>
+  </data>
   <data name="LanguageMenuHeader" xml:space="preserve">
     <value>言語</value>
+  </data>
+  <data name="LoadingPlugins" xml:space="preserve">
+    <value>プラグインを読み込んでいます...</value>
+  </data>
+  <data name="LoginPassword" xml:space="preserve">
+    <value>パスワードまたはパスフレーズ</value>
   </data>
   <data name="NewConnection" xml:space="preserve">
     <value>新規接続</value>
   </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>ファイルを開く</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>パスワード変更</value>
+  </data>
+  <data name="PasswordLock" xml:space="preserve">
+    <value>パスワードロック</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>TCPポート</value>
+  </data>
+  <data name="RemoveServer" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>ファイルへ保存</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>サーバー</value>
+  </data>
   <data name="SystemLanguageMenuHeader" xml:space="preserve">
     <value>システム</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>ログインユーザー名</value>
+  </data>
+  <data name="ViaClipboard" xml:space="preserve">
+    <value>クリップボードから</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>表示</value>

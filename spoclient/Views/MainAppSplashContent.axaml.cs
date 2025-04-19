@@ -5,6 +5,8 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using LocalizationManager;
+using Prism.Ioc;
 using spoclient.Plugins.Recipe;
 using SpoClient.Setting;
 using System;
@@ -28,6 +30,8 @@ public partial class MainAppSplashContent : UserControl
     {
         var progressValue = 0;
 
+        var localization = ContainerLocator.Container.Resolve<ILocalizationManager>();
+
         LoadingText.Text = "Loading Settings...";
 
         var settings = SettingManager.Instance;
@@ -47,7 +51,7 @@ public partial class MainAppSplashContent : UserControl
         //await migrator.ApplyMigrationsFromResourcesAsync("SpoClient.Setting.SQL.Migrations");
 
 
-        LoadingText.Text = "Loading Plugins...";
+        LoadingText.Text = localization.GetValue("LoadingPlugins", "UI");
 
         var plugins = RecipeV1Loader.FindRecipePlugins();
         var recipes = RecipeV1Loader.GetRecipes(plugins);

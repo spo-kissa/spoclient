@@ -117,100 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddServer" xml:space="preserve">
-    <value>Add server</value>
-  </data>
-  <data name="AppInfo" xml:space="preserve">
-    <value>App info</value>
-  </data>
-  <data name="AuthKey" xml:space="preserve">
-    <value>SSH Auth. key</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="Clear" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="Connect" xml:space="preserve">
-    <value>Connect</value>
-  </data>
-  <data name="CopyToClipboard" xml:space="preserve">
-    <value>クリップボードへコピー</value>
-  </data>
-  <data name="Disconnect" xml:space="preserve">
-    <value>Disconnect</value>
-  </data>
-  <data name="Disconnection" xml:space="preserve">
-    <value>Disconnection</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="Entry" xml:space="preserve">
-    <value>Entry</value>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value>Export</value>
-  </data>
-  <data name="File" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="Help" xml:space="preserve">
-    <value>Help</value>
-  </data>
-  <data name="Hostname" xml:space="preserve">
-    <value>Hostname (IP address)</value>
-  </data>
-  <data name="Import" xml:space="preserve">
-    <value>Import</value>
-  </data>
   <data name="LanguageMenuHeader" xml:space="preserve">
-    <value>Language</value>
+    <value>язык</value>
   </data>
   <data name="LoadingPlugins" xml:space="preserve">
-    <value>Loading Plugins...</value>
-  </data>
-  <data name="LoginPassword" xml:space="preserve">
-    <value>Password or passphrase</value>
-  </data>
-  <data name="NewConnection" xml:space="preserve">
-    <value>New connection</value>
-  </data>
-  <data name="OpenFile" xml:space="preserve">
-    <value>Open file</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="PasswordLock" xml:space="preserve">
-    <value>Password lock</value>
-  </data>
-  <data name="Port" xml:space="preserve">
-    <value>Port</value>
-  </data>
-  <data name="RemoveServer" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="SaveToFile" xml:space="preserve">
-    <value>Save to file</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="Server" xml:space="preserve">
-    <value>Server</value>
-  </data>
-  <data name="SystemLanguageMenuHeader" xml:space="preserve">
-    <value>System</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Login username</value>
-  </data>
-  <data name="ViaClipboard" xml:space="preserve">
-    <value>Via clipboard</value>
-  </data>
-  <data name="View" xml:space="preserve">
-    <value>View</value>
+    <value />
   </data>
 </root>

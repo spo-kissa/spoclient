@@ -6,6 +6,7 @@
 			 xmlns:vm="using:spoclient.ViewModels"
 			 prism:ViewModelLocator.AutoWireViewModel="True"
 			 mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+			 xmlns:l10n="using:spoclient.Views.Extensions"
 			 x:Class="spoclient.Views.ServersDialog"
 			 x:DataType="vm:ServersDialogViewModel">
 
@@ -28,23 +29,23 @@
 			</Interaction.Behaviors>
 
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Entry" Binding="{Binding Name}" />
-				<DataGridTextColumn Header="Server" Binding="{Binding Host}" />
-				<DataGridTextColumn Header="User" Binding="{Binding User}" />
-				<DataGridTextColumn Header="Port" Binding="{Binding Port}" />
+				<DataGridTextColumn Header="{l10n:Translate Entry}" Binding="{Binding Name}" />
+				<DataGridTextColumn Header="{l10n:Translate Hostname}" Binding="{Binding Host}" />
+				<DataGridTextColumn Header="{l10n:Translate Username}" Binding="{Binding User}" />
+				<DataGridTextColumn Header="{l10n:Translate Port}" Binding="{Binding Port}" />
 			</DataGrid.Columns>
 
 		</DataGrid>
 
 		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="6 0 0 0">
-			<Button MinWidth="100" IsDefault="True" Command="{Binding ConnectCommand}">接続</Button>
-			<Button MinWidth="100" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
+			<Button Margin="2" MinWidth="100" IsDefault="True" Command="{Binding ConnectCommand}" Content="{l10n:Translate Connect}"></Button>
+			<Button Margin="2" MinWidth="100" IsCancel="True" Command="{Binding CancelCommand}" Content="{l10n:Translate Cancel}"></Button>
 		</StackPanel>
 
 		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="6 0 0 0" VerticalAlignment="Bottom">
-			<Button MinWidth="100" Command="{Binding NewServerCommand}">新規</Button>
-			<Button MinWidth="100" Command="{Binding EditServerCommand}">編集</Button>
-			<Button MinWidth="100" Command="{Binding DeleteServerCommand}">削除</Button>
+			<Button Margin="2" MinWidth="100" Command="{Binding NewServerCommand}" Content="{l10n:Translate AddServer, Add}"></Button>
+			<Button Margin="2" MinWidth="100" Command="{Binding EditServerCommand}" Content="{l10n:Translate Edit}"></Button>
+			<Button Margin="2" MinWidth="100" Command="{Binding DeleteServerCommand}" Content="{l10n:Translate RemoveServer, Remove}"></Button>
 		</StackPanel>
 
 	</Grid>

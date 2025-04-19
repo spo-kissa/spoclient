@@ -3,17 +3,14 @@ using DryIoc;
 using LocalizationManager;
 using Prism.Commands;
 using Prism.Services.Dialogs;
-using spoclient.Models;
 using spoclient.ViewModels.MainView;
 using spoclient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using LocalizationManager.Avalonia;
 using System.Globalization;
 using SpoClient.Setting.Models;
-using SpoClient.Localization;
-using System.Configuration;
+
 
 namespace spoclient.ViewModels
 {
@@ -39,6 +36,18 @@ namespace spoclient.ViewModels
             get => selectedIndex;
             set => SetProperty(ref selectedIndex, value);
         }
+
+
+        /// <summary>
+        ///     Get Current CultureInfo
+        /// </summary>
+        public CultureInfo CurrentCulture => localization.CurrentCulture;
+
+
+        /// <summary>
+        ///     Get Default CultureInfo
+        /// </summary>
+        public CultureInfo DefaultCulture => localization.DefaultCulture;
 
 
         /// <summary>
@@ -138,17 +147,38 @@ namespace spoclient.ViewModels
         });
 
 
+
+        public DelegateCommand ChangeLanguageSystem => new(() =>
+        {
+            var culture = CultureInfo.CurrentCulture;
+
+            localization.CurrentCulture = culture;
+            appSettings[AppSettingKeys.Culture] = culture.Name;
+        });
+
+
         public DelegateCommand ChangeLanguageEnglish => new(() =>
         {
             localization.CurrentCulture = new CultureInfo("en-US");
             appSettings[AppSettingKeys.Culture] = "en-US";
         });
 
+
         public DelegateCommand ChangeLanguageJapanese => new(() =>
         {
             localization.CurrentCulture = new CultureInfo("ja-JP");
             appSettings[AppSettingKeys.Culture] = "ja-JP";
         });
+
+
+        public DelegateCommand ChangeLanguageRussian => new(() =>
+        {
+            localization.CurrentCulture = new CultureInfo("ru-RU");
+            appSettings[AppSettingKeys.Culture] = "ru-RU";
+        });
+
+
+
         /// <summary>
         ///     タブを閉じる
         /// </summary>

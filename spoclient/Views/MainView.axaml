@@ -9,9 +9,18 @@
 			 xmlns:models="using:spoclient.Models"
 			 xmlns:vm="using:spoclient.ViewModels"
 			 xmlns:l10n="using:spoclient.Views.Extensions"
+			 xmlns:converters="using:SpoClient.Views.Extensions"
+			 xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:Class="spoclient.Views.MainView"
 			 x:DataType="vm:MainViewViewModel">
+
+	<UserControl.Resources>
+		<converters:CurrentCultureToBoolConverter x:Key="CurrentCultureToBoolConverter" />
+		<system:String x:Key="Japanese">ja-JP</system:String>
+		<system:String x:Key="English">en-US</system:String>
+		<system:String x:Key="Russian">ru-RU</system:String>
+	</UserControl.Resources>
 	
 		<Grid Name="TitleBarHost"
 			  ColumnDefinitions="Auto,Auto,*,Auto"
@@ -47,7 +56,7 @@
 			<Border Grid.Column="2" Padding="6">
 				<AutoCompleteBox Name="SearchBox"
 								 MaxWidth="500"
-								 Watermark="検索"
+								 Watermark="{l10n:Translate Search}"
 								 Classes="SampleApp">
 					
 				</AutoCompleteBox>
@@ -58,16 +67,53 @@
 				<MenuItem Header="{Binding EditMenuHeader, FallbackValue=Edit}"></MenuItem>
 				<MenuItem Header="{Binding ViewMenuHeader, FallbackValue=View}">
 					<MenuItem Header="{Binding LanguageMenuHeader, FallbackValue=Language}">
-						<MenuItem Header="{Binding SystemLanguageMenuHeader, FallbackValue=System}" />
+						<MenuItem Header="{Binding SystemLanguageMenuHeader, FallbackValue=System}" Command="{Binding ChangeLanguageSystem}">
+							<MenuItem.Icon>
+								<Canvas Width="16" Height="16">
+									<Path Data="M0,5 L2,7 L7,2" Stroke="White" StrokeThickness="2"
+										  Stretch="Uniform"
+										  Width="16" Height="16"
+										  IsVisible="{Binding DefaultCulture, Converter={StaticResource CurrentCultureToBoolConverter}}" />
+								</Canvas>
+							</MenuItem.Icon>
+						</MenuItem>
 						<Separator />
-						<MenuItem Header="English" Command="{Binding ChangeLanguageEnglish}" />
-						<MenuItem Header="日本語" Command="{Binding ChangeLanguageJapanese}" />
+						<MenuItem Header="English" Command="{Binding ChangeLanguageEnglish}">
+							<MenuItem.Icon>
+								<Canvas Width="16" Height="16">
+									<Path Data="M0,5 L2,7 L7,2" Stroke="White" StrokeThickness="2"
+										  Stretch="Uniform"
+										  Width="16" Height="16"
+										  IsVisible="{Binding Converter={StaticResource CurrentCultureToBoolConverter}, ConverterParameter={StaticResource English}}" />
+								</Canvas>
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="日本語" Command="{Binding ChangeLanguageJapanese}">
+							<MenuItem.Icon>
+								<Canvas Width="16" Height="16">
+									<Path Data="M0,5 L2,7 L7,2" Stroke="White" StrokeThickness="2"
+										  Stretch="Uniform"
+										  Width="16" Height="16"
+										  IsVisible="{Binding Converter={StaticResource CurrentCultureToBoolConverter}, ConverterParameter={StaticResource Japanese}}" />
+								</Canvas>
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="русский язык" Command="{Binding ChangeLanguageRussian}">
+							<MenuItem.Icon>
+								<Canvas Width="16" Height="16">
+									<Path Data="M0,5 L2,7 L7,2" Stroke="White" StrokeThickness="2"
+										  Stretch="Uniform"
+										  Width="16" Height="16"
+										  IsVisible="{Binding Converter={StaticResource CurrentCultureToBoolConverter}, ConverterParameter={StaticResource Russian}}" />
+								</Canvas>
+							</MenuItem.Icon>
+						</MenuItem>
 					</MenuItem>
 				</MenuItem>
 				<MenuItem Header="{Binding HelpMenuHeader, FallbackValue=Help}">
-					<MenuItem Header="パスワードロック"  />
+					<MenuItem Header="{l10n:Translate PasswordLock}"  />
 					<Separator />
-					<MenuItem Header="バージョン情報" Command="{Binding ShowAboutDialogCommand}" />
+					<MenuItem Header="{l10n:Translate AppInfo}" Command="{Binding ShowAboutDialogCommand}" />
 				</MenuItem>
 			</Menu>
 			
@@ -83,9 +129,9 @@
 
 				<ui:NavigationView.MenuItems>
 					<ui:NavigationViewItem Content="{l10n:Translate NewConnection}" Tag="NewConnection" IconSource="CloudFilled" />
-					<ui:NavigationViewItem Content="{l10n:Translate Disconnect}" Tag="Disconnect" IconSource="CloudOffline" />
+					<ui:NavigationViewItem Content="{l10n:Translate Disconnection}" Tag="Disconnect" IconSource="CloudOffline" />
 
-					<ui:NavigationViewItem Content="パスワード変更" Tag="Passwd" IconSource="Key" />
+					<ui:NavigationViewItem Content="{l10n:Translate Password}" Tag="Passwd" IconSource="Key" />
 				
 				</ui:NavigationView.MenuItems>
 
@@ -109,8 +155,8 @@
 
 					<ui:CommandBar DefaultLabelPosition="Right">
 						<ui:CommandBar.PrimaryCommands>
-							<ui:CommandBarButton IconSource="CloudFilled" Label="接続" Command="{Binding ConnectCommand}" />
-							<ui:CommandBarButton IconSource="CloudOffline" Label="切断" />
+							<ui:CommandBarButton IconSource="CloudFilled" Label="{l10n:Translate Connect}" Command="{Binding ConnectCommand}" />
+							<ui:CommandBarButton IconSource="CloudOffline" Label="{l10n:Translate Disconnect}" />
 							<ui:CommandBarSeparator />
 						</ui:CommandBar.PrimaryCommands>
 					</ui:CommandBar>
