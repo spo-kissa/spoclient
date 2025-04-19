@@ -168,6 +168,9 @@
   <data name="LanguageMenuHeader" xml:space="preserve">
     <value>言語</value>
   </data>
+  <data name="LoadingPlugins" xml:space="preserve">
+    <value>プラグインを読み込んでいます...</value>
+  </data>
   <data name="LoginPassword" xml:space="preserve">
     <value>パスワードまたはパスフレーズ</value>
   </data>

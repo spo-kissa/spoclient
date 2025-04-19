@@ -9,9 +9,18 @@
 			 xmlns:models="using:spoclient.Models"
 			 xmlns:vm="using:spoclient.ViewModels"
 			 xmlns:l10n="using:spoclient.Views.Extensions"
+			 xmlns:converters="using:SpoClient.Views.Extensions"
+			 xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:Class="spoclient.Views.MainView"
 			 x:DataType="vm:MainViewViewModel">
+
+	<UserControl.Resources>
+		<converters:CurrentCultureToBoolConverter x:Key="CurrentCultureToBoolConverter" />
+		<system:String x:Key="Japanese">ja-JP</system:String>
+		<system:String x:Key="English">en-US</system:String>
+		<system:String x:Key="Russian">ru-RU</system:String>
+	</UserControl.Resources>
 	
 		<Grid Name="TitleBarHost"
 			  ColumnDefinitions="Auto,Auto,*,Auto"
@@ -58,10 +67,47 @@
 				<MenuItem Header="{Binding EditMenuHeader, FallbackValue=Edit}"></MenuItem>
 				<MenuItem Header="{Binding ViewMenuHeader, FallbackValue=View}">
 					<MenuItem Header="{Binding LanguageMenuHeader, FallbackValue=Language}">
-						<MenuItem Header="{Binding SystemLanguageMenuHeader, FallbackValue=System}" />
+						<MenuItem Header="{Binding SystemLanguageMenuHeader, FallbackValue=System}" Command="{Binding ChangeLanguageSystem}">
+							<MenuItem.Icon>
+								<Canvas Width="16" Height="16">
+									<Path Data="M0,5 L2,7 L7,2" Stroke="White" StrokeThickness="2"
+										  Stretch="Uniform"
+										  Width="16" Height="16"
+										  IsVisible="{Binding DefaultCulture, Converter={StaticResource CurrentCultureToBoolConverter}}" />
+								</Canvas>
+							</MenuItem.Icon>
+						</MenuItem>
 						<Separator />
-						<MenuItem Header="English" Command="{Binding ChangeLanguageEnglish}" />
-						<MenuItem Header="日本語" Command="{Binding ChangeLanguageJapanese}" />
+						<MenuItem Header="English" Command="{Binding ChangeLanguageEnglish}">
+							<MenuItem.Icon>
+								<Canvas Width="16" Height="16">
+									<Path Data="M0,5 L2,7 L7,2" Stroke="White" StrokeThickness="2"
+										  Stretch="Uniform"
+										  Width="16" Height="16"
+										  IsVisible="{Binding Converter={StaticResource CurrentCultureToBoolConverter}, ConverterParameter={StaticResource English}}" />
+								</Canvas>
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="日本語" Command="{Binding ChangeLanguageJapanese}">
+							<MenuItem.Icon>
+								<Canvas Width="16" Height="16">
+									<Path Data="M0,5 L2,7 L7,2" Stroke="White" StrokeThickness="2"
+										  Stretch="Uniform"
+										  Width="16" Height="16"
+										  IsVisible="{Binding Converter={StaticResource CurrentCultureToBoolConverter}, ConverterParameter={StaticResource Japanese}}" />
+								</Canvas>
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="русский язык" Command="{Binding ChangeLanguageRussian}">
+							<MenuItem.Icon>
+								<Canvas Width="16" Height="16">
+									<Path Data="M0,5 L2,7 L7,2" Stroke="White" StrokeThickness="2"
+										  Stretch="Uniform"
+										  Width="16" Height="16"
+										  IsVisible="{Binding Converter={StaticResource CurrentCultureToBoolConverter}, ConverterParameter={StaticResource Russian}}" />
+								</Canvas>
+							</MenuItem.Icon>
+						</MenuItem>
 					</MenuItem>
 				</MenuItem>
 				<MenuItem Header="{Binding HelpMenuHeader, FallbackValue=Help}">
