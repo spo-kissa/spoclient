@@ -168,6 +168,9 @@
   <data name="LanguageMenuHeader" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="LoadingPlugins" xml:space="preserve">
+    <value>Loading Plugins...</value>
+  </data>
   <data name="LoginPassword" xml:space="preserve">
     <value>Password or passphrase</value>
   </data>
