@@ -30,30 +30,30 @@
 
 				<Grid RowDefinitions="*,*" ColumnDefinitions="*,*,*">
 					
-					<StackPanel Grid.ColumnSpan="2">
+					<StackPanel Grid.ColumnSpan="2"  Margin="6">
 						<TextBlock Text="{l10n:Translate Hostname}" />
 						<TextBox Text="{Binding Host}" />
 					</StackPanel>
 
-					<StackPanel Grid.Column="3">
+					<StackPanel Grid.Column="3"  Margin="6">
 						<TextBlock Text="{l10n:Translate Port}" />
 						<AutoCompleteBox Text="{Binding Port}" />
 					</StackPanel>
 
-					<StackPanel Grid.Row="1">
+					<StackPanel Grid.Row="1"  Margin="6">
 						<TextBlock Text="{l10n:Translate Username}" />
 						<TextBox Text="{Binding User}" />
 					</StackPanel>
 
-					<StackPanel Grid.Row="1" Grid.Column="1">
-						<TextBlock Text="{l10n:Translate LoginPassword}" />
+					<StackPanel Grid.Row="1" Grid.Column="1"  Margin="6">
+						<TextBlock Text="{l10n:Translate LoginPassword}"/>
 						<TextBox PasswordChar="*" Text="{Binding Password}" />
 					</StackPanel>
 
 					<StackPanel Grid.Row="1" Grid.Column="2">
 						<TextBlock></TextBlock>
 						
-						<DropDownButton Content="{l10n:Translate AuthKey}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<DropDownButton Content="{l10n:Translate AuthKey}" Margin="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
 							<DropDownButton.Flyout>
 								<MenuFlyout>
 									<MenuItem Header="{l10n:Translate Import}">

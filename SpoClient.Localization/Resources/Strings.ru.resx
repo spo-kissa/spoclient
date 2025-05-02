@@ -117,10 +117,100 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddServer" xml:space="preserve">
+    <value>Добавить сервер</value>
+  </data>
+  <data name="AppInfo" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="AuthKey" xml:space="preserve">
+    <value>SSH  ключ</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Подключение</value>
+  </data>
+  <data name="CopyToClipboard" xml:space="preserve">
+    <value>Копировать в буфер обмена</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>Отключится</value>
+  </data>
+  <data name="Disconnection" xml:space="preserve">
+    <value>Отключение</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="Entry" xml:space="preserve">
+    <value>Запись</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Экспорт</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Помощь</value>
+  </data>
+  <data name="Hostname" xml:space="preserve">
+    <value>Адрес хоста(IP)</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Импорт</value>
+  </data>
   <data name="LanguageMenuHeader" xml:space="preserve">
-    <value>язык</value>
+    <value>Язык</value>
   </data>
   <data name="LoadingPlugins" xml:space="preserve">
-    <value />
+    <value>Загружаются плагины</value>
+  </data>
+  <data name="LoginPassword" xml:space="preserve">
+    <value>Пароль/фраза</value>
+  </data>
+  <data name="NewConnection" xml:space="preserve">
+    <value>Новое подключение</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Открыть файл</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PasswordLock" xml:space="preserve">
+    <value>Блокировка</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Порт</value>
+  </data>
+  <data name="RemoveServer" xml:space="preserve">
+    <value>Убрать</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>Сохранить в файл</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Сервер</value>
+  </data>
+  <data name="SystemLanguageMenuHeader" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Логин</value>
+  </data>
+  <data name="ViaClipboard" xml:space="preserve">
+    <value>Через буфер обмена</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Вид</value>
   </data>
 </root>
